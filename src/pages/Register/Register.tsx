@@ -12,7 +12,7 @@ import { schema, Schema } from 'src/utils/rules'
 import { AppContext } from 'src/contexts/app.context'
 import { registerAccount } from 'src/apis/auth.api'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
-import { ResponseApi } from 'src/types/utils.type'
+import { ErrorResponse } from 'src/types/utils.type'
 
 type FormData = Schema
 type FormDataBody = Omit<FormData, 'confirm_password'>
@@ -36,11 +36,12 @@ const Register = () => {
   const onSubmit = handleSubmit((data) => {
     const body = omit(data, ['confirm_password'])
     registerAccountMutation.mutate(body, {
-      onSuccess: (data) => {
-        console.log(data)
+      onSuccess: () => {
+        setIsAuthenticated(true)
+        navigate(path.home)
       },
       onError: (error) => {
-        if (isAxiosUnprocessableEntityError<ResponseApi<FormDataBody>>(error)) {
+        if (isAxiosUnprocessableEntityError<ErrorResponse<FormDataBody>>(error)) {
           const formError = error.response?.data.data
           if (formError) {
             Object.keys(formError).forEach((key) => {
