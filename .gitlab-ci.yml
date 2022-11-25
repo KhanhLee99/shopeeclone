@@ -4,6 +4,16 @@ stages:
   - release
   - deploy
 
+build:
+  image: docker:19
+  stage: build
+  before_script:
+    - docker version
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - docker compose build
+    - docker push
+
 deploy:
   stage: deploy
   variables:
