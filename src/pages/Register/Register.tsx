@@ -15,6 +15,7 @@ import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ResponseApi } from 'src/types/utils.type'
 
 type FormData = Schema
+type FormDataBody = Omit<FormData, 'confirm_password'>
 
 const Register = () => {
   const { setIsAuthenticated, setProfile } = useContext(AppContext)
@@ -29,7 +30,7 @@ const Register = () => {
   })
 
   const registerAccountMutation = useMutation({
-    mutationFn: (body: Omit<FormData, 'confirm_password'>) => registerAccount(body)
+    mutationFn: (body: FormDataBody) => registerAccount(body)
   })
 
   const onSubmit = handleSubmit((data) => {
@@ -39,12 +40,12 @@ const Register = () => {
         console.log(data)
       },
       onError: (error) => {
-        if (isAxiosUnprocessableEntityError<ResponseApi<Omit<FormData, 'confirm_password'>>>(error)) {
+        if (isAxiosUnprocessableEntityError<ResponseApi<FormDataBody>>(error)) {
           const formError = error.response?.data.data
           if (formError) {
             Object.keys(formError).forEach((key) => {
-              setError(key as keyof Omit<FormData, 'confirm_password'>, {
-                message: formError[key as keyof Omit<FormData, 'confirm_password'>],
+              setError(key as keyof FormDataBody, {
+                message: formError[key as keyof FormDataBody],
                 type: 'Server'
               })
             })

@@ -2,12 +2,16 @@ import { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useMutation } from '@tanstack/react-query'
 
 import Button from 'src/components/Button'
 import Input from 'src/components/Input'
 import path from 'src/constants/path'
 import { schema, Schema } from 'src/utils/rules'
 import { AppContext } from 'src/contexts/app.context'
+import { login } from 'src/apis/auth.api'
+import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
+import { ResponseApi } from 'src/types/utils.type'
 
 type FormData = Omit<Schema, 'confirm_password'>
 const loginSchema = schema.omit(['confirm_password'])
@@ -24,8 +28,29 @@ const Login = () => {
     resolver: yupResolver(loginSchema)
   })
 
+  const loginMutation = useMutation({
+    mutationFn: (body: Omit<FormData, 'confirm_password'>) => login(body)
+  })
+
   const onSubmit = handleSubmit((data) => {
-    console.log(data)
+    loginMutation.mutate(data, {
+      onSuccess: (data) => {
+        console.log(data)
+      },
+      onError: (error) => {
+        if (isAxiosUnprocessableEntityError<ResponseApi<FormData>>(error)) {
+          const formError = error.response?.data.data
+          if (formError) {
+            Object.keys(formError).forEach((key) => {
+              setError(key as keyof FormData, {
+                message: formError[key as keyof FormData],
+                type: 'Server'
+              })
+            })
+          }
+        }
+      }
+    })
   })
 
   return (
@@ -56,8 +81,8 @@ const Login = () => {
                 <Button
                   type='submit'
                   className='flex  w-full items-center justify-center bg-red-500 py-4 px-2 text-sm uppercase text-white hover:bg-red-600'
-                  // isLoading={loginMutation.isLoading}
-                  // disabled={loginMutation.isLoading}
+                  isLoading={loginMutation.isLoading}
+                  disabled={loginMutation.isLoading}
                 >
                   Đăng nhập
                 </Button>
