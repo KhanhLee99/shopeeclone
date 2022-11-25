@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    image: shopee_front/react:v1
+    image: registry.gitlab.com/khanhlee99/shopeeclone
     ports:
       - '80:80'
     restart: unless-stopped
