@@ -2,12 +2,15 @@ import { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
+import { useMutation } from '@tanstack/react-query'
+import { omit } from 'lodash'
 
 import Button from 'src/components/Button'
 import Input from 'src/components/Input'
 import path from 'src/constants/path'
 import { schema, Schema } from 'src/utils/rules'
 import { AppContext } from 'src/contexts/app.context'
+import { registerAccount } from 'src/apis/auth.api'
 
 type FormData = Schema
 
@@ -23,8 +26,17 @@ const Register = () => {
     resolver: yupResolver(schema)
   })
 
+  const registerAccountMutation = useMutation({
+    mutationFn: (body: Omit<FormData, 'confirm_password'>) => registerAccount(body)
+  })
+
   const onSubmit = handleSubmit((data) => {
-    console.log(data)
+    const body = omit(data, ['confirm_password'])
+    registerAccountMutation.mutate(body, {
+      onSuccess: (data) => {
+        console.log(data)
+      }
+    })
   })
 
   return (
