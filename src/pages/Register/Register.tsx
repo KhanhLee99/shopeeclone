@@ -1,45 +1,63 @@
-import { Link } from 'react-router-dom'
+import { useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm } from 'react-hook-form'
 
 import Button from 'src/components/Button'
 import Input from 'src/components/Input'
 import path from 'src/constants/path'
+import { schema, Schema } from 'src/utils/rules'
+import { AppContext } from 'src/contexts/app.context'
+
+type FormData = Schema
 
 const Register = () => {
+  const { setIsAuthenticated, setProfile } = useContext(AppContext)
+  const navigate = useNavigate()
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors }
+  } = useForm<FormData>({
+    resolver: yupResolver(schema)
+  })
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data)
+  })
+
   return (
     <div className='bg-orange'>
       <div className='container'>
         <div className='grid grid-cols-1 py-12 lg:grid-cols-5 lg:py-32 lg:pr-10'>
           <div className='lg:col-span-2 lg:col-start-4'>
-            <form
-              className='rounded bg-white p-10 shadow-sm'
-              // onSubmit={onSubmit}
-              noValidate
-            >
+            <form className='rounded bg-white p-10 shadow-sm' onSubmit={onSubmit} noValidate>
               <div className='text-2xl'>Đăng ký</div>
               <Input
                 name='email'
-                // register={register}
+                register={register}
                 type='email'
                 className='mt-8'
-                // errorMessage={errors.email?.message}
+                errorMessage={errors.email?.message}
                 placeholder='Email'
               />
               <Input
                 name='password'
-                // register={register}
+                register={register}
                 type='password'
                 className='mt-2'
-                // errorMessage={errors.password?.message}
+                errorMessage={errors.password?.message}
                 placeholder='Password'
                 autoComplete='on'
               />
 
               <Input
                 name='confirm_password'
-                // register={register}
+                register={register}
                 type='password'
                 className='mt-2'
-                // errorMessage={errors.confirm_password?.message}
+                errorMessage={errors.confirm_password?.message}
                 placeholder='Confirm Password'
                 autoComplete='on'
               />
