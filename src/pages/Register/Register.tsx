@@ -11,6 +11,8 @@ import path from 'src/constants/path'
 import { schema, Schema } from 'src/utils/rules'
 import { AppContext } from 'src/contexts/app.context'
 import { registerAccount } from 'src/apis/auth.api'
+import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
+import { ResponseApi } from 'src/types/utils.type'
 
 type FormData = Schema
 
@@ -35,6 +37,19 @@ const Register = () => {
     registerAccountMutation.mutate(body, {
       onSuccess: (data) => {
         console.log(data)
+      },
+      onError: (error) => {
+        if (isAxiosUnprocessableEntityError<ResponseApi<Omit<FormData, 'confirm_password'>>>(error)) {
+          const formError = error.response?.data.data
+          if (formError) {
+            Object.keys(formError).forEach((key) => {
+              setError(key as keyof Omit<FormData, 'confirm_password'>, {
+                message: formError[key as keyof Omit<FormData, 'confirm_password'>],
+                type: 'Server'
+              })
+            })
+          }
+        }
       }
     })
   })
@@ -77,8 +92,8 @@ const Register = () => {
               <div className='mt-2'>
                 <Button
                   className='flex w-full items-center justify-center bg-red-500 py-4 px-2 text-sm uppercase text-white hover:bg-red-600'
-                  // isLoading={registerAccountMutation.isLoading}
-                  // disabled={registerAccountMutation.isLoading}
+                  isLoading={registerAccountMutation.isLoading}
+                  disabled={registerAccountMutation.isLoading}
                 >
                   Đăng ký
                 </Button>
