@@ -7,6 +7,7 @@ import RegisterLayout from './layouts/RegisterLayout'
 import Login from './pages/Login'
 import ProductList from './pages/ProductList'
 import Register from './pages/Register'
+import Profile from './pages/Profile'
 import { AppContext } from './contexts/app.context'
 
 function ProtectedRoute() {
@@ -40,6 +41,20 @@ export default function useRouteElements() {
             <RegisterLayout>
               <Register />
             </RegisterLayout>
+          )
+        }
+      ]
+    },
+    {
+      path: '',
+      element: <ProtectedRoute />,
+      children: [
+        {
+          path: path.profile,
+          element: (
+            <MainLayout>
+              <Profile />
+            </MainLayout>
           )
         }
       ]
