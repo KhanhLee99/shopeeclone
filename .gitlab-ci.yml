@@ -1,62 +1,62 @@
-image:
-  name: docker/compose:latest
+# image:
+#   name: docker/compose:latest
 
-services:
-  - docker:dind
+# services:
+#   - docker:dind
 
-before_script:
-  - docker version
-  - docker-compose version
+# before_script:
+#   - docker version
+#   - docker-compose version
 
-stages:
-  - build
-  - test
-  - release
-  - deploy
+# stages:
+#   - build
+#   - test
+#   - release
+#   - deploy
 
-build:
-  # image: docker/compose:latest
-  # services:
-  #   - docker:dind
-  stage: build
-  before_script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-  script:
-    - docker-compose build
-    - docker-compose push
+# build:
+#   # image: docker/compose:latest
+#   # services:
+#   #   - docker:dind
+#   stage: build
+#   before_script:
+#     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+#   script:
+#     - docker-compose build
+#     - docker-compose push
 
-deploy:
-  stage: deploy
-  variables:
-    GIT_STRATEGY: none
-  only:
-    - main
-  before_script:
-    - apk update && apk add openssh-client bash
-  script:
-    # chạy ssh-agent tương ứng với Gitlab Runner hiện tại
-    - eval $(ssh-agent -s)
+# deploy:
+#   stage: deploy
+#   variables:
+#     GIT_STRATEGY: none
+#   only:
+#     - main
+#   before_script:
+#     - apk update && apk add openssh-client bash
+#   script:
+#     # chạy ssh-agent tương ứng với Gitlab Runner hiện tại
+#     - eval $(ssh-agent -s)
 
-    # thêm nội dung của biến SSH_PRIVATE_KEY vào agent store
-    - bash -c 'ssh-add <(echo "$SSH_PRIVATE_KEY")'
+#     # thêm nội dung của biến SSH_PRIVATE_KEY vào agent store
+#     - bash -c 'ssh-add <(echo "$SSH_PRIVATE_KEY")'
 
-    # tạo folder ~/.ssh
-    - mkdir -p ~/.ssh
+#     # tạo folder ~/.ssh
+#     - mkdir -p ~/.ssh
 
-    # Scan lấy SSH Host key cho địa chỉ IP server
-    # Được kết quả bao nhiêu thì thêm vào file known_hosts
-    - ssh-keyscan -H $SSH_SERVER_IP >> ~/.ssh/known_hosts
+#     # Scan lấy SSH Host key cho địa chỉ IP server
+#     # Được kết quả bao nhiêu thì thêm vào file known_hosts
+#     - ssh-keyscan -H $SSH_SERVER_IP >> ~/.ssh/known_hosts
 
-    # Sửa lại quyền của file known_hosts
-    - chmod 644 ~/.ssh/known_hosts
+#     # Sửa lại quyền của file known_hosts
+#     - chmod 644 ~/.ssh/known_hosts
 
-    # Thực hiện SSH vào server, login vào Registry, chuyển tới folder project
-    # Down project, pull image về, up project và xoá đi image cũ
-    - >
-      ssh $SSH_USER@$SSH_SERVER_IP
-      "docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY};
-      cd ${PATH_TO_PROJECT};
-      docker-compose down;
-      docker pull ${CI_REGISTRY_IMAGE}:latest;
-      docker-compose up -d;
-      docker image prune -f;"
+#     # Thực hiện SSH vào server, login vào Registry, chuyển tới folder project
+#     # Down project, pull image về, up project và xoá đi image cũ
+#     - >
+#       ssh $SSH_USER@$SSH_SERVER_IP
+#       "docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY};
+#       cd ${PATH_TO_PROJECT};
+#       docker-compose down;
+#       docker pull ${CI_REGISTRY_IMAGE}:latest;
+#       docker-compose up -d;
+#       docker image prune -f;"

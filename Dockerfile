@@ -17,6 +17,6 @@ WORKDIR /usr/share/nginx/html
 
 COPY --from=prod /client/dist .
 
-EXPOSE 80
+EXPOSE 3000
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]

@@ -5,57 +5,13 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    image: registry.gitlab.com/khanhlee99/shopeeclone
+    image: registry.gitlab.com/khanhlee99/shopeeclone:client
     ports:
-      - '80:80'
+      - '3000:80'
     restart: unless-stopped
     networks:
       - webappnetwork
 
-  # api:
-  #   build:
-  #     context: .
-  #     dockerfile: ./Container/Backend/Dockerfile
-  #   image: itree_back/node:v1
-  #   volumes:
-  #     - ./volumes/uploads:/api/uploads
-  #   ports:
-  #     - '9000:9000'
-  #   restart: unless-stopped
-  #   depends_on:
-  #     - mongodb
-  #   networks:
-  #     - webappnetwork
-
-  # nginx:
-    # build:
-    #   context: .
-    #   dockerfile: ./Container/Nginx/Dockerfile
-    # image: itree_nginx/nginx:v1
-    # volumes:
-    #   - ./volumes/nginx:/etc/nginx/templates
-    # ports:
-    #   - '80:80'
-    # restart: unless-stopped
-    # depends_on:
-    #   - client
-    #   - api
-    # networks:
-    #   - webappnetwork
-
-  # mongodb:
-  #   image: mongo
-  #   volumes:
-  #     - ./volumes/data/db:/data/db
-  #   restart: unless-stopped
-  #   ports:
-  #     - 27017:27017
-  #   networks:
-  #     - webappnetwork
-
 networks:
     webappnetwork:
         driver: bridge
-
-# volumes:
-#   data:
