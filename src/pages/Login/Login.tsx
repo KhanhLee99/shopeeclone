@@ -9,7 +9,7 @@ import Input from 'src/components/Input'
 import path from 'src/constants/path'
 import { schema, Schema } from 'src/utils/rules'
 import { AppContext } from 'src/contexts/app.context'
-import { login } from 'src/apis/auth.api'
+import authApi from 'src/apis/auth.api'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponse } from 'src/types/utils.type'
 
@@ -29,7 +29,7 @@ const Login = () => {
   })
 
   const loginMutation = useMutation({
-    mutationFn: (body: Omit<FormData, 'confirm_password'>) => login(body)
+    mutationFn: (body: Omit<FormData, 'confirm_password'>) => authApi.login(body)
   })
 
   const onSubmit = handleSubmit((data) => {

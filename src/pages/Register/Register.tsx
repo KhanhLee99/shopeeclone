@@ -10,7 +10,7 @@ import Input from 'src/components/Input'
 import path from 'src/constants/path'
 import { schema, Schema } from 'src/utils/rules'
 import { AppContext } from 'src/contexts/app.context'
-import { registerAccount } from 'src/apis/auth.api'
+import authApi from 'src/apis/auth.api'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponse } from 'src/types/utils.type'
 
@@ -30,7 +30,7 @@ const Register = () => {
   })
 
   const registerAccountMutation = useMutation({
-    mutationFn: (body: FormDataBody) => registerAccount(body)
+    mutationFn: (body: FormDataBody) => authApi.registerAccount(body)
   })
 
   const onSubmit = handleSubmit((data) => {
