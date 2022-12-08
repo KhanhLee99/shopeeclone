@@ -8,6 +8,7 @@ import Login from './pages/Login'
 import ProductList from './pages/ProductList'
 import Register from './pages/Register'
 import Profile from './pages/Profile'
+import Cart from './pages/Cart'
 import { AppContext } from './contexts/app.context'
 
 function ProtectedRoute() {
@@ -24,6 +25,10 @@ function RejectedRoute() {
 
 export default function useRouteElements() {
   const routeElements = useRoutes([
+    {
+      path: path.cart,
+      element: <Cart />
+    },
     {
       path: '',
       element: <RejectedRoute />,
