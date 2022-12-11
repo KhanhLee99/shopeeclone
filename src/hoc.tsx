@@ -7,7 +7,7 @@ type Props = {
   children?: React.ReactNode
 }
 
-export const privateRoute = (WrappedComponent: () => JSX.Element, Layout: ({ children }: Props) => JSX.Element) => {
+export const protectedRoute = (WrappedComponent: () => JSX.Element, Layout: ({ children }: Props) => JSX.Element) => {
   const newComponent = () => {
     const { isAuthenticated } = useContext(AppContext)
 

@@ -1,8 +1,8 @@
-import { privateRoute } from 'src/hoc'
+import { protectedRoute } from 'src/hoc'
 import MainLayout from 'src/layouts/MainLayout'
 
 function Cart() {
   return <div>Cart</div>
 }
 
-export default privateRoute(Cart, MainLayout)
+export default protectedRoute(Cart, MainLayout)
