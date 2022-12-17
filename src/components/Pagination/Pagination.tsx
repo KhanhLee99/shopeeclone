@@ -90,7 +90,7 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
               page: (page - 1).toString()
             }).toString()
           }}
-          className='shadown-sm mx-2 cursor-pointer rounded border bg-white px-3 py-2'
+          className='shadown-sm mx-2 rounded border bg-white px-3 py-2'
         >
           Prev
         </Link>
@@ -107,7 +107,7 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
               page: (page + 1).toString()
             }).toString()
           }}
-          className='shadown-sm mx-2 cursor-pointer rounded border bg-white px-3 py-2'
+          className='shadown-sm mx-2 rounded border bg-white px-3 py-2'
         >
           Next
         </Link>
