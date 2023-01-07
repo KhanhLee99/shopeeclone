@@ -14,8 +14,9 @@ import authApi from 'src/apis/auth.api'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponse } from 'src/types/utils.type'
 
-type FormData = Schema
+type FormData = Pick<Schema, 'email' | 'password' | 'confirm_password'>
 type FormDataBody = Omit<FormData, 'confirm_password'>
+const registerSchema = schema.pick(['email', 'password', 'confirm_password'])
 
 const Register = () => {
   const { setIsAuthenticated, setProfile } = useContext(AppContext)
@@ -26,7 +27,7 @@ const Register = () => {
     setError,
     formState: { errors }
   } = useForm<FormData>({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(registerSchema)
   })
 
   const registerAccountMutation = useMutation({
