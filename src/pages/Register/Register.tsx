@@ -6,15 +6,18 @@ import { useMutation } from '@tanstack/react-query'
 import { RegisterSchema, schema } from 'src/utils/Rules'
 import Input from 'src/components/Input'
 import { registerAccount } from 'src/apis/auth.api'
+import { isErrorUnprocessableEntity } from 'src/utils/utils'
+import { ResponseApi } from 'src/types/utils.type'
 
-type FormData = RegisterSchema
+type FormData = Omit<RegisterSchema, 'confirm_password'>
 
 export default function Register() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors }
-  } = useForm<FormData>({
+  } = useForm<RegisterSchema>({
     resolver: yupResolver(schema)
   })
 
@@ -23,19 +26,29 @@ export default function Register() {
   })
 
   const onSubmit = handleSubmit((data) => {
-    console.log('data', data)
     registerAccountMutation.mutate(
       {
         email: data.email,
         password: data.password
       },
       {
-        onSuccess: (data) => console.log('data', data)
+        onSuccess: (data) => console.log('data', data),
+        onError: (error) => {
+          if (isErrorUnprocessableEntity<ResponseApi<FormData>>(error)) {
+            const formError = error.response?.data.data
+            if (formError) {
+              Object.keys(formError).forEach((key) =>
+                setError(key as keyof FormData, {
+                  message: formError[key as keyof FormData],
+                  type: 'Server'
+                })
+              )
+            }
+          }
+        }
       }
     )
   })
-
-  console.log('errors', errors)
 
   return (
     <div className='bg-orange'>
