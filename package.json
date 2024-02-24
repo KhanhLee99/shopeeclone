@@ -13,11 +13,13 @@
     "prettier:fix": "prettier --write \"src/**/(*.tsx|*.ts|*.css|*.scss)\""
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
     "@tailwindcss/line-clamp": "^0.4.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.50.1",
-    "react-router-dom": "^6.4.3"
+    "react-router-dom": "^6.4.3",
+    "yup": "^1.3.3"
   },
   "devDependencies": {
     "@types/node": "^18.11.9",

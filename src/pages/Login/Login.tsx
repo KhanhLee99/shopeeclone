@@ -1,20 +1,20 @@
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 
-import { getRules } from 'src/utils/Rules'
+import { loginSchema, LoginSchma } from 'src/utils/Rules'
 import Input from 'src/components/Input'
 
-interface FormData {
-  email: string
-  password: string
-}
+type FormData = LoginSchma
 
 export default function Login() {
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<FormData>()
+  } = useForm<FormData>({
+    resolver: yupResolver(loginSchema)
+  })
 
   const onSubmit = handleSubmit((data) => {
     console.log('data', data)
@@ -34,7 +34,6 @@ export default function Login() {
                 name='email'
                 errorMessage={errors.email?.message}
                 register={register}
-                rules={getRules().email}
               />
               <Input
                 className='mt-2'
@@ -44,7 +43,6 @@ export default function Login() {
                 autoComplete='on'
                 errorMessage={errors.password?.message}
                 register={register}
-                rules={getRules().password}
               />
               <div className='mt-2'>
                 <button className='w-full bg-red-500 py-4 px-2 text-center text-sm uppercase text-white hover:bg-red-600'>
