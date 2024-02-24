@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 
 import { getRules } from 'src/utils/Rules'
+import Input from 'src/components/Input'
 
 interface FormData {
   email: string
@@ -26,25 +27,25 @@ export default function Login() {
           <div className='lg:col-span-2 lg:col-start-4'>
             <form className='rounded bg-white p-10 shadow-sm' onSubmit={onSubmit} noValidate>
               <div className='text-2xl'>Đăng nhập</div>
-              <div className='mt-8'>
-                <input
-                  type='email'
-                  className='w-full rounded-sm border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow-sm'
-                  placeholder='Email'
-                  {...register('email', getRules().email)}
-                />
-                <div className='mt-1 min-h-[1.25rem] text-sm text-red-600'>{errors.email?.message}</div>
-              </div>
-              <div className='mt-2'>
-                <input
-                  type='password'
-                  className='w-full rounded-sm border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow-sm'
-                  placeholder='Password'
-                  autoComplete='on'
-                  {...register('password', getRules().password)}
-                />
-                <div className='mt-1 min-h-[1.25rem] text-sm text-red-600'>{errors.password?.message}</div>
-              </div>
+              <Input
+                className='mt-8'
+                type='email'
+                placeholder='Email'
+                name='email'
+                errorMessage={errors.email?.message}
+                register={register}
+                rules={getRules().email}
+              />
+              <Input
+                className='mt-2'
+                type='password'
+                placeholder='Password'
+                name='password'
+                autoComplete='on'
+                errorMessage={errors.password?.message}
+                register={register}
+                rules={getRules().password}
+              />
               <div className='mt-2'>
                 <button className='w-full bg-red-500 py-4 px-2 text-center text-sm uppercase text-white hover:bg-red-600'>
                   Đăng nhập
