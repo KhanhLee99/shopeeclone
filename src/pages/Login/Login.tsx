@@ -1,3 +1,4 @@
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -7,11 +8,14 @@ import { loginSchema, LoginSchma } from 'src/utils/Rules'
 import Input from 'src/components/Input'
 import { login } from 'src/apis/auth.api'
 import { isErrorUnprocessableEntity } from 'src/utils/utils'
-import { ResponseApi } from 'src/types/utils.type'
+import { ErrorResponse } from 'src/types/utils.type'
+import { AppContext } from 'src/contexts/app.context'
+import URLs from 'src/constants/url'
 
 type FormData = LoginSchma
 
 export default function Login() {
+  const { setIsAuthenticated } = useContext(AppContext)
   const {
     register,
     handleSubmit,
@@ -27,9 +31,11 @@ export default function Login() {
 
   const onSubmit = handleSubmit((data) => {
     loginMutation.mutate(data, {
-      onSuccess: (data) => console.log('data', data),
+      onSuccess: () => {
+        setIsAuthenticated(true)
+      },
       onError: (error) => {
-        if (isErrorUnprocessableEntity<ResponseApi<FormData>>(error)) {
+        if (isErrorUnprocessableEntity<ErrorResponse<FormData>>(error)) {
           const formError = error.response?.data.data
           if (formError) {
             Object.keys(formError).forEach((key) =>
@@ -75,7 +81,7 @@ export default function Login() {
               </div>
               <div className='mt-8 flex items-center justify-center'>
                 <span className='text-gray-400'>Bạn chưa có tài khoản?</span>
-                <Link className='ml-1 text-red-400' to='/register'>
+                <Link className='ml-1 text-red-400' to={URLs.register}>
                   Đăng ký
                 </Link>
               </div>

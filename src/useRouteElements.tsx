@@ -1,4 +1,7 @@
+import { useContext } from 'react'
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
+import URLs from './constants/url'
+import { AppContext } from './contexts/app.context'
 
 import MainLayout from './layouts/MainLayout'
 import RegisterLayout from './layouts/RegisterLayout'
@@ -7,13 +10,14 @@ import ProductList from './pages/ProductList'
 import Profile from './pages/Profile'
 import Register from './pages/Register'
 
-const isAuthenticated = false
 function ProtectedRoute() {
-  return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
+  const { isAuthenticated } = useContext(AppContext)
+  return isAuthenticated ? <Outlet /> : <Navigate to={URLs.login} />
 }
 
 function RejectedRoute() {
-  return !isAuthenticated ? <Outlet /> : <Navigate to='/' />
+  const { isAuthenticated } = useContext(AppContext)
+  return !isAuthenticated ? <Outlet /> : <Navigate to={URLs.productList} />
 }
 
 export default function useRouteElements() {
@@ -23,7 +27,7 @@ export default function useRouteElements() {
       element: <RejectedRoute />,
       children: [
         {
-          path: '/login',
+          path: URLs.login,
           element: (
             <RegisterLayout>
               <Login />
@@ -31,7 +35,7 @@ export default function useRouteElements() {
           )
         },
         {
-          path: '/register',
+          path: URLs.register,
           element: (
             <RegisterLayout>
               <Register />
@@ -45,25 +49,17 @@ export default function useRouteElements() {
       element: <ProtectedRoute />,
       children: [
         {
-          path: '/profile',
+          path: URLs.profile,
           element: (
             <MainLayout>
               <Profile />
             </MainLayout>
           )
-        },
-        {
-          path: '/register',
-          element: (
-            <RegisterLayout>
-              <Register />
-            </RegisterLayout>
-          )
         }
       ]
     },
     {
-      path: '/',
+      path: URLs.productList,
       index: true,
       element: (
         <MainLayout>
