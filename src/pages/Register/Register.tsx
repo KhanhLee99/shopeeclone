@@ -16,7 +16,7 @@ import Button from 'src/components/Button'
 type FormData = Omit<RegisterSchema, 'confirm_password'>
 
 export default function Register() {
-  const { setIsAuthenticated } = useContext(AppContext)
+  const { setIsAuthenticated, setProfile } = useContext(AppContext)
   const {
     register,
     handleSubmit,
@@ -37,8 +37,9 @@ export default function Register() {
         password: data.password
       },
       {
-        onSuccess: () => {
+        onSuccess: (data) => {
           setIsAuthenticated(true)
+          setProfile(data.data.data.user)
         },
         onError: (error) => {
           if (isErrorUnprocessableEntity<ErrorResponse<FormData>>(error)) {
@@ -93,7 +94,7 @@ export default function Register() {
               <div className='mt-2'>
                 <Button
                   type='submit'
-                  className='w-full  py-4 px-2 uppercase bg-red-500 text-white text-sm hover:bg-red-600 flex justify-center items-center'
+                  className='flex  w-full items-center justify-center bg-red-500 py-4 px-2 text-sm uppercase text-white hover:bg-red-600'
                   isLoading={registerAccountMutation.isPending}
                   disabled={registerAccountMutation.isPending}
                 >

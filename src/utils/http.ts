@@ -4,7 +4,7 @@ import { toast } from 'react-toastify'
 import HttpStatusCode from 'src/constants/httpStatus'
 import PATH_API from 'src/constants/pathApi'
 import { AuthResponse } from 'src/types/auth.type'
-import { getAccessTokenFromLS, removeAccessTokenFromLS, saveAccessTokenToLS } from './auth'
+import { getAccessTokenFromLS, clearLS, saveAccessTokenToLS, saveProfileToLS } from './auth'
 
 class Http {
   instance: AxiosInstance
@@ -34,11 +34,13 @@ class Http {
       (response) => {
         const { url } = response.config
         if (url === PATH_API.login || url === PATH_API.register) {
-          this.accessToken = (response.data as AuthResponse).data.access_token
+          const { data } = response.data as AuthResponse
+          this.accessToken = data.access_token
           saveAccessTokenToLS(this.accessToken)
+          saveProfileToLS(data.user)
         } else if (url === PATH_API.logout) {
           this.accessToken = ''
-          removeAccessTokenFromLS()
+          clearLS()
         }
         return response
       },

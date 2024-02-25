@@ -16,7 +16,7 @@ import Button from 'src/components/Button'
 type FormData = LoginSchma
 
 export default function Login() {
-  const { setIsAuthenticated } = useContext(AppContext)
+  const { setIsAuthenticated, setProfile } = useContext(AppContext)
   const {
     register,
     handleSubmit,
@@ -32,8 +32,9 @@ export default function Login() {
 
   const onSubmit = handleSubmit((data) => {
     loginMutation.mutate(data, {
-      onSuccess: () => {
+      onSuccess: (data) => {
         setIsAuthenticated(true)
+        setProfile(data.data.data.user)
       },
       onError: (error) => {
         if (isErrorUnprocessableEntity<ErrorResponse<FormData>>(error)) {

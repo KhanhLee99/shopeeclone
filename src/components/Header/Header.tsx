@@ -9,11 +9,12 @@ import { AppContext } from 'src/contexts/app.context'
 import URLs from 'src/constants/url'
 
 export default function Header() {
-  const { isAuthenticated, setIsAuthenticated } = useContext(AppContext)
+  const { isAuthenticated, setIsAuthenticated, profile, setProfile } = useContext(AppContext)
   const logoutMutation = useMutation({
     mutationFn: logout,
     onSuccess: () => {
       setIsAuthenticated(false)
+      setProfile(null)
     }
   })
 
@@ -65,7 +66,7 @@ export default function Header() {
             </Popover>
             {isAuthenticated && (
               <Popover
-                className='ml-6 flex cursor-pointer items-center py-1 hover:text-gray-300'
+                className='ml-6 flex cursor-pointer items-center py-1 hover:text-white/70'
                 renderPopover={
                   <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
                     <Link
@@ -96,7 +97,7 @@ export default function Header() {
                     className='h-full w-full rounded-full object-cover'
                   />
                 </div>
-                <div>duthanhduoc</div>
+                <div>{profile?.email}</div>
               </Popover>
             )}
             {!isAuthenticated && (
