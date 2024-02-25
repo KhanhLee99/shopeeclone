@@ -11,6 +11,7 @@ import { isErrorUnprocessableEntity } from 'src/utils/utils'
 import { ErrorResponse } from 'src/types/utils.type'
 import { AppContext } from 'src/contexts/app.context'
 import URLs from 'src/constants/url'
+import Button from 'src/components/Button'
 
 type FormData = LoginSchma
 
@@ -75,9 +76,13 @@ export default function Login() {
                 register={register}
               />
               <div className='mt-2'>
-                <button className='w-full bg-red-500 py-4 px-2 text-center text-sm uppercase text-white hover:bg-red-600'>
+                <Button
+                  className='flex w-full items-center justify-center bg-red-500 py-4 px-2 text-sm uppercase text-white hover:bg-red-600'
+                  isLoading={loginMutation.isPending}
+                  disabled={loginMutation.isPending}
+                >
                   Đăng nhập
-                </button>
+                </Button>
               </div>
               <div className='mt-8 flex items-center justify-center'>
                 <span className='text-gray-400'>Bạn chưa có tài khoản?</span>
