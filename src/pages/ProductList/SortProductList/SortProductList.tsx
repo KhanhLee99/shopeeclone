@@ -13,7 +13,7 @@ interface Props {
 
 export default function SortProductList({ queryConfig }: Props) {
   const navigate = useNavigate()
-  const { sort_by = sortBy.createdAt, order = orderConstant.asc } = queryConfig
+  const { sort_by = sortBy.createdAt, order } = queryConfig
   const isActiveSortBy = (sortBy: Exclude<ProductListConfig['sort_by'], undefined>) => {
     return sort_by === sortBy
   }
