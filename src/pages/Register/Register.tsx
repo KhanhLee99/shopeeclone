@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
 
-import { RegisterSchema, schema } from 'src/utils/Rules'
+import { RegisterSchema, schema } from 'src/utils/rules'
 import Input from 'src/components/Input'
 import authApi from 'src/apis/auth.api'
 import { isErrorUnprocessableEntity } from 'src/utils/utils'
