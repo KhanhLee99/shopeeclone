@@ -1,14 +1,15 @@
-import { useContext } from 'react'
+import { useContext, lazy, Suspense } from 'react'
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 import URLs from './constants/url'
 import { AppContext } from './contexts/app.context'
 
 import MainLayout from './layouts/MainLayout'
 import RegisterLayout from './layouts/RegisterLayout'
-import Login from './pages/Login'
-import ProductList from './pages/ProductList'
-import Profile from './pages/Profile'
-import Register from './pages/Register'
+
+const Login = lazy(() => import('./pages/Login'))
+const ProductList = lazy(() => import('./pages/ProductList'))
+const Profile = lazy(() => import('./pages/Profile'))
+const Register = lazy(() => import('./pages/Register'))
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -30,7 +31,9 @@ export default function useRouteElements() {
           path: URLs.login,
           element: (
             <RegisterLayout>
-              <Login />
+              <Suspense>
+                <Login />
+              </Suspense>
             </RegisterLayout>
           )
         },
@@ -38,7 +41,9 @@ export default function useRouteElements() {
           path: URLs.register,
           element: (
             <RegisterLayout>
-              <Register />
+              <Suspense>
+                <Register />
+              </Suspense>
             </RegisterLayout>
           )
         }
@@ -52,7 +57,9 @@ export default function useRouteElements() {
           path: URLs.profile,
           element: (
             <MainLayout>
-              <Profile />
+              <Suspense>
+                <Profile />
+              </Suspense>
             </MainLayout>
           )
         }
@@ -63,7 +70,9 @@ export default function useRouteElements() {
       index: true,
       element: (
         <MainLayout>
-          <ProductList />
+          <Suspense>
+            <ProductList />
+          </Suspense>
         </MainLayout>
       )
     }
