@@ -4,12 +4,13 @@ import { useParams } from 'react-router-dom'
 import DOMPurify from 'dompurify'
 
 import productApi from 'src/apis/product.api'
-import { formatCurrency, formatNumberToSocialStyle, rateSale } from 'src/utils/utils'
+import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } from 'src/utils/utils'
 import InputNumber from 'src/components/InputNumber'
 import ProductRating from 'src/components/ProductRating'
 
 export default function ProductDetail() {
-  const { id } = useParams()
+  const { nameId } = useParams()
+  const id = getIdFromNameId(nameId as string)
   const [imageActive, setImageActive] = useState('')
   const [indexImageSlider, setIndexImagesSlider] = useState([0, 5])
   const { data } = useQuery({
