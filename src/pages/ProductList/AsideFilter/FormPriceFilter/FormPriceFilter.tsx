@@ -6,11 +6,11 @@ import { omitBy } from 'lodash'
 
 import Button from 'src/components/Button'
 import InputNumber from 'src/components/InputNumber'
-import { QueryConfig } from 'src/pages/ProductList/ProductList'
+import { QueryConfig } from 'src/hooks/useQueryConfig'
 import URLs from 'src/constants/url'
-import { priceSchema, PriceSchema } from 'src/utils/rules'
+import { priceSchema, PriceSchemaType } from 'src/utils/rules'
 
-type FormData = PriceSchema
+type FormData = PriceSchemaType
 
 export default function FormPriceFilter({ queryConfig }: { queryConfig: QueryConfig }) {
   const navigate = useNavigate()

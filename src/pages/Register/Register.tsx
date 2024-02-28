@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
 
-import { RegisterSchema, schema } from 'src/utils/rules'
+import { RegisterSchemaType, schema } from 'src/utils/rules'
 import Input from 'src/components/Input'
 import authApi from 'src/apis/auth.api'
 import { isErrorUnprocessableEntity } from 'src/utils/utils'
@@ -13,7 +13,7 @@ import URLs from 'src/constants/url'
 import { AppContext } from 'src/contexts/app.context'
 import Button from 'src/components/Button'
 
-type FormData = Omit<RegisterSchema, 'confirm_password'>
+type FormData = Omit<RegisterSchemaType, 'confirm_password'>
 
 export default function Register() {
   const { setIsAuthenticated, setProfile } = useContext(AppContext)
@@ -22,7 +22,7 @@ export default function Register() {
     handleSubmit,
     setError,
     formState: { errors }
-  } = useForm<RegisterSchema>({
+  } = useForm<RegisterSchemaType>({
     resolver: yupResolver(schema)
   })
 

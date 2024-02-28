@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
 
-import { loginSchema, LoginSchma } from 'src/utils/rules'
+import { loginSchema, LoginSchmaType } from 'src/utils/rules'
 import Input from 'src/components/Input'
 import authApi from 'src/apis/auth.api'
 import { isErrorUnprocessableEntity } from 'src/utils/utils'
@@ -13,7 +13,7 @@ import { AppContext } from 'src/contexts/app.context'
 import URLs from 'src/constants/url'
 import Button from 'src/components/Button'
 
-type FormData = LoginSchma
+type FormData = LoginSchmaType
 
 export default function Login() {
   const { setIsAuthenticated, setProfile } = useContext(AppContext)

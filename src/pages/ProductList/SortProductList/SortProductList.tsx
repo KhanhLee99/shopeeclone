@@ -4,7 +4,7 @@ import { omit } from 'lodash'
 
 import { sortBy, order as orderConstant } from 'src/constants/product'
 import URLs from 'src/constants/url'
-import { QueryConfig } from 'src/pages/ProductList/ProductList'
+import { QueryConfig } from 'src/hooks/useQueryConfig'
 import { ProductListConfig } from 'src/types/product.type'
 
 interface Props {

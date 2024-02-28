@@ -1,14 +1,22 @@
-import { useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { useContext, useEffect } from 'react'
+import { Link, useNavigate, createSearchParams } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 import Shopee from '../Images/Shopee'
 import Popover from '../Popover'
 import authApi from 'src/apis/auth.api'
 import { AppContext } from 'src/contexts/app.context'
 import URLs from 'src/constants/url'
+import { searchSchema, SearchSchemaType } from 'src/utils/rules'
+import useQueryConfig from 'src/hooks/useQueryConfig'
+
+type FormData = SearchSchemaType
 
 export default function Header() {
+  const navigate = useNavigate()
+  const queryConfig = useQueryConfig()
   const { isAuthenticated, setIsAuthenticated, profile, setProfile } = useContext(AppContext)
   const logoutMutation = useMutation({
     mutationFn: authApi.logout,
@@ -17,10 +25,32 @@ export default function Header() {
       setProfile(null)
     }
   })
+  const { register, handleSubmit, reset } = useForm<FormData>({
+    defaultValues: {
+      search: queryConfig.name || ''
+    },
+    resolver: yupResolver(searchSchema)
+  })
+
+  useEffect(() => {
+    if (!queryConfig.name) {
+      reset()
+    }
+  }, [queryConfig.name])
 
   const handleLogout = () => {
     logoutMutation.mutate()
   }
+
+  const handleSearch = handleSubmit((data) => {
+    navigate({
+      pathname: URLs.productList,
+      search: createSearchParams({
+        ...queryConfig,
+        name: data.search
+      }).toString()
+    })
+  })
 
   return (
     <div className='bg-[linear-gradient(-180deg,#f53d2d,#f63)] pb-5 pt-2 text-white'>
@@ -117,13 +147,13 @@ export default function Header() {
           <Link to='/' className='col-span-2'>
             <Shopee />
           </Link>
-          <form className='col-span-9'>
+          <form className='col-span-9' onSubmit={handleSearch}>
             <div className='flex rounded-sm bg-white p-1'>
               <input
                 type='text'
-                name='search'
                 className='flex-grow border-none bg-transparent px-3 py-2 text-black outline-none'
                 placeholder='Free Ship Đơn Từ 0Đ'
+                {...register('search')}
               />
               <button className='flex-shrink-0 rounded-sm bg-orange py-2 px-6 hover:opacity-90'>
                 <svg

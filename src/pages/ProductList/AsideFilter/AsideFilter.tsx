@@ -4,7 +4,7 @@ import { omit } from 'lodash'
 
 import Button from 'src/components/Button'
 import URLs from 'src/constants/url'
-import { QueryConfig } from 'src/pages/ProductList/ProductList'
+import { QueryConfig } from 'src/hooks/useQueryConfig'
 import { Category } from 'src/types/category.tye'
 import FormPriceFilter from './FormPriceFilter'
 import RatingStars from './RatingStar/RatingStar'
