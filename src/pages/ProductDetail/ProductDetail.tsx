@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import DOMPurify from 'dompurify'
@@ -9,6 +10,8 @@ import ProductRating from 'src/components/ProductRating'
 
 export default function ProductDetail() {
   const { id } = useParams()
+  const [imageActive, setImageActive] = useState('')
+  const [indexImageSlider, setIndexImagesSlider] = useState([0, 5])
   const { data } = useQuery({
     queryKey: ['product', id],
     queryFn: () => {
@@ -16,23 +19,51 @@ export default function ProductDetail() {
     }
   })
   const product = data?.data.data
-  console.log('productDetail', product)
+  const imagesSlider = useMemo(() => {
+    return product ? product.images.slice(...indexImageSlider) : []
+  }, [product, indexImageSlider])
+
+  useEffect(() => {
+    if (product && product.images.length > 0) {
+      setImageActive(product.images[0])
+    }
+  }, [product])
+
+  const onActiveImage = (img: string) => {
+    setImageActive(img)
+  }
+
+  const next = () => {
+    if (product && indexImageSlider[1] < product?.images.length) {
+      setIndexImagesSlider((prev) => [prev[0] + 1, prev[1] + 1])
+    }
+  }
+
+  const prev = () => {
+    if (indexImageSlider[0] > 0) {
+      setIndexImagesSlider((prev) => [prev[0] - 1, prev[1] - 1])
+    }
+  }
+
   if (!product) return null
   return (
     <div className='bg-gray-200 py-6'>
-      <div className='bg-white p-4 shadow'>
-        <div className='container'>
+      <div className='container'>
+        <div className='bg-white p-4 shadow'>
           <div className='grid grid-cols-12 gap-9'>
             <div className='col-span-5'>
               <div className='relative w-full pt-[100%] shadow'>
                 <img
-                  src={product.image}
+                  src={imageActive}
                   alt={product.name}
                   className='absolute top-0 left-0 h-full w-full bg-white object-cover'
                 />
               </div>
               <div className='relative mt-4 grid grid-cols-5 gap-1'>
-                <button className='absolute left-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white'>
+                <button
+                  className='absolute left-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white'
+                  onClick={prev}
+                >
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     fill='none'
@@ -44,12 +75,16 @@ export default function ProductDetail() {
                     <path strokeLinecap='round' strokeLinejoin='round' d='M15.75 19.5L8.25 12l7.5-7.5' />
                   </svg>
                 </button>
-                {product.images.slice(0, 5).map((img, index) => {
-                  const isActive = index === 0
+                {imagesSlider.map((img, index) => {
+                  const isActive = img === imageActive
                   return (
-                    <div className='relative w-full pt-[100%]' key={img}>
+                    <div
+                      className='relative w-full pt-[100%]'
+                      key={`${img}${index}`}
+                      onMouseEnter={() => onActiveImage(img)}
+                    >
                       <img
-                        src={product.image}
+                        src={img}
                         alt={product.name}
                         className='absolute top-0 left-0 h-full w-full cursor-pointer bg-white object-cover'
                       />
@@ -57,7 +92,10 @@ export default function ProductDetail() {
                     </div>
                   )
                 })}
-                <button className='absolute right-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white'>
+                <button
+                  className='absolute right-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white'
+                  onClick={next}
+                >
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     fill='none'
@@ -166,8 +204,8 @@ export default function ProductDetail() {
           </div>
         </div>
       </div>
-      <div className='mt-8 bg-white p-4 shadow'>
-        <div className='container'>
+      <div className='container'>
+        <div className='mt-8 bg-white p-4 shadow'>
           <div className='rounded bg-gray-50 p-4 text-lg capitalize text-slate-700'>Mô tả sản phẩm</div>
           <div className='mx-4 mt-12 mb-4 text-sm leading-loose'>
             <div
