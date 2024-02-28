@@ -73,7 +73,7 @@ export default function AsideFilter({ queryConfig, categories }: Props) {
           )
         })}
       </ul>
-      <Link to={URLs.productList} className='mt-4 flex items-center font-bold uppercase'>
+      <div className='mt-4 flex items-center font-bold uppercase'>
         <svg
           enableBackground='new 0 0 15 15'
           viewBox='0 0 15 15'
@@ -92,7 +92,7 @@ export default function AsideFilter({ queryConfig, categories }: Props) {
           </g>
         </svg>
         Bộ lọc tìm kiếm
-      </Link>
+      </div>
       <div className='my-4 h-[1px] bg-gray-300' />
       <div className='my-5'>
         <div>Khoảng giá</div>
