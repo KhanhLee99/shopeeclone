@@ -1,6 +1,8 @@
+import { useEffect } from 'react'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { omitBy } from 'lodash'
 
 import Button from 'src/components/Button'
 import InputNumber from 'src/components/InputNumber'
@@ -17,6 +19,7 @@ export default function FormPriceFilter({ queryConfig }: { queryConfig: QueryCon
     control,
     handleSubmit,
     trigger,
+    reset,
     formState: { errors }
   } = useForm<FormData>({
     defaultValues: {
@@ -26,15 +29,29 @@ export default function FormPriceFilter({ queryConfig }: { queryConfig: QueryCon
     resolver: yupResolver(priceSchema),
     shouldFocusError: false
   })
+
+  useEffect(() => {
+    const { price_min, price_max } = queryConfig
+    if (!price_min && !price_max) {
+      reset()
+    }
+  }, [queryConfig.price_min, queryConfig.price_max])
+
   const onSubmit = handleSubmit((data) => {
     const { price_min = '', price_max = '' } = data
+
     navigate({
       pathname: URLs.productList,
-      search: createSearchParams({
-        ...queryConfig,
-        price_min,
-        price_max
-      }).toString()
+      search: createSearchParams(
+        omitBy(
+          {
+            ...queryConfig,
+            price_min,
+            price_max
+          },
+          (value) => value === ''
+        )
+      ).toString()
     })
   })
   return (
@@ -52,7 +69,7 @@ export default function FormPriceFilter({ queryConfig }: { queryConfig: QueryCon
                 classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
                 classNameError='hidden'
                 // {...field}
-                value={field.value || queryConfig.price_min}
+                value={field.value}
                 ref={field.ref}
                 onChange={(event) => {
                   field.onChange(event)
@@ -75,7 +92,7 @@ export default function FormPriceFilter({ queryConfig }: { queryConfig: QueryCon
                 classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
                 classNameError='hidden'
                 // {...field}
-                value={field.value || queryConfig.price_max}
+                value={field.value}
                 ref={field.ref}
                 onChange={(event) => {
                   field.onChange(event)

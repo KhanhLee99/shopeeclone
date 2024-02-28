@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { createSearchParams, Link } from 'react-router-dom'
+import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 import { omit } from 'lodash'
 
 import Button from 'src/components/Button'
@@ -15,6 +15,13 @@ interface Props {
 
 export default function AsideFilter({ queryConfig, categories }: Props) {
   const { category } = queryConfig
+  const navigate = useNavigate()
+  const handleRemoveFilter = () => {
+    navigate({
+      pathname: URLs.productList,
+      search: createSearchParams(omit(queryConfig, ['category', 'price_min', 'price_max', 'rating_filter'])).toString()
+    })
+  }
   return (
     <div className='py-4'>
       <Link
@@ -163,7 +170,10 @@ export default function AsideFilter({ queryConfig, categories }: Props) {
         </li>
       </ul>
       <div className='my-4 h-[1px] bg-gray-300' />
-      <Button className='flex w-full items-center justify-center bg-orange p-2 text-sm uppercase text-white hover:bg-orange/80'>
+      <Button
+        className='flex w-full items-center justify-center bg-orange p-2 text-sm uppercase text-white hover:bg-orange/80'
+        onClick={handleRemoveFilter}
+      >
         Xóa tất cả
       </Button>
     </div>

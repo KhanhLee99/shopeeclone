@@ -84,7 +84,7 @@ function testPriceMinMax(this: yup.TestContext<yup.AnyObject>) {
   if (price_min && price_max) {
     return Number(price_min) <= Number(price_max)
   }
-  return price_min || price_max
+  return true
 }
 
 export const priceSchema = yup.object({
