@@ -3,7 +3,7 @@ import URLs from 'src/constants/url'
 
 import { Product as ProductType } from 'src/types/product.type'
 import { formatCurrency, formatNumberToSocialStyle, generateNameId } from 'src/utils/utils'
-import ProductRating from '../../../components/ProductRating'
+import ProductRating from 'src/components/ProductRating'
 
 interface Props {
   product: ProductType

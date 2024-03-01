@@ -14,7 +14,7 @@ import useQueryConfig from 'src/hooks/useQueryConfig'
 import purchaseApi from 'src/apis/purchase.api'
 import { purchasesStatus } from 'src/constants/purchase'
 import noproduct from 'src/assets/no-product.png'
-import { formatCurrency } from 'src/utils/utils'
+import { formatCurrency, generateNameId } from 'src/utils/utils'
 
 type FormData = SearchSchemaType
 const MAX_PURCHASES = 5
@@ -199,7 +199,18 @@ export default function Header() {
                       <div className='capitalize text-gray-400'>Sản phẩm mới thêm</div>
                       <div className='mt-5'>
                         {purchasesInCart.slice(0, MAX_PURCHASES).map((purchase) => (
-                          <div className='mt-2 flex py-2 hover:bg-gray-100' key={purchase._id}>
+                          <div
+                            className='mt-2 flex py-2 hover:bg-gray-100'
+                            key={purchase._id}
+                            onClick={() =>
+                              navigate(
+                                `${URLs.productList}${generateNameId({
+                                  name: purchase.product.name,
+                                  id: purchase.product._id
+                                })}`
+                              )
+                            }
+                          >
                             <div className='flex-shrink-0'>
                               <img
                                 src={purchase.product.image}
