@@ -1,6 +1,6 @@
 import React, { ForwardedRef, forwardRef } from 'react'
 
-interface InputProps extends React.ComponentPropsWithoutRef<'input'> {
+export interface InputNumberProps extends React.ComponentPropsWithoutRef<'input'> {
   errorMessage?: string
   classNameInput?: string
   classNameError?: string
@@ -15,7 +15,7 @@ function InputNumber(
     classNameInput = 'p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm',
     classNameError = 'mt-1 text-red-600 min-h-[1.25rem] text-sm',
     ...rest
-  }: InputProps,
+  }: InputNumberProps,
   ref: ForwardedRef<HTMLInputElement>
 ) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
