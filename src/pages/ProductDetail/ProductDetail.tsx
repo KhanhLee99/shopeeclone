@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import DOMPurify from 'dompurify'
+import { toast } from 'react-toastify'
 
 import productApi from 'src/apis/product.api'
 import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } from 'src/utils/utils'
@@ -9,6 +10,7 @@ import QuantityController from 'src/components/QuantityController'
 import ProductRating from 'src/components/ProductRating'
 import { ProductListConfig } from 'src/types/product.type'
 import Product from '../ProductList/Product'
+import purchaseApi from 'src/apis/purchase.api'
 
 export default function ProductDetail() {
   const [buyCount, setBuyCount] = useState(1)
@@ -28,7 +30,7 @@ export default function ProductDetail() {
     return product ? product.images.slice(...indexImageSlider) : []
   }, [product, indexImageSlider])
 
-  const queryConfig: ProductListConfig = { page: 1, limit: 20, category: product?.category._id }
+  const queryConfig: ProductListConfig = { page: 1, limit: 20, category: product?.category._id, exclude: id }
 
   const { data: products } = useQuery({
     queryKey: ['products', queryConfig],
@@ -41,11 +43,20 @@ export default function ProductDetail() {
 
   const productsData = products?.data.data
 
+  const addToCartMutation = useMutation({
+    mutationFn: purchaseApi.addToCart,
+    onSuccess: (data) => toast.success(data.data.message, { autoClose: 1000 })
+  })
+
   useEffect(() => {
     if (product && product.images.length > 0) {
       setImageActive(product.images[0])
     }
   }, [product])
+
+  useEffect(() => {
+    setBuyCount(1)
+  }, [id])
 
   const onActiveImage = (img: string) => {
     setImageActive(img)
@@ -89,6 +100,13 @@ export default function ProductDetail() {
 
   const handleBuyCount = (value: number) => {
     setBuyCount(value)
+  }
+
+  const handleAddToCart = () => {
+    addToCartMutation.mutate({
+      buy_count: buyCount,
+      product_id: product?._id as string
+    })
   }
 
   if (!product) return null
@@ -196,7 +214,10 @@ export default function ProductDetail() {
                 <div className='ml-6 text-sm text-gray-500'>{product.quantity} sản phẩm có sẵn</div>
               </div>
               <div className='mt-8 flex items-center'>
-                <button className='flex h-12 items-center justify-center rounded-sm border border-orange bg-orange/10 px-5 capitalize text-orange shadow-sm hover:bg-orange/5'>
+                <button
+                  className='flex h-12 items-center justify-center rounded-sm border border-orange bg-orange/10 px-5 capitalize text-orange shadow-sm hover:bg-orange/5'
+                  onClick={handleAddToCart}
+                >
                   <svg
                     enableBackground='new 0 0 15 15'
                     viewBox='0 0 15 15'
