@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { useQuery, useMutation } from '@tanstack/react-query'
-import { useParams } from 'react-router-dom'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useParams, useNavigate } from 'react-router-dom'
 import DOMPurify from 'dompurify'
 import { toast } from 'react-toastify'
 
@@ -11,8 +11,14 @@ import ProductRating from 'src/components/ProductRating'
 import { ProductListConfig } from 'src/types/product.type'
 import Product from '../ProductList/Product'
 import purchaseApi from 'src/apis/purchase.api'
+import { purchasesStatus } from 'src/constants/purchase'
+import { AppContext } from 'src/contexts/app.context'
+import URLs from 'src/constants/url'
 
 export default function ProductDetail() {
+  const { isAuthenticated } = useContext(AppContext)
+  const queryClient = useQueryClient()
+  const navigate = useNavigate()
   const [buyCount, setBuyCount] = useState(1)
   const { nameId } = useParams()
   const id = getIdFromNameId(nameId as string)
@@ -45,7 +51,10 @@ export default function ProductDetail() {
 
   const addToCartMutation = useMutation({
     mutationFn: purchaseApi.addToCart,
-    onSuccess: (data) => toast.success(data.data.message, { autoClose: 1000 })
+    onSuccess: (data) => {
+      toast.success(data.data.message, { autoClose: 1000 })
+      queryClient.invalidateQueries({ queryKey: ['purchases', { status: purchasesStatus.inCart }] })
+    }
   })
 
   useEffect(() => {
@@ -103,10 +112,21 @@ export default function ProductDetail() {
   }
 
   const handleAddToCart = () => {
-    addToCartMutation.mutate({
-      buy_count: buyCount,
-      product_id: product?._id as string
-    })
+    if (isAuthenticated) {
+      addToCartMutation.mutate({
+        buy_count: buyCount,
+        product_id: product?._id as string
+      })
+    } else {
+      navigate(URLs.login)
+    }
+  }
+
+  const handleBuyNow = () => {
+    if (isAuthenticated) {
+    } else {
+      navigate(URLs.login)
+    }
   }
 
   if (!product) return null
@@ -243,7 +263,10 @@ export default function ProductDetail() {
                   </svg>
                   Thêm vào giỏ hàng
                 </button>
-                <button className='fkex ml-4 h-12 min-w-[5rem] items-center justify-center rounded-sm bg-orange px-5 capitalize text-white shadow-sm outline-none hover:bg-orange/90'>
+                <button
+                  className='fkex ml-4 h-12 min-w-[5rem] items-center justify-center rounded-sm bg-orange px-5 capitalize text-white shadow-sm outline-none hover:bg-orange/90'
+                  onClick={handleBuyNow}
+                >
                   Mua ngay
                 </button>
               </div>
