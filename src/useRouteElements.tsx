@@ -11,6 +11,7 @@ const ProductList = lazy(() => import('./pages/ProductList'))
 const Profile = lazy(() => import('./pages/Profile'))
 const Register = lazy(() => import('./pages/Register'))
 const ProductDetail = lazy(() => import('./pages/ProductDetail'))
+const Cart = lazy(() => import('./pages/Cart'))
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -60,6 +61,16 @@ export default function useRouteElements() {
             <MainLayout>
               <Suspense>
                 <Profile />
+              </Suspense>
+            </MainLayout>
+          )
+        },
+        {
+          path: URLs.cart,
+          element: (
+            <MainLayout>
+              <Suspense>
+                <Cart />
               </Suspense>
             </MainLayout>
           )

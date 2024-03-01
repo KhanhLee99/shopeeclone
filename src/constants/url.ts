@@ -3,7 +3,8 @@ const URLs = {
   login: '/login',
   register: '/register',
   profile: '/profile',
-  productDetail: '/:nameId'
+  productDetail: '/:nameId',
+  cart: '/cart',
 }
 
 export default URLs
