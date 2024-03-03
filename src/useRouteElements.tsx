@@ -5,6 +5,7 @@ import { AppContext } from './contexts/app.context'
 
 import MainLayout from './layouts/MainLayout'
 import RegisterLayout from './layouts/RegisterLayout'
+import CartLayout from './layouts/CartLayout'
 
 const Login = lazy(() => import('./pages/Login'))
 const ProductList = lazy(() => import('./pages/ProductList'))
@@ -68,11 +69,11 @@ export default function useRouteElements() {
         {
           path: URLs.cart,
           element: (
-            <MainLayout>
+            <CartLayout>
               <Suspense>
                 <Cart />
               </Suspense>
-            </MainLayout>
+            </CartLayout>
           )
         }
       ]
