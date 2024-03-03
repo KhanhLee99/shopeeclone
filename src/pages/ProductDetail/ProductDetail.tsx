@@ -19,7 +19,7 @@ export default function ProductDetail() {
   const { isAuthenticated } = useContext(AppContext)
   const queryClient = useQueryClient()
   const navigate = useNavigate()
-  const [buyCount, setBuyCount] = useState(1)
+  const [buyCount, setBuyCount] = useState<number | undefined>(1)
   const { nameId } = useParams()
   const id = getIdFromNameId(nameId as string)
   const imageRef = useRef<HTMLImageElement>(null)
@@ -107,14 +107,14 @@ export default function ProductDetail() {
     imageRef.current?.removeAttribute('style')
   }
 
-  const handleBuyCount = (value: number) => {
+  const handleBuyCount = (value: number | undefined) => {
     setBuyCount(value)
   }
 
   const handleAddToCart = () => {
     if (isAuthenticated) {
       addToCartMutation.mutate({
-        buy_count: buyCount,
+        buy_count: Number(buyCount),
         product_id: product?._id as string
       })
     } else {

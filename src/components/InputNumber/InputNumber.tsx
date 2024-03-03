@@ -19,20 +19,20 @@ function InputNumber(
   }: InputNumberProps,
   ref: ForwardedRef<HTMLInputElement>
 ) {
-  const [localValue, setLocalValue] = useState<string>(value as string)
+  // const [localValue, setLocalValue] = useState<string>(value as string)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
     if (/^\d+$/.test(value) || value === '') {
       // Thực thi onChange callback từ bên ngoài truyền vào props
       onChange && onChange(event)
       // Cập nhật localValue state
-      setLocalValue(value)
+      // setLocalValue(value)
     }
   }
 
   return (
     <div className={className}>
-      <input className={classNameInput} onChange={handleChange} value={value || localValue} {...rest} ref={ref} />
+      <input className={classNameInput} onChange={handleChange} value={value} {...rest} ref={ref} />
       <div className={classNameError}>{errorMessage}</div>
     </div>
   )

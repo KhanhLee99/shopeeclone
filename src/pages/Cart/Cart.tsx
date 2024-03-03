@@ -1,7 +1,8 @@
-import { useQuery } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { useQuery, useMutation } from '@tanstack/react-query'
+import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { produce } from 'immer'
+import { debounce, keyBy } from 'lodash'
 
 import purchaseApi from 'src/apis/purchase.api'
 import Button from 'src/components/Button'
@@ -23,6 +24,22 @@ export default function Cart() {
     queryFn: () => purchaseApi.getPurchases({ status: purchasesStatus.inCart })
   })
   const purchasesInCart = purchasesInCartData?.data.data
+
+  const updatePurchaseMutation = useMutation({
+    mutationFn: purchaseApi.updatePurchase,
+    onSuccess: () => {
+      setExtendedPurchase((prev) => {
+        const extendedPurchasesObject = keyBy(prev, '_id')
+        return (
+          prev.map((purchase) => ({
+            ...purchase,
+            disabled: false,
+            checked: Boolean(extendedPurchasesObject[purchase._id]?.checked)
+          })) || []
+        )
+      })
+    }
+  })
   const isCheckedAll = extendedPurchase.every((purchase) => purchase.checked)
 
   useEffect(() => {
@@ -37,10 +54,10 @@ export default function Cart() {
     }
   }, [purchasesInCart])
 
-  const handleCheck = (productIndex: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCheck = (purchaseIndex: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setExtendedPurchase(
       produce((draft) => {
-        draft[productIndex].checked = event.target.checked
+        draft[purchaseIndex].checked = event.target.checked
       })
     )
   }
@@ -53,6 +70,38 @@ export default function Cart() {
       }))
     )
   }
+
+  const handleTypeQuantity = (purchaseIndex: number) => (value: number | undefined) => {
+    setExtendedPurchase(
+      produce((draft) => {
+        draft[purchaseIndex].buy_count = Number(value)
+      })
+    )
+  }
+
+  const handleQuantity = (purchaseIndex: number, value: number, enable: boolean) => {
+    if (enable) {
+      const purchase = extendedPurchase[purchaseIndex]
+      setExtendedPurchase(
+        produce((draft) => {
+          draft[purchaseIndex].buy_count = value
+        })
+      )
+      debounceUpdatePurchase(purchase, purchaseIndex, value)
+    }
+  }
+
+  const debounceUpdatePurchase = useCallback(
+    debounce((purchase: ExtendedPurchase, purchaseIndex: number, value: number) => {
+      setExtendedPurchase(
+        produce((draft) => {
+          draft[purchaseIndex].disabled = true
+        })
+      )
+      updatePurchaseMutation.mutate({ product_id: purchase.product._id, buy_count: value })
+    }, 1000),
+    []
+  )
 
   return (
     <div className='bg-neutral-100 py-16'>
@@ -138,12 +187,25 @@ export default function Cart() {
                         <QuantityController
                           max={purchase.product.quantity}
                           value={purchase.buy_count}
-                          classNameWrapper='flex items-center'
+                          classNameWrapper=''
+                          onIncrease={(value) => handleQuantity(index, value, value <= purchase.product.quantity)}
+                          onDecrease={(value) => handleQuantity(index, value, value >= 1)}
+                          onType={handleTypeQuantity(index)}
+                          onFocusOut={(value) =>
+                            handleQuantity(
+                              index,
+                              value,
+                              value >= 1 &&
+                                value <= purchase.product.quantity &&
+                                value !== (purchasesInCart as Purchase[])[index].buy_count
+                            )
+                          }
+                          disabled={purchase.disabled}
                         />
                       </div>
                       <div className='col-span-1'>
                         <span className='text-orange'>
-                          ₫{formatCurrency(purchase.product.price * purchase.buy_count)}
+                          ₫{formatCurrency(purchase.product.price * (purchase.buy_count || 0))}
                         </span>
                       </div>
                       <div className='col-span-1'>

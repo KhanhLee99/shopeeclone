@@ -163,7 +163,7 @@ export default function Header() {
           </div>
         </div>
         <div className='mt-4 grid grid-cols-12 items-end gap-4'>
-          <Link to='/' className='col-span-2'>
+          <Link to={URLs.productList} className='col-span-2'>
             <Shopee />
           </Link>
           <form className='col-span-9' onSubmit={handleSearch}>
@@ -251,7 +251,7 @@ export default function Header() {
                 </div>
               }
             >
-              <Link to='/' className='relative'>
+              <Link to={URLs.cart} className='relative'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
