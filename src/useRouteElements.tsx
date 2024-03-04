@@ -6,6 +6,7 @@ import { AppContext } from './contexts/app.context'
 import MainLayout from './layouts/MainLayout'
 import RegisterLayout from './layouts/RegisterLayout'
 import CartLayout from './layouts/CartLayout'
+import UserLayout from './layouts/UserLayout'
 
 const Login = lazy(() => import('./pages/Login'))
 const ProductList = lazy(() => import('./pages/ProductList'))
@@ -13,6 +14,8 @@ const Profile = lazy(() => import('./pages/Profile'))
 const Register = lazy(() => import('./pages/Register'))
 const ProductDetail = lazy(() => import('./pages/ProductDetail'))
 const Cart = lazy(() => import('./pages/Cart'))
+const ChangePassword = lazy(() => import('./pages/ChangePassword'))
+const HistoryPurchase = lazy(() => import('./pages/HistoryPurchase'))
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -57,16 +60,6 @@ export default function useRouteElements() {
       element: <ProtectedRoute />,
       children: [
         {
-          path: URLs.profile,
-          element: (
-            <MainLayout>
-              <Suspense>
-                <Profile />
-              </Suspense>
-            </MainLayout>
-          )
-        },
-        {
           path: URLs.cart,
           element: (
             <CartLayout>
@@ -75,6 +68,40 @@ export default function useRouteElements() {
               </Suspense>
             </CartLayout>
           )
+        },
+        {
+          path: URLs.user,
+          element: (
+            <MainLayout>
+              <UserLayout />
+            </MainLayout>
+          ),
+          children: [
+            {
+              path: URLs.profile,
+              element: (
+                <Suspense>
+                  <Profile />
+                </Suspense>
+              )
+            },
+            {
+              path: URLs.changePassword,
+              element: (
+                <Suspense>
+                  <ChangePassword />
+                </Suspense>
+              )
+            },
+            {
+              path: URLs.hitoryPurchase,
+              element: (
+                <Suspense>
+                  <HistoryPurchase />
+                </Suspense>
+              )
+            }
+          ]
         }
       ]
     },
