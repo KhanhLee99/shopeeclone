@@ -33,7 +33,10 @@ export default function FormPriceFilter({ queryConfig }: { queryConfig: QueryCon
   useEffect(() => {
     const { price_min, price_max } = queryConfig
     if (!price_min && !price_max) {
-      reset()
+      reset({
+        price_min: '',
+        price_max: ''
+      })
     }
   }, [queryConfig.price_min, queryConfig.price_max])
 

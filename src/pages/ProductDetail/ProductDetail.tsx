@@ -141,7 +141,6 @@ export default function ProductDetail() {
         purchaseId: purchase._id
       }
     })
-    console.log('sdgfjhadgfjhg');
   }
 
   const navigateLoginPage = (product: ProductType) => {
