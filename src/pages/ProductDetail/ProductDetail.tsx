@@ -1,14 +1,14 @@
 import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, createSearchParams } from 'react-router-dom'
 import DOMPurify from 'dompurify'
 import { toast } from 'react-toastify'
 
 import productApi from 'src/apis/product.api'
-import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } from 'src/utils/utils'
+import { formatCurrency, formatNumberToSocialStyle, generateNameId, getIdFromNameId, rateSale } from 'src/utils/utils'
 import QuantityController from 'src/components/QuantityController'
 import ProductRating from 'src/components/ProductRating'
-import { ProductListConfig } from 'src/types/product.type'
+import { Product as ProductType, ProductListConfig } from 'src/types/product.type'
 import Product from '../ProductList/Product'
 import purchaseApi from 'src/apis/purchase.api'
 import { purchasesStatus } from 'src/constants/purchase'
@@ -50,11 +50,7 @@ export default function ProductDetail() {
   const productsData = products?.data.data
 
   const addToCartMutation = useMutation({
-    mutationFn: purchaseApi.addToCart,
-    onSuccess: (data) => {
-      toast.success(data.data.message, { autoClose: 1000 })
-      queryClient.invalidateQueries({ queryKey: ['purchases', { status: purchasesStatus.inCart }] })
-    }
+    mutationFn: purchaseApi.addToCart
   })
 
   useEffect(() => {
@@ -62,6 +58,12 @@ export default function ProductDetail() {
       setImageActive(product.images[0])
     }
   }, [product])
+
+  useEffect(() => {
+    return () => {
+      history.replaceState(null, '')
+    }
+  }, [])
 
   useEffect(() => {
     setBuyCount(1)
@@ -112,21 +114,45 @@ export default function ProductDetail() {
   }
 
   const handleAddToCart = () => {
-    if (isAuthenticated) {
-      addToCartMutation.mutate({
+    if (!isAuthenticated) return navigateLoginPage(product as ProductType)
+    addToCartMutation.mutate(
+      {
         buy_count: Number(buyCount),
         product_id: product?._id as string
-      })
-    } else {
-      navigate(URLs.login)
-    }
+      },
+      {
+        onSuccess: (data) => {
+          toast.success(data.data.message, { position: 'top-center', autoClose: 1000 })
+          queryClient.invalidateQueries({ queryKey: ['purchases', { status: purchasesStatus.inCart }] })
+        }
+      }
+    )
   }
 
-  const handleBuyNow = () => {
-    if (isAuthenticated) {
-    } else {
-      navigate(URLs.login)
-    }
+  const handleBuyNow = async () => {
+    if (!isAuthenticated) return navigateLoginPage(product as ProductType)
+    const res = await addToCartMutation.mutateAsync({
+      buy_count: Number(buyCount),
+      product_id: product?._id as string
+    })
+    const purchase = res.data.data
+    navigate(URLs.cart, {
+      state: {
+        purchaseId: purchase._id
+      }
+    })
+    console.log('sdgfjhadgfjhg');
+  }
+
+  const navigateLoginPage = (product: ProductType) => {
+    navigate({
+      pathname: URLs.login,
+      search: createSearchParams({
+        next: generateNameId({ name: product.name, id: product._id })
+      }).toString()
+    })
+
+    return navigate
   }
 
   if (!product) return null

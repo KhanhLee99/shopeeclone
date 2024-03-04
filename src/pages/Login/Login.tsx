@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
@@ -12,11 +12,15 @@ import { ErrorResponse } from 'src/types/utils.type'
 import { AppContext } from 'src/contexts/app.context'
 import URLs from 'src/constants/url'
 import Button from 'src/components/Button'
+import useQueryParams from 'src/hooks/useQueryParams'
 
 type FormData = LoginSchmaType
 
 export default function Login() {
+  const navigate = useNavigate()
   const { setIsAuthenticated, setProfile } = useContext(AppContext)
+  const queryParams = useQueryParams()
+  const next = queryParams.next || ''
   const {
     register,
     handleSubmit,
@@ -35,6 +39,9 @@ export default function Login() {
       onSuccess: (data) => {
         setIsAuthenticated(true)
         setProfile(data.data.data.user)
+        if (next) {
+          navigate(`${URLs.productList}${next}`)
+        }
       },
       onError: (error) => {
         if (isErrorUnprocessableEntity<ErrorResponse<FormData>>(error)) {

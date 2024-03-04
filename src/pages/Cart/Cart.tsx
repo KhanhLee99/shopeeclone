@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from '@tanstack/react-query'
-import { useCallback, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useCallback, useContext, useEffect, useMemo } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { produce } from 'immer'
 import { debounce, keyBy } from 'lodash'
 import { toast } from 'react-toastify'
@@ -10,16 +10,15 @@ import Button from 'src/components/Button'
 import QuantityController from 'src/components/QuantityController'
 import { purchasesStatus } from 'src/constants/purchase'
 import URLs from 'src/constants/url'
-import { Purchase } from 'src/types/purchase.type'
+import { ExtendedPurchase } from 'src/types/purchase.type'
 import { formatCurrency, generateNameId } from 'src/utils/utils'
-
-interface ExtendedPurchase extends Purchase {
-  checked: boolean
-  disabled: boolean
-}
+import { AppContext } from 'src/contexts/app.context'
+import noproduct from 'src/assets/no-product.png'
 
 export default function Cart() {
-  const [extendedPurchase, setExtendedPurchase] = useState<ExtendedPurchase[]>([])
+  const location = useLocation()
+  const purchaseIdFromLocation = (location.state as { purchaseId: string })?.purchaseId || null
+  const { extendedPurchase, setExtendedPurchase } = useContext(AppContext)
   const { data: purchasesInCartData } = useQuery({
     queryKey: ['purchases', { status: purchasesStatus.inCart }],
     queryFn: () => purchaseApi.getPurchases({ status: purchasesStatus.inCart })
@@ -60,27 +59,36 @@ export default function Cart() {
     }
   })
 
-  const isCheckedAll = extendedPurchase.every((purchase) => purchase.checked)
-  const checkedPurchases = extendedPurchase.filter((purchase) => purchase.checked)
+  const isCheckedAll = useMemo(() => extendedPurchase.every((purchase) => purchase.checked), [extendedPurchase])
+  const checkedPurchases = useMemo(() => extendedPurchase.filter((purchase) => purchase.checked), [extendedPurchase])
   const checkedPurchasesCount = checkedPurchases.length
-  const totalCheckedPurchasePrice = checkedPurchases.reduce((result, current) => {
-    return result + current.product.price * current.buy_count
-  }, 0)
-  const totalCheckedPurchaseSavingPrice = checkedPurchases.reduce((result, current) => {
-    return result + (current.product.price_before_discount - current.product.price) * current.buy_count
-  }, 0)
+  const totalCheckedPurchasePrice = useMemo(
+    () =>
+      checkedPurchases.reduce((result, current) => {
+        return result + current.product.price * current.buy_count
+      }, 0),
+    [checkedPurchases]
+  )
+  const totalCheckedPurchaseSavingPrice = useMemo(
+    () =>
+      checkedPurchases.reduce((result, current) => {
+        return result + (current.product.price_before_discount - current.product.price) * current.buy_count
+      }, 0),
+    [checkedPurchases]
+  )
 
   useEffect(() => {
     if (purchasesInCart) {
-      setExtendedPurchase(
-        purchasesInCart.map((purchase) => ({
+      setExtendedPurchase((prev) => {
+        const extendedPurchasesObject = keyBy(prev, '_id')
+        return purchasesInCart.map((purchase) => ({
           ...purchase,
           disabled: false,
-          checked: false
+          checked: purchase._id === purchaseIdFromLocation || Boolean(extendedPurchasesObject[purchase._id]?.checked)
         }))
-      )
+      })
     }
-  }, [purchasesInCart])
+  }, [purchasesInCart, purchaseIdFromLocation])
 
   const handleCheck = (purchaseIndex: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setExtendedPurchase(
@@ -269,6 +277,12 @@ export default function Cart() {
                     </div>
                   </div>
                 ))}
+              </div>
+            )}
+            {extendedPurchase.length == 0 && (
+              <div className='mt-[15px] flex h-[300px] flex-col items-center justify-center bg-white p-2'>
+                <img src={noproduct} alt='no purchase' className='h-[160px] w-[160px]' />
+                <div className='mt-3 capitalize'>Chưa có sản phẩm</div>
               </div>
             )}
           </div>
