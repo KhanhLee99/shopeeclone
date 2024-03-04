@@ -94,7 +94,7 @@ export default function useRouteElements() {
               )
             },
             {
-              path: URLs.hitoryPurchase,
+              path: URLs.historyPurchase,
               element: (
                 <Suspense>
                   <HistoryPurchase />

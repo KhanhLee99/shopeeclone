@@ -7,7 +7,7 @@ const URLs = {
   user: '/user',
   profile: '/user/profile',
   changePassword: '/user/password',
-  hitoryPurchase: '/user/purchase'
+  historyPurchase: '/user/purchase'
 }
 
 export default URLs
