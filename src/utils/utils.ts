@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios'
 import HttpStatusCode from 'src/constants/httpStatus'
+import userImage from 'src/assets/avt-default.jpg'
 
 export const isAxiosError = (error: unknown): error is AxiosError => {
   return axios.isAxiosError(error)
@@ -35,4 +36,9 @@ export const generateNameId = ({ name, id }: { name: string; id: string }) => {
 export const getIdFromNameId = (nameId: string) => {
   const arr = nameId.split('-i-')
   return arr[arr.length - 1]
+}
+
+export const getAvatarUrl = (avatarName?: string) => {
+  const baseUrl = import.meta.env.VITE_APP_BASE_URL
+  return avatarName ? `${baseUrl}images/${avatarName}` : userImage
 }

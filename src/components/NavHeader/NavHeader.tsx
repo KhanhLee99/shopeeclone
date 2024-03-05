@@ -7,7 +7,7 @@ import { purchasesStatus } from 'src/constants/purchase'
 import URLs from 'src/constants/url'
 import { AppContext } from 'src/contexts/app.context'
 import Popover from '../Popover'
-import userImage from 'src/assets/user.svg'
+import { getAvatarUrl } from 'src/utils/utils'
 
 export default function NavHeader() {
   const queryClient = useQueryClient()
@@ -92,7 +92,7 @@ export default function NavHeader() {
           }
         >
           <div className='mr-2 h-6 w-6 flex-shrink-0'>
-            <img src={profile?.avatar || userImage} alt='avatar' className='h-full w-full rounded-full object-cover' />
+            <img src={getAvatarUrl(profile?.avatar)} alt='avatar' className='h-full w-full rounded-full object-cover' />
           </div>
           <div>{profile?.email}</div>
         </Popover>
