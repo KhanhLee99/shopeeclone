@@ -12,3 +12,8 @@ export interface User {
   createdAt: string
   updatedAt: string
 }
+
+export interface BodyUpdateProfile extends Omit<User, '_id' | 'roles' | 'createdAt' | 'updatedAt' | 'email'> {
+  password?: string
+  newPassword?: string
+}

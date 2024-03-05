@@ -7,6 +7,7 @@ import { purchasesStatus } from 'src/constants/purchase'
 import URLs from 'src/constants/url'
 import { AppContext } from 'src/contexts/app.context'
 import Popover from '../Popover'
+import userImage from 'src/assets/user.svg'
 
 export default function NavHeader() {
   const queryClient = useQueryClient()
@@ -91,11 +92,7 @@ export default function NavHeader() {
           }
         >
           <div className='mr-2 h-6 w-6 flex-shrink-0'>
-            <img
-              src='https://cf.shopee.vn/file/d04ea22afab6e6d250a370d7ccc2e675_tn'
-              alt='avatar'
-              className='h-full w-full rounded-full object-cover'
-            />
+            <img src={profile?.avatar || userImage} alt='avatar' className='h-full w-full rounded-full object-cover' />
           </div>
           <div>{profile?.email}</div>
         </Popover>
