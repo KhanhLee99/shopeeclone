@@ -17,6 +17,7 @@ import { getAvatarUrl } from 'src/utils/utils'
 type FormData = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' | 'avatar'>
 const profileSchema = userSchema.pick(['name', 'address', 'phone', 'date_of_birth', 'avatar'])
 export const DATE_DEFAULT = new Date(1990, 0, 1)
+const MAX_SIZE_IMAGE_UPLOAD = 1048576 //bytes
 
 export default function Profile() {
   const inputFileRef = useRef<HTMLInputElement>(null)
@@ -78,7 +79,13 @@ export default function Profile() {
 
   const onChooseImage = (event: React.ChangeEvent<HTMLInputElement>) => {
     const image = event.target.files?.[0]
-    setFile(image)
+    if (image && (image.size >= MAX_SIZE_IMAGE_UPLOAD || !image.type.includes('image'))) {
+      toast.error(`Dụng lượng file tối đa 1 MB. Định dạng:.JPEG, .PNG`, {
+        position: 'top-center'
+      })
+    } else {
+      setFile(image)
+    }
   }
 
   const onSubmit = handleSubmit(async (data) => {
@@ -200,6 +207,7 @@ export default function Profile() {
               accept='.jpg,.jpeg,.png'
               ref={inputFileRef}
               onChange={onChooseImage}
+              onClick={(event) => ((event.target as any).value = null)}
             />
             <button
               className='flex h-10 items-center justify-end rounded-sm border bg-white px-6 text-sm text-gray-600 shadow-sm'
