@@ -46,7 +46,7 @@ class Http {
       },
       function (error: AxiosError) {
         if (error.response?.status !== HttpStatusCode.UnprocessableEntity) {
-          const errorMessage: string = (error.response?.data as any).message || error.message
+          const errorMessage: string = (error.response?.data as any)?.message || error.message
           toast.error(errorMessage)
         }
         if (error.response?.status === HttpStatusCode.Unauthorized) {

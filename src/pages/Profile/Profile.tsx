@@ -31,7 +31,7 @@ export default function Profile() {
     handleSubmit,
     setValue,
     watch,
-    formState: { errors, isDirty, isValid }
+    formState: { errors, isValid }
   } = useForm<FormData>({
     defaultValues: {
       name: '',
@@ -64,8 +64,20 @@ export default function Profile() {
 
   const avatar = watch('avatar')
 
+  const isNotChangeForm = () => {
+    const { name, phone, address, date_of_birth } = watch()
+    return (
+      profile &&
+      name === profile.name &&
+      phone === profile.phone &&
+      address === profile.address &&
+      avatar === profile.avatar &&
+      date_of_birth?.toISOString() === profile.date_of_birth
+    )
+  }
+
   const isLoadingButtonSubmit = updateProfileMutation.isPending || updateAvatarMutation.isPending
-  const isDisableButtonSubmit = isLoadingButtonSubmit || !isValid || !isDirty
+  const isDisableButtonSubmit = isLoadingButtonSubmit || !isValid || isNotChangeForm()
 
   useEffect(() => {
     if (profile) {
@@ -79,6 +91,7 @@ export default function Profile() {
 
   const handleChangeFile = (image?: File) => {
     setFile(image)
+    setValue('avatar', URL.createObjectURL(image as File))
   }
 
   const onSubmit = handleSubmit(async (data) => {
@@ -99,8 +112,8 @@ export default function Profile() {
       setProfile(res.data.data)
       saveProfileToLS(res.data.data)
       refetch()
-    } catch (err) {
-      console.log('err', err)
+    } catch (error) {
+      console.log(error)
     }
   })
 
