@@ -27,7 +27,9 @@ export default function Input({
     const _value = event.target.value.trim()
     if (name && setValue) {
       setValue(name, _value)
+      event.target.value = _value
     }
+    registerResult && registerResult.onBlur(event)
   }
 
   return (

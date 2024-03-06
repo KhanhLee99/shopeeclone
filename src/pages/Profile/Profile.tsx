@@ -1,4 +1,4 @@
-import { useEffect, useContext, useRef, useState, useMemo } from 'react'
+import { useEffect, useContext, useState, useMemo } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useQuery, useMutation } from '@tanstack/react-query'
@@ -31,7 +31,7 @@ export default function Profile() {
     handleSubmit,
     setValue,
     watch,
-    formState: { errors }
+    formState: { errors, isDirty, isValid }
   } = useForm<FormData>({
     defaultValues: {
       name: '',
@@ -40,7 +40,8 @@ export default function Profile() {
       avatar: '',
       date_of_birth: DATE_DEFAULT
     },
-    resolver: yupResolver(profileSchema)
+    resolver: yupResolver(profileSchema),
+    mode: 'onBlur'
   })
 
   const updateProfileMutation = useMutation({
@@ -62,6 +63,9 @@ export default function Profile() {
   const profile = data?.data.data
 
   const avatar = watch('avatar')
+
+  const isLoadingButtonSubmit = updateProfileMutation.isPending || updateAvatarMutation.isPending
+  const isDisableButtonSubmit = isLoadingButtonSubmit || !isValid || !isDirty
 
   useEffect(() => {
     if (profile) {
@@ -174,7 +178,8 @@ export default function Profile() {
               <Button
                 className='flex h-9 items-center rounded-sm bg-orange px-5 text-center text-sm text-white hover:bg-orange/80'
                 type='submit'
-                isLoading={updateProfileMutation.isPending || updateAvatarMutation.isPending}
+                isLoading={isLoadingButtonSubmit}
+                disabled={isDisableButtonSubmit}
               >
                 Lưu
               </Button>
