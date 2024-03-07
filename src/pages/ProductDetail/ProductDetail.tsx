@@ -14,6 +14,7 @@ import purchaseApi from 'src/apis/purchase.api'
 import { purchasesStatus } from 'src/constants/purchase'
 import { AppContext } from 'src/contexts/app.context'
 import URLs from 'src/constants/url'
+import NotFound from '../NotFound'
 
 export default function ProductDetail() {
   const { isAuthenticated } = useContext(AppContext)
@@ -154,7 +155,7 @@ export default function ProductDetail() {
     return navigate
   }
 
-  if (!product) return null
+  if (!product) return <NotFound />
   return (
     <div className='bg-gray-200 py-6'>
       <div className='container'>
