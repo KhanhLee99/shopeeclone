@@ -11,7 +11,7 @@ export default function RegisterHeader() {
     <header className='py-5'>
       <div className='container'>
         <nav className='flex items-end'>
-          <Link to='/'>
+          <Link to={URLs.productList}>
             <ShopeeLogo />
           </Link>
           <div className='ml-5 text-xl lg:text-2xl'>{isRegister ? 'Đăng ký' : 'Đăng nhập'}</div>
