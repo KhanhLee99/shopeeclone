@@ -11,7 +11,7 @@ import QuantityController from 'src/components/QuantityController'
 import { purchasesStatus } from 'src/constants/purchase'
 import URLs from 'src/constants/url'
 import { ExtendedPurchase } from 'src/types/purchase.type'
-import { formatCurrency, generateNameId } from 'src/utils/utils'
+import { formatCurrency, pathToProductDetail } from 'src/utils/utils'
 import { AppContext } from 'src/contexts/app.context'
 import noproduct from 'src/assets/no-product.png'
 
@@ -208,19 +208,19 @@ export default function Cart() {
                           <div className='flex'>
                             <Link
                               className='h-20 w-20 flex-shrink-0'
-                              to={`${URLs.productList}/${generateNameId({
+                              to={pathToProductDetail({
                                 name: purchase.product.name,
                                 id: purchase.product._id
-                              })}`}
+                              })}
                             >
                               <img alt={purchase.product.name} src={purchase.product.image} />
                             </Link>
                             <div className='flex flex-grow items-center px-2 pt-1 pb-2'>
                               <Link
-                                to={`${URLs.productList}/${generateNameId({
+                                to={pathToProductDetail({
                                   name: purchase.product.name,
                                   id: purchase.product._id
-                                })}`}
+                                })}
                                 className='text-left line-clamp-2'
                               >
                                 {purchase.product.name}

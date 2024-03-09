@@ -1,13 +1,13 @@
 const URLs = {
-  productList: '/test',
-  login: '/test/login',
-  register: '/test/register',
-  productDetail: '/test/:nameId',
-  cart: '/test/cart',
-  user: '/test/user',
-  profile: 'test/user/profile',
-  changePassword: '/test/user/password',
-  historyPurchase: '/test/user/purchase'
+  productList: '/',
+  login: '/login',
+  register: '/register',
+  productDetail: '/:nameId',
+  cart: '/cart',
+  user: '/user',
+  profile: '/user/profile',
+  changePassword: '/user/password',
+  historyPurchase: '/user/purchase'
 }
 
 export default URLs

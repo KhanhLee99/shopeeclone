@@ -7,7 +7,7 @@ import { purchasesStatus } from 'src/constants/purchase'
 import URLs from 'src/constants/url'
 import useQueryParams from 'src/hooks/useQueryParams'
 import { PurchaseListStatus } from 'src/types/purchase.type'
-import { formatCurrency, generateNameId } from 'src/utils/utils'
+import { formatCurrency, pathToProductDetail } from 'src/utils/utils'
 
 const purchaseTabs = [
   { status: purchasesStatus.all, name: 'Tất cả' },
@@ -56,7 +56,7 @@ export default function HistoryPurchase() {
             {purchasesInCart?.map((purchase) => (
               <div key={purchase._id} className='mt-4 rounded-sm border-black/10 bg-white p-6 text-gray-800 shadow-sm'>
                 <Link
-                  to={`${URLs.productList}/${generateNameId({ name: purchase.product.name, id: purchase.product._id })}`}
+                  to={pathToProductDetail({ name: purchase.product.name, id: purchase.product._id })}
                   className='flex'
                 >
                   <div className='flex-shrink-0'>

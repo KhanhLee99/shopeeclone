@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios'
 import HttpStatusCode from 'src/constants/httpStatus'
 import userImage from 'src/assets/avt-default.jpg'
+import URLs from 'src/constants/url'
 
 export const isAxiosError = (error: unknown): error is AxiosError => {
   return axios.isAxiosError(error)
@@ -31,6 +32,10 @@ const removeSpecialCharacter = (str: string) =>
 
 export const generateNameId = ({ name, id }: { name: string; id: string }) => {
   return removeSpecialCharacter(name).replace(/\s/g, '-') + `-i-${id}`
+}
+
+export const pathToProductDetail = ({ name, id }: { name: string; id: string }) => {
+  return `${URLs.productList}${generateNameId({ name, id })}`
 }
 
 export const getIdFromNameId = (nameId: string) => {

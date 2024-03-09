@@ -9,7 +9,7 @@ import URLs from 'src/constants/url'
 import purchaseApi from 'src/apis/purchase.api'
 import { purchasesStatus } from 'src/constants/purchase'
 import noproduct from 'src/assets/no-product.png'
-import { formatCurrency, generateNameId } from 'src/utils/utils'
+import { formatCurrency, pathToProductDetail } from 'src/utils/utils'
 import useSearchProducts from 'src/hooks/useSearchProducts'
 import NavHeader from '../NavHeader'
 
@@ -80,10 +80,10 @@ export default function Header() {
                             key={purchase._id}
                             onClick={() =>
                               navigate(
-                                `${URLs.productList}/${generateNameId({
+                                pathToProductDetail({
                                   name: purchase.product.name,
                                   id: purchase.product._id
-                                })}`
+                                })
                               )
                             }
                           >
