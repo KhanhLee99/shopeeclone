@@ -4,6 +4,7 @@ import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/test',
   plugins: [react()] as any,
   test: {
     environment: 'jsdom'
@@ -22,6 +23,5 @@ export default defineConfig({
     alias: {
       src: path.resolve(__dirname, './src')
     }
-  },
-  // base: '/shopeeclone/'
+  }
 })
