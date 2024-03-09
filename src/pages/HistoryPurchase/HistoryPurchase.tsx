@@ -8,6 +8,8 @@ import URLs from 'src/constants/url'
 import useQueryParams from 'src/hooks/useQueryParams'
 import { PurchaseListStatus } from 'src/types/purchase.type'
 import { formatCurrency, pathToProductDetail } from 'src/utils/utils'
+import noproduct from 'src/assets/no-product.png'
+import { PurchaseSkeleton } from 'src/components/Skeleton'
 
 const purchaseTabs = [
   { status: purchasesStatus.all, name: 'Tất cả' },
@@ -22,7 +24,7 @@ export default function HistoryPurchase() {
   const queryParams: { status?: string } = useQueryParams()
   const status: number = Number(queryParams.status) || purchasesStatus.all
 
-  const { data: purchasesInCartData } = useQuery({
+  const { data: purchasesInCartData, isPending } = useQuery({
     queryKey: ['purchases', { status }],
     queryFn: () => purchaseApi.getPurchases({ status: status as PurchaseListStatus })
   })
@@ -47,42 +49,68 @@ export default function HistoryPurchase() {
     </Link>
   ))
 
+  const isHasData = purchasesInCart && purchasesInCart.length > 0
+  const isNoData = purchasesInCart && purchasesInCart.length == 0 && !isPending
+
   return (
     <div>
       <div className='overflow-x-auto'>
         <div className='min-w-[700px]'>
           <div className='sticky top-0 flex rounded-t-sm shadow-sm'>{purchaseTabsLink}</div>
           <div>
-            {purchasesInCart?.map((purchase) => (
-              <div key={purchase._id} className='mt-4 rounded-sm border-black/10 bg-white p-6 text-gray-800 shadow-sm'>
-                <Link
-                  to={pathToProductDetail({ name: purchase.product.name, id: purchase.product._id })}
-                  className='flex'
+            {isPending &&
+              Array(5)
+                .fill(0)
+                .map((_, index) => (
+                  <PurchaseSkeleton
+                    key={index}
+                    classNameWrap='mt-4 rounded-sm border-black/10 bg-white p-6 shadow-sm'
+                  />
+                ))}
+            {isHasData &&
+              purchasesInCart.map((purchase) => (
+                <div
+                  key={purchase._id}
+                  className='mt-4 rounded-sm border-black/10 bg-white p-6 text-gray-800 shadow-sm'
                 >
-                  <div className='flex-shrink-0'>
-                    <img className='h-20 w-20 object-cover' src={purchase.product.image} alt={purchase.product.name} />
-                  </div>
-                  <div className='ml-3 flex-grow overflow-hidden'>
-                    <div className='truncate'>{purchase.product.name}</div>
-                    <div className='mt-3'>x{purchase.buy_count}</div>
-                  </div>
-                  <div className='ml-3 flex-shrink-0'>
-                    <span className='truncate text-gray-500 line-through'>
-                      ₫{formatCurrency(purchase.product.price_before_discount)}
-                    </span>
-                    <span className='ml-2 truncate text-orange'>₫{formatCurrency(purchase.product.price)}</span>
-                  </div>
-                </Link>
-                <div className='flex justify-end'>
-                  <div>
-                    <span>Tổng giá tiền</span>
-                    <span className='ml-4 text-xl text-orange'>
-                      ₫{formatCurrency(purchase.product.price * purchase.buy_count)}
-                    </span>
+                  <Link
+                    to={pathToProductDetail({ name: purchase.product.name, id: purchase.product._id })}
+                    className='flex'
+                  >
+                    <div className='flex-shrink-0'>
+                      <img
+                        className='h-20 w-20 object-cover'
+                        src={purchase.product.image}
+                        alt={purchase.product.name}
+                      />
+                    </div>
+                    <div className='ml-3 flex-grow overflow-hidden'>
+                      <div className='truncate'>{purchase.product.name}</div>
+                      <div className='mt-3'>x{purchase.buy_count}</div>
+                    </div>
+                    <div className='ml-3 flex-shrink-0'>
+                      <span className='truncate text-gray-500 line-through'>
+                        ₫{formatCurrency(purchase.product.price_before_discount)}
+                      </span>
+                      <span className='ml-2 truncate text-orange'>₫{formatCurrency(purchase.product.price)}</span>
+                    </div>
+                  </Link>
+                  <div className='flex justify-end'>
+                    <div>
+                      <span>Tổng giá tiền</span>
+                      <span className='ml-4 text-xl text-orange'>
+                        ₫{formatCurrency(purchase.product.price * purchase.buy_count)}
+                      </span>
+                    </div>
                   </div>
                 </div>
+              ))}
+            {isNoData && (
+              <div className='mt-[15px] flex h-[300px] flex-col items-center justify-center bg-white p-2'>
+                <img src={noproduct} alt='no purchase' className='h-[160px] w-[160px]' />
+                <div className='mt-3 capitalize'>Không có đơn hàng</div>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </div>

@@ -9,17 +9,17 @@ import purchaseApi from 'src/apis/purchase.api'
 import Button from 'src/components/Button'
 import QuantityController from 'src/components/QuantityController'
 import { purchasesStatus } from 'src/constants/purchase'
-import URLs from 'src/constants/url'
 import { ExtendedPurchase } from 'src/types/purchase.type'
 import { formatCurrency, pathToProductDetail } from 'src/utils/utils'
 import { AppContext } from 'src/contexts/app.context'
 import noproduct from 'src/assets/no-product.png'
+import { PurchaseSkeleton } from 'src/components/Skeleton'
 
 export default function Cart() {
   const location = useLocation()
   const purchaseIdFromLocation = (location.state as { purchaseId: string })?.purchaseId || null
   const { extendedPurchase, setExtendedPurchase } = useContext(AppContext)
-  const { data: purchasesInCartData } = useQuery({
+  const { data: purchasesInCartData, isPending } = useQuery({
     queryKey: ['purchases', { status: purchasesStatus.inCart }],
     queryFn: () => purchaseApi.getPurchases({ status: purchasesStatus.inCart })
   })
@@ -187,9 +187,14 @@ export default function Cart() {
                 </div>
               </div>
             </div>
-            {extendedPurchase.length > 0 && (
-              <div className='my-3 rounded-sm bg-white p-5 shadow'>
-                {extendedPurchase.map((purchase, index) => (
+
+            <div className='my-3 rounded-sm bg-white p-5 shadow'>
+              {isPending &&
+                Array(5)
+                  .fill(0)
+                  .map((_, index) => <PurchaseSkeleton key={index} />)}
+              {extendedPurchase.length > 0 &&
+                extendedPurchase.map((purchase, index) => (
                   <div
                     key={purchase._id}
                     className='mb-5 grid grid-cols-12 items-center rounded-sm border border-gray-200 bg-white py-5 px-4 text-center text-sm text-gray-500 first:mt-0'
@@ -277,8 +282,7 @@ export default function Cart() {
                     </div>
                   </div>
                 ))}
-              </div>
-            )}
+            </div>
             {extendedPurchase.length == 0 && (
               <div className='mt-[15px] flex h-[300px] flex-col items-center justify-center bg-white p-2'>
                 <img src={noproduct} alt='no purchase' className='h-[160px] w-[160px]' />

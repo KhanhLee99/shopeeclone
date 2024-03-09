@@ -1,6 +1,7 @@
 import { useQuery, keepPreviousData } from '@tanstack/react-query'
-import productApi from 'src/apis/product.api'
+import classNames from 'classnames'
 
+import productApi from 'src/apis/product.api'
 import AsideFilter from './AsideFilter'
 import Product from './Product/Product'
 import SortProductList from './SortProductList'
@@ -8,6 +9,7 @@ import Pagination from 'src/components/Pagination'
 import { ProductListConfig } from 'src/types/product.type'
 import categoryApi from 'src/apis/category.api'
 import useQueryConfig from 'src/hooks/useQueryConfig'
+import empty from 'src/assets/empty.png'
 
 export default function ProductList() {
   const queryConfig = useQueryConfig()
@@ -25,24 +27,45 @@ export default function ProductList() {
       return categoryApi.getCategories()
     }
   })
+  if (!productsData) return null
+  const products = productsData.data.data.products
+  const isShowAsideFilter =
+    products.length > 0 ||
+    (products.length == 0 &&
+      (queryConfig.price_min || queryConfig.price_max || queryConfig.rating_filter || queryConfig.category))
   return (
     <div className='bg-gray-200 py-6'>
       <div className='container'>
         <div className='grid grid-cols-12 gap-6'>
-          <div className='col-span-3'>
-            <AsideFilter queryConfig={queryConfig} categories={categoriesData?.data.data || []} />
-          </div>
-          {productsData && (
+          {isShowAsideFilter && (
+            <div className='col-span-3'>
+              <AsideFilter queryConfig={queryConfig} categories={categoriesData?.data.data || []} />
+            </div>
+          )}
+          {products.length > 0 && (
             <div className='col-span-9'>
               <SortProductList queryConfig={queryConfig} />
               <div className='mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
-                {productsData.data.data.products.map((product) => (
+                {products.map((product) => (
                   <div className='col-span-1' key={product._id}>
                     <Product product={product} />
                   </div>
                 ))}
+                <Pagination queryConfig={queryConfig} pageSize={productsData.data.data.pagination.page_size} />
               </div>
-              <Pagination queryConfig={queryConfig} pageSize={productsData.data.data.pagination.page_size} />
+            </div>
+          )}
+          {products.length == 0 && (
+            <div
+              className={classNames({
+                'col-span-9': isShowAsideFilter,
+                'col-span-12': !isShowAsideFilter
+              })}
+            >
+              <div className='mt-[15px] flex h-[300px] flex-col items-center justify-center  p-2'>
+                <img src={empty} alt='no purchase' className='h-[160px] w-[160px]' />
+                <div className='mt-3 capitalize'>Không tìm thấy kết quả nào</div>
+              </div>
             </div>
           )}
         </div>
