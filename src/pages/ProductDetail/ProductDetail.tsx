@@ -26,7 +26,7 @@ export default function ProductDetail() {
   const imageRef = useRef<HTMLImageElement>(null)
   const [imageActive, setImageActive] = useState('')
   const [indexImageSlider, setIndexImagesSlider] = useState([0, 5])
-  const { data: productDetail } = useQuery({
+  const { data: productDetail, isPending } = useQuery({
     queryKey: ['product', id],
     queryFn: () => {
       return productApi.getProductDetail(id as string)
@@ -155,7 +155,10 @@ export default function ProductDetail() {
     return navigate
   }
 
-  if (!product) return <NotFound />
+  if (!product) {
+    return isPending ? <></> : <NotFound />
+  }
+
   return (
     <div className='bg-gray-200 py-6'>
       <div className='container'>

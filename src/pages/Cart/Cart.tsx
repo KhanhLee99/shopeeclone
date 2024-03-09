@@ -208,7 +208,7 @@ export default function Cart() {
                           <div className='flex'>
                             <Link
                               className='h-20 w-20 flex-shrink-0'
-                              to={`${URLs.productList}${generateNameId({
+                              to={`${URLs.productList}/${generateNameId({
                                 name: purchase.product.name,
                                 id: purchase.product._id
                               })}`}
@@ -217,7 +217,7 @@ export default function Cart() {
                             </Link>
                             <div className='flex flex-grow items-center px-2 pt-1 pb-2'>
                               <Link
-                                to={`${URLs.productList}${generateNameId({
+                                to={`${URLs.productList}/${generateNameId({
                                   name: purchase.product.name,
                                   id: purchase.product._id
                                 })}`}

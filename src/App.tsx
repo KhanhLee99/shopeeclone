@@ -3,7 +3,6 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { AppContext } from './contexts/app.context'
-import ProductList from './pages/ProductList'
 import useRouteElements from './useRouteElements'
 import { LocalStorageEventTarget } from './utils/auth'
 
@@ -20,9 +19,8 @@ function App() {
   }, [reset])
   return (
     <div className='App'>
-      {/* {routeElements}
-      <ToastContainer /> */}
-      <ProductList />
+      {routeElements}
+      <ToastContainer />
     </div>
   )
 }

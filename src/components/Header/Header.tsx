@@ -80,7 +80,7 @@ export default function Header() {
                             key={purchase._id}
                             onClick={() =>
                               navigate(
-                                `${URLs.productList}${generateNameId({
+                                `${URLs.productList}/${generateNameId({
                                   name: purchase.product.name,
                                   id: purchase.product._id
                                 })}`
