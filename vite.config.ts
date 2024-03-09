@@ -9,7 +9,11 @@ export default defineConfig({
     environment: 'jsdom'
   },
   server: {
-    port: 3000
+    port: 3000,
+    host: true
+  },
+  preview: {
+    port: 8000
   },
   css: {
     devSourcemap: true

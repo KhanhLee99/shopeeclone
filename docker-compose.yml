@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  shopeeclone_app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: shopeeclone_front/react:v1
+    ports:
+      - '8000:8000'
+# docker compose up -d
