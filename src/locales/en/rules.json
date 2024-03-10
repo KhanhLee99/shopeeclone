@@ -1,0 +1,12 @@
+{
+  "required": "Please enter this field.",
+  "email_invalid": "Invalid Email",
+  "email_length": "Length from 5 - 160 characters",
+  "password_length": "Length from 6 - 160 characters",
+  "password_not_match": "Confirm password does not match",
+  "price_invalid": "Invalid Price",
+  "max_length_160": "Maximum length is 160 characters",
+  "max_length_120": "Maximum length is 120 characters",
+  "max_length_1000": "Maximum length is 1000 characters",
+  "choose_past_date": "Please choose a date in the past"
+}

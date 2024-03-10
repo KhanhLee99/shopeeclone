@@ -1,12 +1,14 @@
 import { useContext } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import classNames from 'classnames'
+import { useTranslation } from 'react-i18next'
 
 import URLs from 'src/constants/url'
 import { AppContext } from 'src/contexts/app.context'
 import { getAvatarUrl } from 'src/utils/utils'
 
 export default function UserSideNav() {
+  const { t } = useTranslation()
   const { profile } = useContext(AppContext)
   return (
     <div>
@@ -30,7 +32,7 @@ export default function UserSideNav() {
                 fillRule='evenodd'
               />
             </svg>
-            Sửa hồ sơ
+            {t('edit profile')}
           </Link>
         </div>
       </div>
@@ -47,7 +49,7 @@ export default function UserSideNav() {
           <div className='mr-3 h-[22px] w-[22px]'>
             <img src='https://cf.shopee.vn/file/ba61750a46794d8847c3f463c5e71cc4' alt='' className='h-full w-full' />
           </div>
-          Tài khoản của tôi
+          {t('my account')}
         </NavLink>
         <NavLink
           to={URLs.changePassword}
@@ -61,7 +63,7 @@ export default function UserSideNav() {
           <div className='mr-3 h-[22px] w-[22px]'>
             <img src='https://cf.shopee.vn/file/ba61750a46794d8847c3f463c5e71cc4' alt='' className='h-full w-full' />
           </div>
-          Đổi mật khẩu
+          {t('change password')}
         </NavLink>
         <NavLink
           to={URLs.historyPurchase}
@@ -75,7 +77,7 @@ export default function UserSideNav() {
           <div className='mr-3 h-[22px] w-[22px]'>
             <img src='https://cf.shopee.vn/file/f0049e9df4e536bc3e7f140d071e9078' alt='' className='h-full w-full' />
           </div>
-          Đơn mua
+          {t('my purchase')}
         </NavLink>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 import { omit } from 'lodash'
+import { useTranslation } from 'react-i18next'
 
 import Button from 'src/components/Button'
 import URLs from 'src/constants/url'
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export default function AsideFilter({ queryConfig, categories }: Props) {
+  const { t } = useTranslation()
   const { category } = queryConfig
   const navigate = useNavigate()
   const handleRemoveFilter = () => {
@@ -47,7 +49,7 @@ export default function AsideFilter({ queryConfig, categories }: Props) {
             </g>
           </g>
         </svg>
-        Tất cả danh mục
+        {t('all categories')}
       </Link>
       <div className='my-4 h-[1px] bg-gray-300' />
       <ul>
@@ -91,22 +93,22 @@ export default function AsideFilter({ queryConfig, categories }: Props) {
             />
           </g>
         </svg>
-        Bộ lọc tìm kiếm
+        {t('filter search')}
       </div>
       <div className='my-4 h-[1px] bg-gray-300' />
       <div className='my-5'>
-        <div>Khoảng giá</div>
+        <div>{t('price range')}</div>
         <FormPriceFilter queryConfig={queryConfig} />
       </div>
       <div className='my-4 h-[1px] bg-gray-300' />
-      <div className='text-sm'>Đánh giá</div>
+      <div className='text-sm'>{t('rating')}</div>
       <RatingStars queryConfig={queryConfig} />
       <div className='my-4 h-[1px] bg-gray-300' />
       <Button
         className='flex w-full items-center justify-center bg-orange p-2 text-sm uppercase text-white hover:bg-orange/80'
         onClick={handleRemoveFilter}
       >
-        Xóa tất cả
+        {t('clear all')}
       </Button>
     </div>
   )

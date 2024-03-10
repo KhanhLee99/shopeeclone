@@ -7,74 +7,65 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
   email: {
     required: {
       value: true,
-      message: 'Email là bắt buộc'
+      message: 'required'
     },
     pattern: {
       value: /^\S+@\S+\.\S+$/,
-      message: 'Email không đúng định dạng'
+      message: 'email_invalid'
     },
     minLength: {
       value: 5,
-      message: 'Độ dài từ 5 - 160 ký tự'
+      message: 'email_length'
     },
     maxLength: {
       value: 160,
-      message: 'Độ dài từ 5 - 160 ký tự'
+      message: 'email_length'
     }
   },
   password: {
     required: {
       value: true,
-      message: 'Password là bắt buộc'
+      message: 'required'
     },
     minLength: {
       value: 6,
-      message: 'Độ dài từ 6 - 160 ký tự'
+      message: 'password_length'
     },
     maxLength: {
       value: 160,
-      message: 'Độ dài từ 6 - 160 ký tự'
+      message: 'password_length'
     }
   },
   confirm_password: {
     required: {
       value: true,
-      message: 'Nhập lại password là bắt buộc'
+      message: 'required'
     },
     maxLength: {
       value: 160,
-      message: 'Độ dài từ 6 - 160 ký tự'
+      message: 'password_length'
     },
     minLength: {
       value: 6,
-      message: 'Độ dài từ 6 - 160 ký tự'
+      message: 'password_length'
     },
     validate:
-      typeof getValues === 'function' ? (value) => value === getValues('password') || 'Password không khớp' : undefined
+      typeof getValues === 'function' ? (value) => value === getValues('password') || 'password_not_match' : undefined
   }
 })
 
 function confirmPasswordSchema(fieldRef: string) {
   return yup
     .string()
-    .required('Nhập lại password là bắt buộc')
-    .min(6, 'Độ dài từ 6 - 160 ký tự')
-    .max(160, 'Độ dài từ 6 - 160 ký tự')
-    .oneOf([yup.ref(fieldRef)], 'Nhập lại password không khớp')
+    .required('required')
+    .min(6, 'password_length')
+    .max(160, 'password_length')
+    .oneOf([yup.ref(fieldRef)], 'password_not_match')
 }
 
 export const schema = yup.object({
-  email: yup
-    .string()
-    .required('Email là bắt buộc')
-    .email('Email không đúng định dạng')
-    .min(5, 'Độ dài từ 5 - 160 ký tự')
-    .max(160, 'Độ dài từ 5 - 160 ký tự'),
-  password: yup
-    .string()
-    .required('Password là bắt buộc')
-    .min(6, 'Độ dài từ 6 - 160 ký tự')
-    .max(160, 'Độ dài từ 6 - 160 ký tự'),
+  email: yup.string().required('required').email('email_invalid').min(5, 'email_length').max(160, 'email_length'),
+  password: yup.string().required('required').min(6, 'password_length').max(160, 'password_length'),
   confirm_password: confirmPasswordSchema('password')
 })
 
@@ -94,12 +85,12 @@ function testPriceMinMax(this: yup.TestContext<yup.AnyObject>) {
 export const priceSchema = yup.object({
   price_min: yup.string().test({
     name: 'price-not-allowed',
-    message: 'Giá không phù hợp',
+    message: 'price_invalid',
     test: testPriceMinMax
   }),
   price_max: yup.string().test({
     name: 'price-not-allowed',
-    message: 'Giá không phù hợp',
+    message: 'price_invalid',
     test: testPriceMinMax
   })
 })
@@ -109,11 +100,11 @@ export const searchSchema = yup.object({
 })
 
 export const userSchema = yup.object({
-  name: yup.string().trim().max(160, 'Độ dài tối đa là 160 ký tự'),
-  phone: yup.string().max(20, 'Độ dài tối đa là 20 ký tự'),
-  address: yup.string().trim().max(160, 'Độ dài tối đa là 160 ký tự'),
-  avatar: yup.string().max(1000, 'Độ dài tối đa là 1000 ký tự'),
-  date_of_birth: yup.date().max(new Date(), 'Hãy chọn một ngày trong quá khứ'),
+  name: yup.string().trim().max(160, 'max length 160'),
+  phone: yup.string().max(20, 'max_length_120'),
+  address: yup.string().trim().max(160, 'max length 160'),
+  avatar: yup.string().max(1000, 'max_length_1000'),
+  date_of_birth: yup.date().max(new Date(), 'choose_past_date'),
   password: schema.fields['password'] as yup.StringSchema<string | undefined, yup.AnyObject, undefined, ''>,
   new_password: schema.fields['password'] as yup.StringSchema<string | undefined, yup.AnyObject, undefined, ''>,
   confirm_password: confirmPasswordSchema('new_password')

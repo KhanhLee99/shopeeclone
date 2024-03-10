@@ -3,11 +3,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 
 import { loginSchema, LoginSchmaType } from 'src/utils/rules'
 import Input from 'src/components/Input'
 import authApi from 'src/apis/auth.api'
-import { isErrorUnprocessableEntity } from 'src/utils/utils'
+import { isErrorUnprocessableEntity, renderErrorMessage } from 'src/utils/utils'
 import { ErrorResponse } from 'src/types/utils.type'
 import { AppContext } from 'src/contexts/app.context'
 import URLs from 'src/constants/url'
@@ -17,6 +18,7 @@ import useQueryParams from 'src/hooks/useQueryParams'
 type FormData = LoginSchmaType
 
 export default function Login() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { setIsAuthenticated, setProfile } = useContext(AppContext)
   const queryParams = useQueryParams()
@@ -59,19 +61,23 @@ export default function Login() {
     })
   })
 
+  const _renderErrorMessage = (field: keyof FormData) => {
+    return renderErrorMessage<FormData>(errors, field)
+  }
+
   return (
     <div className='bg-orange'>
       <div className='container'>
         <div className='grid grid-cols-1 py-12 lg:grid-cols-5 lg:py-32 lg:pr-10'>
           <div className='lg:col-span-2 lg:col-start-4'>
             <form className='rounded bg-white p-10 shadow-sm' onSubmit={onSubmit} noValidate>
-              <div className='text-2xl'>Đăng nhập</div>
+              <div className='text-2xl'>{t('login')}</div>
               <Input
                 className='mt-8'
                 type='email'
                 placeholder='Email'
                 name='email'
-                errorMessage={errors.email?.message}
+                errorMessage={_renderErrorMessage('email')}
                 register={register}
               />
               <Input
@@ -80,7 +86,7 @@ export default function Login() {
                 placeholder='Password'
                 name='password'
                 autoComplete='on'
-                errorMessage={errors.password?.message}
+                errorMessage={_renderErrorMessage('password')}
                 register={register}
               />
               <div className='mt-2'>
@@ -89,13 +95,13 @@ export default function Login() {
                   isLoading={loginMutation.isPending}
                   disabled={loginMutation.isPending}
                 >
-                  Đăng nhập
+                  {t('login')}
                 </Button>
               </div>
               <div className='mt-8 flex items-center justify-center'>
-                <span className='text-gray-400'>Bạn chưa có tài khoản?</span>
+                <span className='text-gray-400'>{t('dont have account')}</span>
                 <Link className='ml-1 text-red-400' to={URLs.register}>
-                  Đăng ký
+                  {t('sign up')}
                 </Link>
               </div>
             </form>

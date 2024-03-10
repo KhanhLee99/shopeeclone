@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { produce } from 'immer'
 import { debounce, keyBy } from 'lodash'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 
 import purchaseApi from 'src/apis/purchase.api'
 import Button from 'src/components/Button'
@@ -16,6 +17,7 @@ import noproduct from 'src/assets/no-product.png'
 import { PurchaseSkeleton } from 'src/components/Skeleton'
 
 export default function Cart() {
+  const { t } = useTranslation()
   const location = useLocation()
   const purchaseIdFromLocation = (location.state as { purchaseId: string })?.purchaseId || null
   const { extendedPurchase, setExtendedPurchase } = useContext(AppContext)
@@ -175,15 +177,15 @@ export default function Cart() {
                       onChange={handleCheckAll}
                     />
                   </div>
-                  <div className='flex-grow text-black'>Sản phẩm</div>
+                  <div className='flex-grow text-black'>{t('product')}</div>
                 </div>
               </div>
               <div className='col-span-6'>
                 <div className='grid grid-cols-5 text-center'>
-                  <div className='col-span-2'>Đơn giá</div>
-                  <div className='col-span-1'>Số lượng</div>
-                  <div className='col-span-1'>Số tiền</div>
-                  <div className='col-span-1'>Thao tác</div>
+                  <div className='col-span-2'>{t('unit price')}</div>
+                  <div className='col-span-1'>{t('quantity')}</div>
+                  <div className='col-span-1'>{t('total price')}</div>
+                  <div className='col-span-1'>{t('actions')}</div>
                 </div>
               </div>
             </div>
@@ -275,7 +277,7 @@ export default function Cart() {
                             className='bg-none text-black transition-colors hover:text-orange'
                             onClick={handleDelete(index)}
                           >
-                            Xóa
+                            {t('delete')}
                           </button>
                         </div>
                       </div>
@@ -286,7 +288,7 @@ export default function Cart() {
             {extendedPurchase.length == 0 && (
               <div className='mt-[15px] flex h-[300px] flex-col items-center justify-center bg-white p-2'>
                 <img src={noproduct} alt='no purchase' className='h-[160px] w-[160px]' />
-                <div className='mt-3 capitalize'>Chưa có sản phẩm</div>
+                <div className='mt-3 capitalize'>{t('no product')}</div>
               </div>
             )}
           </div>
@@ -302,21 +304,23 @@ export default function Cart() {
               />
             </div>
             <button className='mx-3 border-none bg-none' onClick={handleCheckAll}>
-              Chọn tất cả ({extendedPurchase.length})
+              {t('select all')} ({extendedPurchase.length})
             </button>
             <button className='mx-3 border-none bg-none' onClick={handleDeleteManyPurchases}>
-              Xóa
+              {t('delete')}
             </button>
           </div>
 
           <div className='mt-5 flex flex-col sm:ml-auto sm:mt-0 sm:flex-row sm:items-center'>
             <div>
               <div className='flex items-center sm:justify-end'>
-                <div>Tổng thanh toán ({checkedPurchasesCount} sản phẩm):</div>
+                <div>
+                  {t('total pay')} ({checkedPurchasesCount} {checkedPurchasesCount > 1 ? t('items') : t('item')}):
+                </div>
                 <div className='ml-2 text-2xl text-orange'>₫{formatCurrency(totalCheckedPurchasePrice)}</div>
               </div>
               <div className='flex items-center text-sm sm:justify-end'>
-                <div className='text-gray-500'>Tiết kiệm</div>
+                <div className='text-gray-500'>{t('saved')}</div>
                 <div className='ml-6 text-orange'>₫{formatCurrency(totalCheckedPurchaseSavingPrice)}</div>
               </div>
             </div>
@@ -325,7 +329,7 @@ export default function Cart() {
               onClick={handleBuyPurchases}
               disabled={buyProductsMutation.isPending}
             >
-              Mua hàng
+              {t('check out')}
             </Button>
           </div>
         </div>

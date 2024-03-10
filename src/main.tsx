@@ -7,6 +7,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import App from 'src/App'
 import './index.css'
 import { AppProvider } from './contexts/app.context'
+import 'src/i18n/i18n'
 
 const queryClient = new QueryClient({
   defaultOptions: {

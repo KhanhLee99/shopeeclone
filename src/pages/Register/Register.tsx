@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 
 import { RegisterSchemaType, schema } from 'src/utils/rules'
 import Input from 'src/components/Input'
 import authApi from 'src/apis/auth.api'
-import { isErrorUnprocessableEntity } from 'src/utils/utils'
+import { isErrorUnprocessableEntity, renderErrorMessage } from 'src/utils/utils'
 import { ErrorResponse } from 'src/types/utils.type'
 import URLs from 'src/constants/url'
 import { AppContext } from 'src/contexts/app.context'
@@ -16,6 +17,7 @@ import Button from 'src/components/Button'
 type FormData = Omit<RegisterSchemaType, 'confirm_password'>
 
 export default function Register() {
+  const { t } = useTranslation()
   const { setIsAuthenticated, setProfile } = useContext(AppContext)
   const {
     register,
@@ -58,19 +60,23 @@ export default function Register() {
     )
   })
 
+  const _renderErrorMessage = (field: keyof RegisterSchemaType) => {
+    return renderErrorMessage<RegisterSchemaType>(errors, field)
+  }
+
   return (
     <div className='bg-orange'>
       <div className='container'>
         <div className='grid grid-cols-1 py-12 lg:grid-cols-5 lg:py-32 lg:pr-10'>
           <div className='lg:col-span-2 lg:col-start-4'>
             <form className='rounded bg-white p-10 shadow-sm' onSubmit={onSubmit} noValidate>
-              <div className='text-2xl'>Đăng ký</div>
+              <div className='text-2xl'>{t('sign up')}</div>
               <Input
                 className='mt-8'
                 type='email'
                 placeholder='Email'
                 name='email'
-                errorMessage={errors.email?.message}
+                errorMessage={_renderErrorMessage('email')}
                 register={register}
               />
               <Input
@@ -79,7 +85,7 @@ export default function Register() {
                 placeholder='Password'
                 name='password'
                 autoComplete='on'
-                errorMessage={errors.password?.message}
+                errorMessage={_renderErrorMessage('password')}
                 register={register}
               />
               <Input
@@ -88,7 +94,7 @@ export default function Register() {
                 placeholder='Confirm Password'
                 name='confirm_password'
                 autoComplete='on'
-                errorMessage={errors.confirm_password?.message}
+                errorMessage={_renderErrorMessage('confirm_password')}
                 register={register}
               />
               <div className='mt-2'>
@@ -98,13 +104,13 @@ export default function Register() {
                   isLoading={registerAccountMutation.isPending}
                   disabled={registerAccountMutation.isPending}
                 >
-                  Đăng ký
+                  {t('sign up')}
                 </Button>
               </div>
               <div className='mt-8 flex items-center justify-center'>
-                <span className='text-gray-400'>Bạn đã có tài khoản?</span>
+                <span className='text-gray-400'>{t('have account')}</span>
                 <Link className='ml-1 text-red-400' to={URLs.login}>
-                  Đăng nhập
+                  {t('login')}
                 </Link>
               </div>
             </form>

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 import { Product as ProductType } from 'src/types/product.type'
 import { formatCurrency, formatNumberToSocialStyle, pathToProductDetail } from 'src/utils/utils'
@@ -9,6 +10,7 @@ interface Props {
 }
 
 export default function Product({ product }: Props) {
+  const {t} = useTranslation()
   return (
     <Link to={pathToProductDetail({ name: product.name, id: product._id })}>
       <div className='overflow-hidden rounded-sm bg-white shadow transition-transform duration-100 hover:translate-y-[-0.04rem] hover:shadow-md'>
@@ -31,7 +33,7 @@ export default function Product({ product }: Props) {
             <ProductRating rating={product.rating} />
             <div className='ml-2 text-sm'>
               <span>{formatNumberToSocialStyle(product.sold)}</span>
-              <span className='ml-1'>Đã bán</span>
+              <span className='ml-1'>{t('sold')}</span>
             </div>
           </div>
         </div>

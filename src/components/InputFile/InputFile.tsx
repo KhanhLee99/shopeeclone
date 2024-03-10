@@ -1,9 +1,11 @@
 import { Fragment, useRef } from 'react'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 
 const MAX_SIZE_IMAGE_UPLOAD = 1048576 //bytes
 
 export default function InputFile({ onChange }: { onChange?: (file?: File) => void }) {
+  const { t } = useTranslation()
   const inputFileRef = useRef<HTMLInputElement>(null)
   const handleUpload = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault()
@@ -34,7 +36,7 @@ export default function InputFile({ onChange }: { onChange?: (file?: File) => vo
         className='flex h-10 items-center justify-end rounded-sm border bg-white px-6 text-sm text-gray-600 shadow-sm'
         onClick={handleUpload}
       >
-        Chọn ảnh
+        {t('select image')}
       </button>
     </Fragment>
   )

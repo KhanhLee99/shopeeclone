@@ -1,6 +1,7 @@
 import { createSearchParams, Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import classNames from 'classnames'
+import { useTranslation } from 'react-i18next'
 
 import purchaseApi from 'src/apis/purchase.api'
 import { purchasesStatus } from 'src/constants/purchase'
@@ -12,15 +13,16 @@ import noproduct from 'src/assets/no-product.png'
 import { PurchaseSkeleton } from 'src/components/Skeleton'
 
 const purchaseTabs = [
-  { status: purchasesStatus.all, name: 'Tất cả' },
-  { status: purchasesStatus.waitForConfirmation, name: 'Chờ xác nhận' },
-  { status: purchasesStatus.waitForGetting, name: 'Chờ lấy hàng' },
-  { status: purchasesStatus.inProgress, name: 'Đang giao' },
-  { status: purchasesStatus.delivered, name: 'Đã giao' },
-  { status: purchasesStatus.cancelled, name: 'Đã hủy' }
+  { status: purchasesStatus.all, nameKey: 'all' },
+  { status: purchasesStatus.waitForConfirmation, nameKey: 'to confirm' },
+  { status: purchasesStatus.waitForGetting, nameKey: 'to ship' },
+  { status: purchasesStatus.inProgress, nameKey: 'to receive' },
+  { status: purchasesStatus.delivered, nameKey: 'completed' },
+  { status: purchasesStatus.cancelled, nameKey: 'cancelled' }
 ]
 
 export default function HistoryPurchase() {
+  const { t } = useTranslation()
   const queryParams: { status?: string } = useQueryParams()
   const status: number = Number(queryParams.status) || purchasesStatus.all
 
@@ -45,7 +47,7 @@ export default function HistoryPurchase() {
         'border-b-black/10 text-gray-900': status !== tab.status
       })}
     >
-      {tab.name}
+      {t(`${tab.nameKey}`)}
     </Link>
   ))
 
@@ -97,7 +99,7 @@ export default function HistoryPurchase() {
                   </Link>
                   <div className='flex justify-end'>
                     <div>
-                      <span>Tổng giá tiền</span>
+                      <span>{t('total price')}</span>
                       <span className='ml-4 text-xl text-orange'>
                         ₫{formatCurrency(purchase.product.price * purchase.buy_count)}
                       </span>
@@ -108,7 +110,7 @@ export default function HistoryPurchase() {
             {isNoData && (
               <div className='mt-[15px] flex h-[300px] flex-col items-center justify-center bg-white p-2'>
                 <img src={noproduct} alt='no purchase' className='h-[160px] w-[160px]' />
-                <div className='mt-3 capitalize'>Không có đơn hàng</div>
+                <div className='mt-3 capitalize'>{t('no order')}</div>
               </div>
             )}
           </div>

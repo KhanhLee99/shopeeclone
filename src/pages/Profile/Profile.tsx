@@ -3,6 +3,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 
 import Button from 'src/components/Button'
 import Input from 'src/components/Input'
@@ -12,7 +13,7 @@ import InputNumber from 'src/components/InputNumber'
 import DateSelect from './DateSelect'
 import { AppContext } from 'src/contexts/app.context'
 import { saveProfileToLS } from 'src/utils/auth'
-import { getAvatarUrl } from 'src/utils/utils'
+import { getAvatarUrl, renderErrorMessage } from 'src/utils/utils'
 import InputFile from 'src/components/InputFile'
 
 type FormData = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' | 'avatar'>
@@ -20,6 +21,7 @@ const profileSchema = userSchema.pick(['name', 'address', 'phone', 'date_of_birt
 export const DATE_DEFAULT = new Date(1990, 0, 1)
 
 export default function Profile() {
+  const { t } = useTranslation()
   const [file, setFile] = useState<File>()
   const previewImage = useMemo(() => {
     return file ? URL.createObjectURL(file) : ''
@@ -117,35 +119,39 @@ export default function Profile() {
     }
   })
 
+  const _renderErrorMessage = (field: keyof FormData) => {
+    return renderErrorMessage<FormData>(errors, field)
+  }
+
   return (
     <div className='rounded-sm bg-white px-2 pb-10 shadow md:px-7 md:pb-20'>
       <div className='border-b border-b-gray-200 py-6'>
-        <h1 className='text-lg font-medium capitalize text-gray-900'>Hồ Sơ Của Tôi</h1>
-        <div className='mt-1 text-sm text-gray-700'>Quản lý thông tin hồ sơ để bảo mật tài khoản</div>
+        <h1 className='text-lg font-medium capitalize text-gray-900'>{t('my profile')}</h1>
+        <div className='mt-1 text-sm text-gray-700'>{t('protect account')}</div>
       </div>
       <form className='mt-8 flex flex-col-reverse md:flex-row md:items-start' onSubmit={onSubmit}>
         <div className='mt-6 flex-grow md:mt-0 md:pr-12'>
           <div className='flex flex-col flex-wrap sm:flex-row'>
-            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Email</div>
+            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>{t('email')}</div>
             <div className='sm:w-[80%] sm:pl-5'>
               <div className='pt-3 text-gray-700'>{profile?.email}</div>
             </div>
           </div>
           <div className='mt-6 flex flex-col flex-wrap sm:flex-row'>
-            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Tên</div>
+            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>{t('name')}</div>
             <div className='sm:w-[80%] sm:pl-5'>
               <Input
                 classNameInput='w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm'
                 name='name'
-                placeholder='Tên'
-                errorMessage={errors.name?.message}
+                placeholder={t('name') as string}
+                errorMessage={_renderErrorMessage('name')}
                 setValue={setValue}
                 register={register}
               />
             </div>
           </div>
           <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
-            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Số điện thoại</div>
+            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>{t('phone')}</div>
             <div className='sm:w-[80%] sm:pl-5'>
               <Controller
                 control={control}
@@ -154,9 +160,9 @@ export default function Profile() {
                   return (
                     <InputNumber
                       type='text'
-                      placeholder='Số điện thoại'
+                      placeholder={t('phone') as string}
                       classNameInput='w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm'
-                      errorMessage={errors.phone?.message}
+                      errorMessage={_renderErrorMessage('phone')}
                       {...field}
                       onChange={field.onChange}
                     />
@@ -166,13 +172,13 @@ export default function Profile() {
             </div>
           </div>
           <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
-            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Địa chỉ</div>
+            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>{t('address')}</div>
             <div className='sm:w-[80%] sm:pl-5'>
               <Input
                 classNameInput='w-full rounded-sm border border-gray-300 px-3 py-2 outline-none focus:border-gray-500 focus:shadow-sm'
                 name='address'
-                placeholder='Địa chỉ'
-                errorMessage={errors.address?.message}
+                placeholder={t('address') as string}
+                errorMessage={_renderErrorMessage('address')}
                 setValue={setValue}
                 register={register}
               />
@@ -182,7 +188,11 @@ export default function Profile() {
             control={control}
             name='date_of_birth'
             render={({ field }) => (
-              <DateSelect errorMessage={errors.date_of_birth?.message} value={field.value} onChange={field.onChange} />
+              <DateSelect
+                errorMessage={_renderErrorMessage('date_of_birth')}
+                value={field.value}
+                onChange={field.onChange}
+              />
             )}
           />
           <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
@@ -194,7 +204,7 @@ export default function Profile() {
                 isLoading={isLoadingButtonSubmit}
                 disabled={isDisableButtonSubmit}
               >
-                Lưu
+                {t('save')}
               </Button>
             </div>
           </div>
@@ -210,8 +220,8 @@ export default function Profile() {
             </div>
             <InputFile onChange={handleChangeFile} />
             <div className='mt-3 text-gray-400'>
-              <div>Dụng lượng file tối đa 1 MB</div>
-              <div>Định dạng:.JPEG, .PNG</div>
+              <div>{t('file size max')}</div>
+              <div>{t('file extension format')}</div>
             </div>
           </div>
         </div>

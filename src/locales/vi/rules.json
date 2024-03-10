@@ -1,0 +1,12 @@
+{
+  "required": "Vui lòng điền vào mục này.",
+  "email_invalid": "Email không đúng định dạng",
+  "email_length": "Độ dài từ 5 - 160 ký tự",
+  "password_length": "Độ dài từ 6 - 160 ký tự",
+  "password_not_match": "Nhập lại password không khớp",
+  "price_invalid": "Giá không phù hợp",
+  "max_length_160": "Độ dài tối đa là 160 ký tự",
+  "max_length_120": "Độ dài tối đa là 120 ký tự",
+  "max_length_1000": "Độ dài tối đa là 1000 ký tự",
+  "choose_past_date": "Hãy chọn một ngày trong quá khứ"
+}

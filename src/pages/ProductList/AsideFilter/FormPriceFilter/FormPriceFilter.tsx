@@ -3,16 +3,19 @@ import { createSearchParams, useNavigate } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { omitBy } from 'lodash'
+import { useTranslation } from 'react-i18next'
 
 import Button from 'src/components/Button'
 import InputNumber from 'src/components/InputNumber'
 import { QueryConfig } from 'src/hooks/useQueryConfig'
 import URLs from 'src/constants/url'
 import { priceSchema, PriceSchemaType } from 'src/utils/rules'
+import { NS_RULES } from 'src/i18n/i18n'
 
 type FormData = PriceSchemaType
 
 export default function FormPriceFilter({ queryConfig }: { queryConfig: QueryConfig }) {
+  const { t } = useTranslation()
   const navigate = useNavigate()
 
   const {
@@ -68,7 +71,7 @@ export default function FormPriceFilter({ queryConfig }: { queryConfig: QueryCon
               <InputNumber
                 type='text'
                 className='grow'
-                placeholder='₫ TỪ'
+                placeholder={t('price min') as string}
                 classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
                 classNameError='hidden'
                 // {...field}
@@ -91,7 +94,7 @@ export default function FormPriceFilter({ queryConfig }: { queryConfig: QueryCon
               <InputNumber
                 type='text'
                 className='grow'
-                placeholder='₫ ĐẾN'
+                placeholder={t('price max') as string}
                 classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
                 classNameError='hidden'
                 // {...field}
@@ -106,9 +109,11 @@ export default function FormPriceFilter({ queryConfig }: { queryConfig: QueryCon
           }}
         />
       </div>
-      <div className='mt-1 min-h-[1.25rem] text-center text-sm text-red-600'>{errors.price_min?.message}</div>
+      <div className='mt-1 min-h-[1.25rem] text-center text-sm text-red-600'>
+        {errors.price_min?.message ? t(`${NS_RULES}:${errors.price_min.message}`) : ''}
+      </div>
       <Button className='flex w-full items-center justify-center bg-orange p-2 text-sm uppercase text-white hover:bg-orange/80'>
-        Áp dụng
+        {t('apply')}
       </Button>
     </form>
   )
