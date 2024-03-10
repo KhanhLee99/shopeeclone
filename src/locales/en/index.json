@@ -74,5 +74,8 @@
   "cancelled": "Cancelled",
   "no order": "No orders yet",
   "dont have account": "Do not have an account?",
-  "have account": "Have an account?"
+  "have account": "Have an account?",
+  "no_result_found": "No results found",
+  "home": "Home",
+  "search placeholder": "Free Ship Orders From 0 VND"
 }

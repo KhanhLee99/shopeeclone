@@ -1,10 +1,10 @@
 {
   "required": "Please enter this field.",
-  "email_invalid": "Invalid Email",
+  "email_invalid": "Invalid email",
   "email_length": "Length from 5 - 160 characters",
   "password_length": "Length from 6 - 160 characters",
   "password_not_match": "Confirm password does not match",
-  "price_invalid": "Invalid Price",
+  "price_invalid": "Invalid price",
   "max_length_160": "Maximum length is 160 characters",
   "max_length_120": "Maximum length is 120 characters",
   "max_length_1000": "Maximum length is 1000 characters",

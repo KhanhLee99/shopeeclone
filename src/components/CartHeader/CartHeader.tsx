@@ -35,7 +35,7 @@ export default function CartHeader() {
                 <input
                   type='text'
                   className='w-full flex-grow border-none bg-transparent px-3 py-1 text-black outline-none'
-                  placeholder='Free Ship Đơn Từ 0Đ'
+                  placeholder={t('search placeholder') as string}
                   {...register('search')}
                 />
                 <button className='flex-shrink-0 rounded-sm bg-orange py-2 px-8 hover:opacity-90'>

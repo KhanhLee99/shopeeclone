@@ -4,7 +4,7 @@ import axios, { AxiosError } from 'axios'
 import HttpStatusCode from 'src/constants/httpStatus'
 import userImage from 'src/assets/avt-default.jpg'
 import URLs from 'src/constants/url'
-import i18n, { NS_RULES } from 'src/i18n/i18n'
+import i18n, { Langs, NS_RULES } from 'src/i18n/i18n'
 
 export const isAxiosError = (error: unknown): error is AxiosError => {
   return axios.isAxiosError(error)
@@ -56,4 +56,12 @@ export const renderErrorMessage = <T>(errors: FieldErrors<{ [K in keyof T]: T[K]
     return errors[field]?.message as string
   }
   return errors[field]?.message ? i18n.t(`${NS_RULES}:${errors[field]?.message}`) : ''
+}
+
+export const setLanguageToLS = (lang: Langs) => {
+  localStorage.setItem('language', lang)
+}
+
+export const getLanguageFromLS = () => {
+  return localStorage.getItem('language') as Langs
 }

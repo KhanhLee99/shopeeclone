@@ -8,8 +8,20 @@ import { purchasesStatus } from 'src/constants/purchase'
 import URLs from 'src/constants/url'
 import { AppContext } from 'src/contexts/app.context'
 import Popover from '../Popover'
-import { getAvatarUrl } from 'src/utils/utils'
+import { getAvatarUrl, setLanguageToLS } from 'src/utils/utils'
 import { Langs, locales } from 'src/i18n/i18n'
+import classNames from 'classnames'
+
+const languagues: { key: Langs; lang: string }[] = [
+  {
+    key: 'vi',
+    lang: locales['vi']
+  },
+  {
+    key: 'en',
+    lang: locales['en']
+  }
+]
 
 export default function NavHeader() {
   const { i18n, t } = useTranslation()
@@ -30,8 +42,9 @@ export default function NavHeader() {
     logoutMutation.mutate()
   }
 
-  const changeLanguage = (locale: Langs) => {
-    i18n.changeLanguage(locale)
+  const changeLanguage = async (locale: Langs) => {
+    await i18n.changeLanguage(locale)
+    setLanguageToLS(locale)
   }
 
   return (
@@ -41,12 +54,17 @@ export default function NavHeader() {
         renderPopover={
           <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
             <div className='flex flex-col py-2 pr-28 pl-3'>
-              <button className='py-2 px-3 text-left hover:text-orange' onClick={() => changeLanguage('vi')}>
-                {t('vi')}
-              </button>
-              <button className='mt-2 py-2 px-3 text-left hover:text-orange' onClick={() => changeLanguage('en')}>
-                {t('en')}
-              </button>
+              {languagues.map((lang) => (
+                <button
+                  key={lang.key}
+                  className={classNames('py-2 px-3 text-left hover:text-orange', {
+                    'text-orange': i18n.language === lang.key
+                  })}
+                  onClick={() => changeLanguage(lang.key)}
+                >
+                  {t(lang.key)}
+                </button>
+              ))}
             </div>
           </div>
         }
