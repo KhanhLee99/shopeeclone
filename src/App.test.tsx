@@ -21,11 +21,17 @@ describe('Test App Render', () => {
      * số lần run phụ thuộc vào timeout và interval
      * mặc định: timeout = 1000ms và interval = 50ms
      */
-    console.log('==========log===========', `${i18n.t('home')} | Shopee Clone`)
     await waitFor(() => {
       // expect(document.querySelector('title')?.textContent).toBe('Trang chủ1 | Shopee Clone')
       expect(document.querySelector('title')?.textContent).toBe(`${i18n.t('home')} | Shopee Clone`)
     })
+    console.log('==========log1===========', `${i18n.t('home')} | Shopee Clone`)
+    console.log('==========log2===========', document.querySelector('title')?.textContent)
+    console.log(
+      '==========log3===========',
+      document.querySelector('title')?.textContent === `${i18n.t('home')} | Shopee Clone`
+    )
+
     await user.click(screen.getByText(new RegExp(i18n.t('login') as string, 'i')))
     await waitFor(() => {
       expect(screen.queryByText('Bạn chưa có tài khoản?')).toBeInTheDocument()
