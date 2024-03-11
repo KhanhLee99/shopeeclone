@@ -34,7 +34,7 @@
   "buy now": "Mua ngay",
   "product description": "Mô tả sản phẩm",
   "you may like": "Có Thể Bạn Cũng Thích",
-  "shopping cart": "Giỏ hàng",
+  "shopping cart": "Giỏ Hàng",
   "product": "Sản Phẩm",
   "unit price": "Đơn Giá",
   "total price": "Số Tiền",
@@ -77,5 +77,6 @@
   "have account": "Bạn đã có tài khoản?",
   "no_result_found": "Không tìm thấy kết quả nào",
   "home": "Trang chủ",
-  "search placeholder": "Free Ship Đơn Từ 0Đ"
+  "search placeholder": "Free Ship Đơn Từ 0Đ",
+  "go home": "Về Trang Chủ"
 }

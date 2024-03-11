@@ -2,6 +2,7 @@ import { createSearchParams, Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
+import { Helmet } from 'react-helmet-async'
 
 import purchaseApi from 'src/apis/purchase.api'
 import { purchasesStatus } from 'src/constants/purchase'
@@ -57,6 +58,10 @@ export default function HistoryPurchase() {
   return (
     <div>
       <div className='overflow-x-auto'>
+        <Helmet>
+          <title>{t('my profile')} | Shopee Clone</title>
+          <meta name='description' content='Trang thông tin cá nhân' />
+        </Helmet>
         <div className='min-w-[700px]'>
           <div className='sticky top-0 flex rounded-t-sm shadow-sm'>{purchaseTabsLink}</div>
           <div>

@@ -5,6 +5,7 @@ import { produce } from 'immer'
 import { debounce, keyBy } from 'lodash'
 import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
+import { Helmet } from 'react-helmet-async'
 
 import purchaseApi from 'src/apis/purchase.api'
 import Button from 'src/components/Button'
@@ -163,6 +164,10 @@ export default function Cart() {
 
   return (
     <div className='bg-neutral-100 py-16'>
+      <Helmet>
+        <title>{t('shopping cart')} | Shopee Clone</title>
+        <meta name='description' content='Giỏ hàng của bạn' />
+      </Helmet>
       <div className='container'>
         <div className='overflow-auto'>
           <div className='min-w-[1000px]'>

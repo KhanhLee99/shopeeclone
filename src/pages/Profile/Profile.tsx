@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
+import { Helmet } from 'react-helmet-async'
 
 import Button from 'src/components/Button'
 import Input from 'src/components/Input'
@@ -125,6 +126,10 @@ export default function Profile() {
 
   return (
     <div className='rounded-sm bg-white px-2 pb-10 shadow md:px-7 md:pb-20'>
+      <Helmet>
+        <title>{t('my profile')} | Shopee Clone</title>
+        <meta name='description' content='Trang thông tin cá nhân' />
+      </Helmet>
       <div className='border-b border-b-gray-200 py-6'>
         <h1 className='text-lg font-medium capitalize text-gray-900'>{t('my profile')}</h1>
         <div className='mt-1 text-sm text-gray-700'>{t('protect account')}</div>

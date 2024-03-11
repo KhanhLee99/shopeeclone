@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+
 import URLs from 'src/constants/url'
 
 export default function NotFound() {
+  const { t } = useTranslation()
   return (
     <main className='flex h-screen w-full flex-col items-center justify-center'>
       <h1 className='text-9xl font-extrabold tracking-widest text-gray-900'>404</h1>
@@ -13,7 +16,7 @@ export default function NotFound() {
         >
           <span className='absolute inset-0 translate-x-0.5 translate-y-0.5 bg-orange transition-transform group-hover:translate-y-0 group-hover:translate-x-0' />
           <span className='relative block border border-current px-8 py-3'>
-            <span>Go Home</span>
+            <span>{t('go home')}</span>
           </span>
         </Link>
       </button>
