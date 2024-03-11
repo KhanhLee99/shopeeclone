@@ -15,6 +15,7 @@ import { AppContext } from 'src/contexts/app.context'
 import URLs from 'src/constants/url'
 import Button from 'src/components/Button'
 import useQueryParams from 'src/hooks/useQueryParams'
+import InputPassword from 'src/components/InputPassword'
 
 type FormData = LoginSchmaType
 
@@ -85,12 +86,11 @@ export default function Login() {
                 errorMessage={_renderErrorMessage('email')}
                 register={register}
               />
-              <Input
+              <InputPassword
                 className='mt-2'
-                type='password'
-                placeholder='Password'
+                classNameEye='top-[13px]'
                 name='password'
-                autoComplete='on'
+                placeholder={t('password') as string}
                 errorMessage={_renderErrorMessage('password')}
                 register={register}
               />

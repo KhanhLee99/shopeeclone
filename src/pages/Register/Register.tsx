@@ -14,6 +14,7 @@ import { ErrorResponse } from 'src/types/utils.type'
 import URLs from 'src/constants/url'
 import { AppContext } from 'src/contexts/app.context'
 import Button from 'src/components/Button'
+import InputPassword from 'src/components/InputPassword'
 
 type FormData = Omit<RegisterSchemaType, 'confirm_password'>
 
@@ -84,21 +85,19 @@ export default function Register() {
                 errorMessage={_renderErrorMessage('email')}
                 register={register}
               />
-              <Input
+              <InputPassword
                 className='mt-2'
-                type='password'
-                placeholder='Password'
+                classNameEye='top-[13px]'
                 name='password'
-                autoComplete='on'
+                placeholder={t('password') as string}
                 errorMessage={_renderErrorMessage('password')}
                 register={register}
               />
-              <Input
+              <InputPassword
                 className='mt-2'
-                type='password'
-                placeholder='Confirm Password'
+                classNameEye='top-[13px]'
                 name='confirm_password'
-                autoComplete='on'
+                placeholder={t('confirm password') as string}
                 errorMessage={_renderErrorMessage('confirm_password')}
                 register={register}
               />

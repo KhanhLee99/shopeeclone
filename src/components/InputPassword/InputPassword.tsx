@@ -18,7 +18,7 @@ export default function InputPassword({
   rules,
   classNameInput = 'p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm',
   classNameError = 'mt-1 text-red-600 min-h-[1.25rem] text-sm',
-  classNameEye = 'absolute top-[8px] right-[5px] h-5 w-5 cursor-pointer',
+  classNameEye = 'top-[8px]',
   ...rest
 }: InputProps) {
   const [isOpenEye, setOpenEye] = useState(false)
@@ -29,7 +29,7 @@ export default function InputPassword({
   }
 
   return (
-    <div className={className}>
+    <div className={'relative ' + className}>
       <input
         className={classNameInput}
         {...rest}
@@ -44,7 +44,7 @@ export default function InputPassword({
           viewBox='0 0 24 24'
           strokeWidth={1.5}
           stroke='currentColor'
-          className={classNameEye}
+          className={'absolute right-[5px] h-5 w-5 cursor-pointer ' + classNameEye}
           onClick={toggleEye}
         >
           <path
@@ -62,7 +62,7 @@ export default function InputPassword({
           viewBox='0 0 24 24'
           strokeWidth={1.5}
           stroke='currentColor'
-          className={classNameEye}
+          className={'absolute right-[5px] h-5 w-5  cursor-pointer ' + classNameEye}
           onClick={toggleEye}
         >
           <path
