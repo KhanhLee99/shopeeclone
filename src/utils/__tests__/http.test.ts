@@ -43,5 +43,5 @@ describe('Http Axios', () => {
     expect(resGetMe.status).toBe(HttpStatusCode.Ok)
     const resLogout = await http.post(PATH_API.logout)
     expect(resLogout.status).toBe(HttpStatusCode.Ok)
-  })
+  }, 10000)
 })
