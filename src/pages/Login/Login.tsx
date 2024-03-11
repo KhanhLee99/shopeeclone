@@ -95,7 +95,8 @@ export default function Login() {
                 register={register}
               />
               <div className='mt-2'>
-                <Button
+              <Button
+                  type='submit'
                   className='flex w-full items-center justify-center bg-red-500 py-4 px-2 text-sm uppercase text-white hover:bg-red-600'
                   isLoading={loginMutation.isPending}
                   disabled={loginMutation.isPending}
