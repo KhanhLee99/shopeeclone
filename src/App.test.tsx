@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import matchers from '@testing-library/jest-dom/matchers'
+import '@testing-library/jest-dom/vitest'
 import { HashRouter } from 'react-router-dom'
 import i18n from './i18n/i18n'
 
@@ -21,14 +21,17 @@ describe('Test App Render', () => {
      * số lần run phụ thuộc vào timeout và interval
      * mặc định: timeout = 1000ms và interval = 50ms
      */
+    console.log('==========log===========', `${i18n.t('home')} | Shopee Clone`)
     await waitFor(() => {
+      // expect(document.querySelector('title')?.textContent).toBe('Trang chủ1 | Shopee Clone')
       expect(document.querySelector('title')?.textContent).toBe(`${i18n.t('home')} | Shopee Clone`)
     })
     await user.click(screen.getByText(new RegExp(i18n.t('login') as string, 'i')))
     await waitFor(() => {
-      expect(screen.getByText(new RegExp(i18n.t('dont have account') as string, 'i')))
+      expect(screen.queryByText('Bạn chưa có tài khoản?')).toBeInTheDocument()
       expect(document.querySelector('title')?.textContent).toBe(`${i18n.t('login')} | Shopee Clone`)
     })
+    // new RegExp(i18n.t('dont have account') as string, 'i')
     screen.debug(document.body.parentElement as HTMLElement, 99999999)
   })
 })
