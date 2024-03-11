@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, test } from 'vitest'
 import { AxiosError } from 'axios'
 
 import HttpStatusCode from 'src/constants/httpStatus'
@@ -32,9 +32,11 @@ describe('Http Axios', () => {
         expect(error.response?.status).toBe(HttpStatusCode.UnprocessableEntity)
       })
   })
+})
 
+describe('Test Api Get Me', () => {
   // Test api need access token
-  it('Test api get me success', async () => {
+  test('Test api get me success', async () => {
     await http.post(PATH_API.login, {
       email: 'vkhang542@gmail.com',
       password: '123456'
@@ -43,5 +45,5 @@ describe('Http Axios', () => {
     expect(resGetMe.status).toBe(HttpStatusCode.Ok)
     const resLogout = await http.post(PATH_API.logout)
     expect(resLogout.status).toBe(HttpStatusCode.Ok)
-  }, 10000)
+  })
 })
