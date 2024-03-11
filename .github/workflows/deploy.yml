@@ -24,7 +24,7 @@ jobs:
           cache: 'yarn'
       - run: yarn install
       - run: yarn run build
-      - run: yarn test --test-timeout=10000
+      - run: yarn test
 
       - name: Deploy with gh-pages
         run: |

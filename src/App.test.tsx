@@ -21,10 +21,14 @@ describe('Test App Render', () => {
      * số lần run phụ thuộc vào timeout và interval
      * mặc định: timeout = 1000ms và interval = 50ms
      */
-    await waitFor(() => {
-      // expect(document.querySelector('title')?.textContent).toBe('Trang chủ1 | Shopee Clone')
-      expect(document.querySelector('title')?.textContent).toBe(`${i18n.t('home')} | Shopee Clone`)
-    })
+    await waitFor(
+      () => {
+        expect(document.querySelector('title')?.textContent).toBe(`${i18n.t('home')} | Shopee Clone`)
+      },
+      {
+        timeout: 10000
+      }
+    )
     console.log('==========log1===========', `${i18n.t('home')} | Shopee Clone`)
     console.log('==========log2===========', document.querySelector('title')?.textContent)
     console.log(
@@ -37,7 +41,6 @@ describe('Test App Render', () => {
       expect(screen.queryByText('Bạn chưa có tài khoản?')).toBeInTheDocument()
       expect(document.querySelector('title')?.textContent).toBe(`${i18n.t('login')} | Shopee Clone`)
     })
-    // new RegExp(i18n.t('dont have account') as string, 'i')
     screen.debug(document.body.parentElement as HTMLElement, 99999999)
   })
 })
