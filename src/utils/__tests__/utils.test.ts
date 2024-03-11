@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { AxiosError } from 'axios'
 
-import { isAxiosError, isErrorUnprocessableEntity } from '../utils'
+import { getLanguageFromLS, isAxiosError, isErrorUnprocessableEntity, setLanguageToLS } from '../utils'
 import HttpStatusCode from 'src/constants/httpStatus'
 
 // describe dùng để mô tả tập hợp các ngữ cảnh
@@ -30,5 +30,12 @@ describe('isErrorUnprocessableEntity', () => {
         } as any)
       )
     ).toBe(false)
+  })
+})
+
+describe('language', () => {
+  it('language set to LS', () => {
+    setLanguageToLS('en')
+    expect(getLanguageFromLS()).toBe('en')
   })
 })
