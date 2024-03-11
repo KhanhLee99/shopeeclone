@@ -22,27 +22,28 @@ export default function useSearchProducts() {
   const navigate = useNavigate()
 
   const onSubmitSearch = handleSubmit((data) => {
-    const config = queryConfig.order
-      ? omit(
-          {
-            ...queryConfig,
-            name: data.search
-          },
-          ['order', 'sort_by']
-        )
-      : {
+    const config = data.search
+      ? {
           ...queryConfig,
           name: data.search
         }
+      : omit(
+          {
+            ...queryConfig
+          },
+          ['name']
+        )
     navigate({
       pathname: URLs.productList,
-      search: createSearchParams(config).toString()
+      search: createSearchParams(omit(config, ['category', 'price_min', 'price_max', 'rating_filter'])).toString() // remove filter
     })
   })
 
   useEffect(() => {
     if (!queryConfig.name) {
-      reset()
+      reset({
+        search: ''
+      })
     }
   }, [queryConfig.name])
 

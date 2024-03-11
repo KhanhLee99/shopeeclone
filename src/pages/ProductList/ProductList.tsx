@@ -46,7 +46,7 @@ export default function ProductList() {
         <div className='grid grid-cols-12 gap-6'>
           {isShowAsideFilter && (
             <div className='col-span-3'>
-              <AsideFilter queryConfig={queryConfig} categories={categoriesData?.data.data || []} />
+              <AsideFilter queryConfig={{ ...queryConfig, page: '1' }} categories={categoriesData?.data.data || []} />
             </div>
           )}
           {products.length > 0 && (

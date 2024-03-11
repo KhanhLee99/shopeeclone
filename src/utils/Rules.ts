@@ -96,7 +96,7 @@ export const priceSchema = yup.object({
 })
 
 export const searchSchema = yup.object({
-  search: yup.string().trim().required('')
+  search: yup.string().trim(),
 })
 
 export const userSchema = yup.object({
