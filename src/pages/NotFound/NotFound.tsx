@@ -8,7 +8,7 @@ export default function NotFound() {
   return (
     <main className='flex h-screen w-full flex-col items-center justify-center'>
       <h1 className='text-9xl font-extrabold tracking-widest text-gray-900'>404</h1>
-      <div className='absolute rotate-12 rounded bg-orange px-2 text-sm text-white'>Page Not Found</div>
+      <div className='absolute rotate-12 rounded bg-orange px-2 text-sm text-white'>{t('page not found')}</div>
       <button className='mt-5'>
         <Link
           to={URLs.productList}
