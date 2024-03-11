@@ -1,18 +1,13 @@
 import { describe, expect, test } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/vitest'
-import { HashRouter } from 'react-router-dom'
 
 import i18n from './i18n/i18n'
-import App from './App'
+import { renderWithRoute } from './utils/testUtils'
 
 describe('Test App Render', () => {
   test('Test render and navigate page', async () => {
-    render(<App />, {
-      wrapper: HashRouter
-    })
-    const user = userEvent.setup()
+    const { user } = renderWithRoute()
     /**
      * waitFor sẽ run callback 1 vài lần
      * cho đến khi hết timeout hoặc expect pass
@@ -33,6 +28,6 @@ describe('Test App Render', () => {
       expect(screen.queryByText(new RegExp(i18n.t('dont have account') as string, 'i'))).toBeInTheDocument()
       expect(document.querySelector('title')?.textContent).toBe(`${i18n.t('login')} | Shopee Clone`)
     })
-    screen.debug(document.body.parentElement as HTMLElement, 99999999)
+    // screen.debug(document.body.parentElement as HTMLElement, 99999999)
   })
 })
