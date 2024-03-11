@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { omit } from 'lodash'
 
 import useQueryConfig from './useQueryConfig'
-import { searchSchema, SearchSchemaType } from 'src/utils/rules'
+import { searchSchema, SearchSchemaType } from 'src/utils/rule'
 import URLs from 'src/constants/url'
 
 type FormData = SearchSchemaType

@@ -9,7 +9,7 @@ import Button from 'src/components/Button'
 import InputNumber from 'src/components/InputNumber'
 import { QueryConfig } from 'src/hooks/useQueryConfig'
 import URLs from 'src/constants/url'
-import { priceSchema, PriceSchemaType } from 'src/utils/rules'
+import { priceSchema, PriceSchemaType } from 'src/utils/rule'
 import { NS_RULES } from 'src/i18n/i18n'
 
 type FormData = PriceSchemaType

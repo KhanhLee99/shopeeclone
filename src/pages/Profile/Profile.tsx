@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 
 import Button from 'src/components/Button'
 import Input from 'src/components/Input'
-import { UserSchema, userSchema } from 'src/utils/rules'
+import { UserSchema, userSchema } from 'src/utils/rule'
 import userApi from 'src/apis/user.api'
 import InputNumber from 'src/components/InputNumber'
 import DateSelect from './DateSelect'

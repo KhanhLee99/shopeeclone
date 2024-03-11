@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 
 import Button from 'src/components/Button'
 import InputPassword from 'src/components/InputPassword'
-import { UserSchema, userSchema } from 'src/utils/rules'
+import { UserSchema, userSchema } from 'src/utils/rule'
 import userApi from 'src/apis/user.api'
 import { isErrorUnprocessableEntity, renderErrorMessage } from 'src/utils/utils'
 import { ErrorResponse } from 'src/types/utils.type'

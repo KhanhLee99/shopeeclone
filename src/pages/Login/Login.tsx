@@ -6,7 +6,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
 
-import { loginSchema, LoginSchmaType } from 'src/utils/rules'
+import { loginSchema, LoginSchmaType } from 'src/utils/rule'
 import Input from 'src/components/Input'
 import authApi from 'src/apis/auth.api'
 import { isErrorUnprocessableEntity, renderErrorMessage } from 'src/utils/utils'
