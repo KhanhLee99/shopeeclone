@@ -4,7 +4,7 @@ import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/test',
+  base: '/shopeeclone',
   plugins: [react()] as any,
   test: {
     environment: 'jsdom',
