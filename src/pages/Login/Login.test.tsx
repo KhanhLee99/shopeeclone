@@ -13,8 +13,12 @@ describe('Test Login Form', () => {
   beforeAll(async () => {
     renderWithRoute(URLs.login)
     await waitFor(() => {
-      expect(screen.getByPlaceholderText(i18n.t('email') as string)).toBeInTheDocument()
-      expect(screen.getByPlaceholderText(i18n.t('password') as string)).toBeInTheDocument()
+      expect((document.querySelector('form input[type="email"]') as HTMLInputElement).placeholder).toBe(
+        i18n.t('email') as string
+      )
+      expect((document.querySelector('form input[type="password"]') as HTMLInputElement).placeholder).toBe(
+        i18n.t('password') as string
+      )
     })
     buttonSubmit = document.querySelector('form button[type="submit"]') as HTMLButtonElement
     emailInput = document.querySelector('form input[type="email"]') as HTMLInputElement
@@ -34,8 +38,8 @@ describe('Test Login Form', () => {
     })
     fireEvent.click(buttonSubmit)
     await waitFor(() => {
-      expect(screen.getByText(i18n.t(`${NS_RULES}:email_invalid`) as string)).toBeInTheDocument()
-      expect(screen.getByText(i18n.t(`${NS_RULES}:password_length`) as string)).toBeInTheDocument()
+      expect(screen.getByText(i18n.t(`${NS_RULES}:email_invalid`) as string)).toBeTruthy()
+      expect(screen.getByText(i18n.t(`${NS_RULES}:password_length`) as string)).toBeTruthy()
     })
   })
 

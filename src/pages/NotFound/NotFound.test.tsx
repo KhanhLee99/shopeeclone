@@ -15,7 +15,7 @@ test('Test Not Found Page', async () => {
     </MemoryRouter>
   )
   await waitFor(() => {
-    expect(screen.getByText(new RegExp(i18n.t('page not found') as string, 'i'))).toBeInTheDocument()
+    expect(screen.getByText(new RegExp(i18n.t('page not found') as string, 'i'))).toBeTruthy()
   })
   // await logScreen()
 })

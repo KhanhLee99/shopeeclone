@@ -25,7 +25,7 @@ describe('Test App Render', () => {
 
     await user.click(screen.getByText(new RegExp(i18n.t('login') as string, 'i')))
     await waitFor(() => {
-      expect(screen.queryByText(new RegExp(i18n.t('dont have account') as string, 'i'))).toBeInTheDocument()
+      expect(screen.queryByText(new RegExp(i18n.t('dont have account') as string, 'i'))).toBeTruthy()
       expect(document.querySelector('title')?.textContent).toBe(`${i18n.t('login')} | Shopee Clone`)
     })
     // screen.debug(document.body.parentElement as HTMLElement, 99999999)

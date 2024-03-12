@@ -9,7 +9,7 @@ import URLs from 'src/constants/url'
 test('Test Render Register Page', async () => {
   renderWithRoute(URLs.register)
   await waitFor(() => {
-    expect(screen.getByText(new RegExp(i18n.t('have account') as string, 'i'))).toBeInTheDocument()
+    expect(screen.getByText(new RegExp(i18n.t('have account') as string, 'i'))).toBeTruthy()
   })
   // await logScreen()
 })
