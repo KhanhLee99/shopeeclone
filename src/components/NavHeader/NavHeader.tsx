@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
@@ -28,6 +28,7 @@ export default function NavHeader() {
   const currentLanguage = locales[i18n.language as Langs]
   const queryClient = useQueryClient()
   const { setIsAuthenticated, isAuthenticated, setProfile, profile } = useContext(AppContext)
+  const [langActive, setLangActive] = useState<Langs>(i18n.language as Langs)
 
   const logoutMutation = useMutation({
     mutationFn: authApi.logout,
@@ -58,9 +59,11 @@ export default function NavHeader() {
                 <button
                   key={lang.key}
                   className={classNames('py-2 px-3 text-left hover:text-orange', {
-                    'text-orange': i18n.language === lang.key
+                    'text-orange': langActive === lang.key
                   })}
                   onClick={() => changeLanguage(lang.key)}
+                  onMouseEnter={() => setLangActive(lang.key)}
+                  onMouseLeave={() => setLangActive(i18n.language as Langs)}
                 >
                   {t(lang.key)}
                 </button>
