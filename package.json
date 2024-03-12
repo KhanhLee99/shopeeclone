@@ -66,6 +66,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "gh-pages": "^6.1.1",
     "jsdom": "^24.0.0",
+    "msw": "^2.2.3",
     "postcss": "^8.4.19",
     "prettier": "^2.7.1",
     "prettier-plugin-tailwindcss": "^0.1.13",

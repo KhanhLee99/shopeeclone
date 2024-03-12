@@ -12,7 +12,7 @@ const delay = (time: number) =>
     }, time)
   })
 
-export const logScreen = async (body: HTMLElement = document.body.parentElement as HTMLElement, timeout = 1000) => {
+export const logScreen = async (body: HTMLElement = document.body.parentElement as HTMLElement, timeout = 1000, lineNumber = 99999999) => {
   await waitFor(
     async () => {
       expect(await delay(timeout - 100)).toBe(true)
@@ -21,7 +21,7 @@ export const logScreen = async (body: HTMLElement = document.body.parentElement 
       timeout
     }
   )
-  screen.debug(body, 99999999)
+  screen.debug(body, lineNumber)
 }
 
 export const renderWithRoute = (route = '/') => {

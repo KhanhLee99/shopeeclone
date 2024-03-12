@@ -4,6 +4,7 @@ import axios, { AxiosError } from 'axios'
 import HttpStatusCode from 'src/constants/httpStatus'
 import userImage from 'src/assets/avt-default.jpg'
 import URLs from 'src/constants/url'
+import APP_CONFIG from 'src/constants/config'
 import i18n, { Langs, NS_RULES } from 'src/i18n/i18n'
 
 export const isAxiosError = (error: unknown): error is AxiosError => {
@@ -47,8 +48,7 @@ export const getIdFromNameId = (nameId: string) => {
 }
 
 export const getAvatarUrl = (avatarName?: string) => {
-  const baseUrl = import.meta.env.VITE_APP_BASE_URL
-  return avatarName ? `${baseUrl}images/${avatarName}` : userImage
+  return avatarName ? `${APP_CONFIG.baseUrl}images/${avatarName}` : userImage
 }
 
 export const renderErrorMessage = <T>(errors: FieldErrors<{ [K in keyof T]: T[K] }>, field: keyof T): string => {

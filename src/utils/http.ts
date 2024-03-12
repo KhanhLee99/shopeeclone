@@ -3,6 +3,7 @@ import { toast } from 'react-toastify'
 
 import HttpStatusCode from 'src/constants/httpStatus'
 import PATH_API from 'src/constants/pathApi'
+import APP_CONFIG from 'src/constants/config'
 import { AuthResponse } from 'src/types/auth.type'
 import { getAccessTokenFromLS, clearLS, saveAccessTokenToLS, saveProfileToLS } from './auth'
 
@@ -12,7 +13,7 @@ class Http {
   constructor() {
     this.accessToken = getAccessTokenFromLS()
     this.instance = axios.create({
-      baseURL: import.meta.env.VITE_APP_BASE_URL,
+      baseURL: APP_CONFIG.baseUrl,
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json'

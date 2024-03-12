@@ -30,18 +30,24 @@ export default function ProductList() {
       return categoryApi.getCategories()
     }
   })
-  if (!productsData) return null
+  const helmet = (
+    <Helmet>
+      <title>{t('home')} | Shopee Clone</title>
+      <meta name='description' content='Trang chủ dự án Shopee Clone' />
+    </Helmet>
+  )
+
+  if (!productsData) return helmet
+
   const products = productsData.data.data.products
   const isShowAsideFilter =
     products.length > 0 ||
     (products.length == 0 &&
       (queryConfig.price_min || queryConfig.price_max || queryConfig.rating_filter || queryConfig.category))
+
   return (
     <div className='bg-gray-200 py-6'>
-      <Helmet>
-        <title>{t('home')} | Shopee Clone</title>
-        <meta name='description' content='Trang chủ dự án Shopee Clone' />
-      </Helmet>
+      {helmet}
       <div className='container'>
         <div className='grid grid-cols-12 gap-6'>
           {isShowAsideFilter && (

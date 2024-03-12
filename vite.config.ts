@@ -7,8 +7,8 @@ export default defineConfig({
   base: '/test',
   plugins: [react()] as any,
   test: {
-    environment: 'jsdom'
-    // setupFiles: path.resolve(__dirname, './vitest.setup.js')
+    environment: 'jsdom',
+    setupFiles: path.resolve(__dirname, './vitest.setup.js')
   },
   server: {
     port: 3000,
