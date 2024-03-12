@@ -57,6 +57,6 @@ describe('Test Login Form', () => {
       expect(document.querySelector('title')?.textContent).toBe(`${i18n.t('home')} | Shopee Clone`)
       expect(window.location.pathname).toBe(URLs.productList)
     })
-    await logScreen()
+    // await logScreen()
   })
 })
