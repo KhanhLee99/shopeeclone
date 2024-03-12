@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 
 import App from 'src/App'
+import { AppProvider, getInitialValue } from 'src/contexts/app.context'
 
 export const delay = (time: number) =>
   new Promise((resolve) => {
@@ -22,10 +23,16 @@ export const logScreen = async (
 
 export const renderWithRoute = (route = '/') => {
   window.history.pushState({}, '', route)
+  const initialValue = getInitialValue()
   return {
     user: userEvent.setup(),
-    ...render(<App />, {
-      wrapper: BrowserRouter
-    })
+    ...render(
+      <AppProvider defaultValue={initialValue}>
+        <App />
+      </AppProvider>,
+      {
+        wrapper: BrowserRouter
+      }
+    )
   }
 }

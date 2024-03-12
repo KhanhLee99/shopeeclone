@@ -18,24 +18,34 @@ interface AppContextInterface {
   language?: Langs
 }
 
-const initialValue: AppContextInterface = {
-  isAuthenticated: Boolean(getAccessTokenFromLS()),
-  setIsAuthenticated: () => null,
-  profile: getProfileFromLS(),
-  setProfile: () => null,
-  extendedPurchase: [],
-  setExtendedPurchase: () => null,
-  reset: () => null,
-  language: getLanguageFromLS()
+export const getInitialValue: () => AppContextInterface = () => {
+  return {
+    isAuthenticated: Boolean(getAccessTokenFromLS()),
+    setIsAuthenticated: () => null,
+    profile: getProfileFromLS(),
+    setProfile: () => null,
+    extendedPurchase: [],
+    setExtendedPurchase: () => null,
+    reset: () => null,
+    language: getLanguageFromLS()
+  }
 }
+
+const initialValue: AppContextInterface = getInitialValue()
 
 export const AppContext = createContext<AppContextInterface>(initialValue)
 
-export const AppProvider = ({ children }: { children: React.ReactNode }) => {
+export const AppProvider = ({
+  children,
+  defaultValue = initialValue
+}: {
+  children: React.ReactNode
+  defaultValue?: AppContextInterface
+}) => {
   const { i18n } = useTranslation()
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(initialValue.isAuthenticated)
-  const [profile, setProfile] = useState<User | null>(initialValue.profile)
-  const [extendedPurchase, setExtendedPurchase] = useState<ExtendedPurchase[]>(initialValue.extendedPurchase)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(defaultValue.isAuthenticated)
+  const [profile, setProfile] = useState<User | null>(defaultValue.profile)
+  const [extendedPurchase, setExtendedPurchase] = useState<ExtendedPurchase[]>(defaultValue.extendedPurchase)
 
   const reset = () => {
     setIsAuthenticated(false)

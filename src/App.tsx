@@ -8,7 +8,6 @@ import { HelmetProvider } from 'react-helmet-async'
 import { AppContext } from './contexts/app.context'
 import useRouteElements from './useRouteElements'
 import { LocalStorageEventTarget } from './utils/auth'
-import { AppProvider } from './contexts/app.context'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,10 +33,8 @@ function App() {
   return (
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
-        <AppProvider>
-          {routeElements}
-          <ToastContainer />
-        </AppProvider>
+        {routeElements}
+        <ToastContainer />
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </HelmetProvider>
