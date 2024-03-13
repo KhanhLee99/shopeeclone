@@ -1,0 +1,1 @@
+.send-to-cart.flying-item{animation:fly 1s alternate forwards cubic-bezier(1,.44,.84,.165);opacity:1;transition:all 1s linear}.shake{animation:shakeCart .4s ease-in-out forwards}@keyframes fly{to{transform:translate(var(--left),var(--top))}}@keyframes shakeCart{25%{transform:translate(6px)}50%{transform:translate(-4px)}75%{transform:translate(2px)}to{transform:translate(0)}}
