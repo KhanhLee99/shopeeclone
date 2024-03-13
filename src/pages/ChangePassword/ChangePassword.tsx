@@ -43,21 +43,22 @@ export default function ChangePassword() {
   })
 
   const onSubmit = handleSubmit((data) => {
-    updateProfileMutation.mutate(omit(data, ['confirm_password']), {
-      onError: (error) => {
-        if (isErrorUnprocessableEntity<ErrorResponse<FormData>>(error)) {
-          const formError = error.response?.data.data
-          if (formError) {
-            Object.keys(formError).forEach((key) => {
-              setError(key as keyof FormData, {
-                message: formError[key as keyof FormData],
-                type: 'Server'
-              })
-            })
-          }
-        }
-      }
-    })
+    // updateProfileMutation.mutate(omit(data, ['confirm_password']), {
+    //   onError: (error) => {
+    //     if (isErrorUnprocessableEntity<ErrorResponse<FormData>>(error)) {
+    //       const formError = error.response?.data.data
+    //       if (formError) {
+    //         Object.keys(formError).forEach((key) => {
+    //           setError(key as keyof FormData, {
+    //             message: formError[key as keyof FormData],
+    //             type: 'Server'
+    //           })
+    //         })
+    //       }
+    //     }
+    //   }
+    // })
+    toast.error(t('cannot_change_password'))
   })
 
   const _renderErrorMessage = (field: keyof FormData) => {

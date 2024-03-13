@@ -81,5 +81,6 @@
   "search placeholder": "Free Ship Orders From 0 VND",
   "cart": "Cart",
   "go home": "Go Home",
-  "page not found": "Page Not Found"
+  "page not found": "Page Not Found",
+  "cannot_change_password": "Temporarily the system cannot change the password"
 }
