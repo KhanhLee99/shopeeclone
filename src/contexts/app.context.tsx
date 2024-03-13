@@ -16,6 +16,8 @@ interface AppContextInterface {
   setExtendedPurchase: React.Dispatch<React.SetStateAction<ExtendedPurchase[]>>
   reset: () => void
   language?: Langs
+  isCartShake: boolean
+  setCartShake: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const getInitialValue: () => AppContextInterface = () => {
@@ -27,7 +29,9 @@ export const getInitialValue: () => AppContextInterface = () => {
     extendedPurchase: [],
     setExtendedPurchase: () => null,
     reset: () => null,
-    language: getLanguageFromLS()
+    language: getLanguageFromLS(),
+    isCartShake: false,
+    setCartShake: () => null
   }
 }
 
@@ -46,6 +50,7 @@ export const AppProvider = ({
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(defaultValue.isAuthenticated)
   const [profile, setProfile] = useState<User | null>(defaultValue.profile)
   const [extendedPurchase, setExtendedPurchase] = useState<ExtendedPurchase[]>(defaultValue.extendedPurchase)
+  const [isCartShake, setCartShake] = useState<boolean>(defaultValue.isCartShake)
 
   const reset = () => {
     setIsAuthenticated(false)
@@ -69,7 +74,9 @@ export const AppProvider = ({
         setProfile,
         extendedPurchase,
         setExtendedPurchase,
-        reset
+        reset,
+        isCartShake,
+        setCartShake
       }}
     >
       {children}

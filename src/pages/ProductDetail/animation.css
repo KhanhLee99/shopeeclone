@@ -1,0 +1,30 @@
+.send-to-cart.flying-item {
+  animation: fly 1s alternate forwards cubic-bezier(1, 0.44, 0.84, 0.165);
+  opacity: 1;
+  transition: all 1s linear;
+}
+
+.shake {
+  animation: shakeCart 0.4s ease-in-out forwards;
+}
+
+@keyframes fly {
+  100% {
+    transform: translate(var(--left), var(--top));
+  }
+}
+
+@keyframes shakeCart {
+  25% {
+    transform: translateX(6px);
+  }
+  50% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
