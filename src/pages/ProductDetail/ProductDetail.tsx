@@ -2,7 +2,6 @@ import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useParams, useNavigate, createSearchParams } from 'react-router-dom'
 import DOMPurify from 'dompurify'
-import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
 import { convert } from 'html-to-text'
@@ -18,10 +17,12 @@ import { purchasesStatus } from 'src/constants/purchase'
 import { AppContext } from 'src/contexts/app.context'
 import URLs from 'src/constants/url'
 import NotFound from '../NotFound'
+import './animation.css'
 
 export default function ProductDetail() {
+  const spanFlyRef = useRef<HTMLSpanElement>(null)
   const { t } = useTranslation()
-  const { isAuthenticated } = useContext(AppContext)
+  const { isAuthenticated, setCartShake } = useContext(AppContext)
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const [buyCount, setBuyCount] = useState<number | undefined>(1)
@@ -126,12 +127,36 @@ export default function ProductDetail() {
         product_id: product?._id as string
       },
       {
-        onSuccess: (data) => {
-          toast.success(data.data.message, { position: 'top-center', autoClose: 1000 })
-          queryClient.invalidateQueries({ queryKey: ['purchases', { status: purchasesStatus.inCart }] })
+        onSuccess: () => {
+          productFlyEffect(() => {
+            queryClient.invalidateQueries({ queryKey: ['purchases', { status: purchasesStatus.inCart }] })
+          })
         }
       }
     )
+
+  }
+
+  const productFlyEffect = (callback: () => void) => {
+    const cartElement = document.querySelector("#cart");
+    if (cartElement &&  spanFlyRef.current) {
+      const spanFlyPosition = spanFlyRef.current.getBoundingClientRect()
+      const cartPosition = cartElement.getBoundingClientRect()
+      const data = {
+        left:  cartPosition.left - (cartPosition.width / 2 +  spanFlyPosition.left +  spanFlyPosition.width / 2),
+        top: cartPosition.bottom - spanFlyPosition.bottom + 30,
+      }
+      spanFlyRef.current.style.cssText = `--left : ${data.left.toFixed(2)}px; --top : ${data.top.toFixed(2)}px;`
+      spanFlyRef.current.classList.add('send-to-cart')
+      setTimeout(() => {
+        spanFlyRef.current && spanFlyRef.current.classList.remove('send-to-cart')
+        callback()
+        setCartShake(true)
+        setTimeout(() => {
+          setCartShake(false)
+        }, 500)
+      }, 1000)
+    }
   }
 
   const handleBuyNow = async () => {
@@ -279,7 +304,7 @@ export default function ProductDetail() {
                   {product.quantity} {t('pieces available')}
                 </div>
               </div>
-              <div className='mt-8 flex items-center'>
+              <div className='mt-8 flex items-center relative'>
                 <button
                   className='flex h-12 items-center justify-center rounded-sm border border-orange bg-orange/10 px-5 capitalize text-orange shadow-sm hover:bg-orange/5'
                   onClick={handleAddToCart}
@@ -308,9 +333,15 @@ export default function ProductDetail() {
                     </g>
                   </svg>
                   {t('add to cart')}
+                  <span ref={spanFlyRef} className='absolute text-orange opacity-0 flying-item'>
+
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 11.25v8.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 1 0 9.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1 1 14.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+                  </svg>
+                </span>
                 </button>
                 <button
-                  className='fkex ml-4 h-12 min-w-[5rem] items-center justify-center rounded-sm bg-orange px-5 capitalize text-white shadow-sm outline-none hover:bg-orange/90'
+                  className='flex ml-4 h-12 min-w-[5rem] items-center justify-center rounded-sm bg-orange px-5 capitalize text-white shadow-sm outline-none hover:bg-orange/90'
                   onClick={handleBuyNow}
                 >
                   {t('buy now')}
