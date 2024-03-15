@@ -13,6 +13,6 @@ describe('Profile Page', () => {
     await waitFor(() => {
       expect((container.querySelector('form input[name="name"]') as HTMLInputElement).value).toBe('LVK')
     })
-    await logScreen()
+    // await logScreen()
   })
 })
