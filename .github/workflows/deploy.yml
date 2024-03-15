@@ -3,8 +3,8 @@ name: Node.js CI
 on:
   push:
     branches: ['main']
-  pull_request:
-    branches: ['main']
+  # pull_request:
+  #   branches: ['main']
 
 jobs:
   build:
@@ -26,7 +26,7 @@ jobs:
       - run: yarn test --test-timeout=40000
 
       - name: Deploy with gh-pages
-        if: github.event.push
+        # if: github.event.push
         run: |
           git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
           yarn deploy -- -u "github-actions-bot <support+actions@github.com>"
