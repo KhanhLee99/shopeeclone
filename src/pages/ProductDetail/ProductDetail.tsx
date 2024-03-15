@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
 import { convert } from 'html-to-text'
 
+import './animation.css'
 import productApi from 'src/apis/product.api'
 import { formatCurrency, formatNumberToSocialStyle, generateNameId, getIdFromNameId, rateSale } from 'src/utils/utils'
 import QuantityController from 'src/components/QuantityController'
@@ -17,7 +18,6 @@ import { purchasesStatus } from 'src/constants/purchase'
 import { AppContext } from 'src/contexts/app.context'
 import URLs from 'src/constants/url'
 import NotFound from '../NotFound'
-import './animation.css'
 
 export default function ProductDetail() {
   const spanFlyRef = useRef<HTMLSpanElement>(null)
@@ -134,17 +134,16 @@ export default function ProductDetail() {
         }
       }
     )
-
   }
 
   const productFlyEffect = (callback: () => void) => {
-    const cartElement = document.querySelector("#cart");
-    if (cartElement &&  spanFlyRef.current) {
+    const cartElement = document.querySelector('#cart')
+    if (cartElement && spanFlyRef.current) {
       const spanFlyPosition = spanFlyRef.current.getBoundingClientRect()
       const cartPosition = cartElement.getBoundingClientRect()
       const data = {
-        left:  cartPosition.left - (cartPosition.width / 2 +  spanFlyPosition.left +  spanFlyPosition.width / 2),
-        top: cartPosition.bottom - spanFlyPosition.bottom + 30,
+        left: cartPosition.left - (cartPosition.width / 2 + spanFlyPosition.left + spanFlyPosition.width / 2),
+        top: cartPosition.bottom - spanFlyPosition.bottom + 30
       }
       spanFlyRef.current.style.cssText = `--left : ${data.left.toFixed(2)}px; --top : ${data.top.toFixed(2)}px;`
       spanFlyRef.current.classList.add('send-to-cart')
@@ -213,7 +212,7 @@ export default function ProductDetail() {
                 <img
                   src={imageActive}
                   alt={product.name}
-                  className='absolute top-0 left-0 h-full w-full bg-white object-cover'
+                  className='absolute left-0 top-0 h-full w-full bg-white object-cover'
                   ref={imageRef}
                 />
               </div>
@@ -244,7 +243,7 @@ export default function ProductDetail() {
                       <img
                         src={img}
                         alt={product.name}
-                        className='absolute top-0 left-0 h-full w-full cursor-pointer bg-white object-cover'
+                        className='absolute left-0 top-0 h-full w-full cursor-pointer bg-white object-cover'
                       />
                       {isActive && <div className='absolute inset-0 border-2 border-orange' />}
                     </div>
@@ -304,7 +303,7 @@ export default function ProductDetail() {
                   {product.quantity} {t('pieces available')}
                 </div>
               </div>
-              <div className='mt-8 flex items-center relative'>
+              <div className='relative mt-8 flex items-center'>
                 <button
                   className='flex h-12 items-center justify-center rounded-sm border border-orange bg-orange/10 px-5 capitalize text-orange shadow-sm hover:bg-orange/5'
                   onClick={handleAddToCart}
@@ -333,15 +332,25 @@ export default function ProductDetail() {
                     </g>
                   </svg>
                   {t('add to cart')}
-                  <span ref={spanFlyRef} className='absolute text-orange opacity-0 flying-item'>
-
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 11.25v8.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 1 0 9.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1 1 14.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
-                  </svg>
-                </span>
+                  <span ref={spanFlyRef} className='flying-item absolute text-orange opacity-0'>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      strokeWidth={1.5}
+                      stroke='currentColor'
+                      className='h-6 w-6'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        d='M21 11.25v8.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 1 0 9.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1 1 14.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z'
+                      />
+                    </svg>
+                  </span>
                 </button>
                 <button
-                  className='flex ml-4 h-12 min-w-[5rem] items-center justify-center rounded-sm bg-orange px-5 capitalize text-white shadow-sm outline-none hover:bg-orange/90'
+                  className='ml-4 flex h-12 min-w-[5rem] items-center justify-center rounded-sm bg-orange px-5 capitalize text-white shadow-sm outline-none hover:bg-orange/90'
                   onClick={handleBuyNow}
                 >
                   {t('buy now')}
@@ -355,7 +364,7 @@ export default function ProductDetail() {
         <div className='container'>
           <div className=' bg-white p-4 shadow'>
             <div className='rounded bg-gray-50 p-4 text-lg capitalize text-slate-700'>{t('product description')}</div>
-            <div className='mx-4 mt-12 mb-4 text-sm leading-loose'>
+            <div className='mx-4 mb-4 mt-12 text-sm leading-loose'>
               <div
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(product.description)

@@ -36,7 +36,8 @@ export default function Header() {
   const purchasesInCart = purchasesInCartData?.data.data
 
   useEffect(() => {
-    if (divCartRef.current) isCartShake ? divCartRef.current.classList.add('shake') : divCartRef.current.classList.remove('shake')
+    if (divCartRef.current)
+      isCartShake ? divCartRef.current.classList.add('shake') : divCartRef.current.classList.remove('shake')
   }, [isCartShake])
 
   return (
@@ -55,7 +56,7 @@ export default function Header() {
                 placeholder={t('search placeholder') as string}
                 {...register('search')}
               />
-              <button className='flex-shrink-0 rounded-sm bg-orange py-2 px-6 hover:opacity-90'>
+              <button className='flex-shrink-0 rounded-sm bg-orange px-6 py-2 hover:opacity-90'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
@@ -73,7 +74,7 @@ export default function Header() {
               </button>
             </div>
           </form>
-          <div className='col-span-1 justify-self-end' id="cart">
+          <div className='col-span-1 justify-self-end' id='cart'>
             <Popover
               renderPopover={
                 <div className='relative max-w-[400px] rounded-sm border border-gray-200 bg-white text-sm shadow-md'>
@@ -149,7 +150,7 @@ export default function Header() {
                     />
                   </svg>
                   {purchasesInCart && purchasesInCart.length > 0 && (
-                    <span className='absolute top-[-5px] left-[17px] rounded-full bg-white px-[9px] py-[1px] text-xs text-orange '>
+                    <span className='absolute left-[17px] top-[-5px] rounded-full bg-white px-[9px] py-[1px] text-xs text-orange '>
                       {purchasesInCart.length}
                     </span>
                   )}

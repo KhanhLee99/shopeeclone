@@ -1,4 +1,3 @@
-// import type { Meta, StoryObj } from '@storybook/react';
 import { Meta, StoryObj } from '@storybook/react'
 import Button from './Button'
 
@@ -9,7 +8,7 @@ const meta = {
   tags: ['autodocs'],
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
-    layout: 'centered',
+    layout: 'centered'
   },
   argTypes: {
     isLoading: {
@@ -26,27 +25,25 @@ const meta = {
     disabled: {
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } }
     }
-  },
-} satisfies Meta<typeof Button>;
+  }
+} satisfies Meta<typeof Button>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 export const Primary: Story = {
   args: {
     children: 'Đăng nhập',
-  className:
-    'flex items-center justify-center bg-red-500 py-4 px-2 text-sm uppercase text-white hover:bg-red-600',
-  isLoading: true,
-  disabled: false
-  },
-};
+    className: 'flex items-center justify-center bg-red-500 py-4 px-2 text-sm uppercase text-white hover:bg-red-600',
+    isLoading: true,
+    disabled: false
+  }
+}
 
 export const Secondary: Story = {
   args: {
     children: 'Đăng nhập',
-  className:
-    'flex items-center justify-center bg-red-500 py-4 px-2 text-sm uppercase text-white hover:bg-red-600',
-  isLoading: false,
-  },
-};
+    className: 'flex items-center justify-center bg-red-500 py-4 px-2 text-sm uppercase text-white hover:bg-red-600',
+    isLoading: false
+  }
+}
