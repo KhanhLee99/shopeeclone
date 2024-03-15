@@ -1,3 +1,4 @@
 import PurchaseSkeleton from './PurchaseSkeleton'
+import ProductSkeleton from './ProductSkeleton'
 
-export { PurchaseSkeleton }
+export { PurchaseSkeleton, ProductSkeleton }

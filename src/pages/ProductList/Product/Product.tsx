@@ -1,3 +1,4 @@
+import { ForwardedRef, forwardRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
@@ -9,16 +10,16 @@ interface Props {
   product: ProductType
 }
 
-export default function Product({ product }: Props) {
-  const {t} = useTranslation()
+function Product({ product }: Props, ref: ForwardedRef<HTMLAnchorElement>) {
+  const { t } = useTranslation()
   return (
-    <Link to={pathToProductDetail({ name: product.name, id: product._id })}>
+    <Link to={pathToProductDetail({ name: product.name, id: product._id })} ref={ref}>
       <div className='overflow-hidden rounded-sm bg-white shadow transition-transform duration-100 hover:translate-y-[-0.04rem] hover:shadow-md'>
         <div className='relative w-full pt-[100%]'>
-          <img src={product.image} alt='' className='absolute top-0 left-0 h-full w-full bg-gray-300 object-cover' />
+          <img src={product.image} alt='' className='absolute left-0 top-0 h-full w-full bg-gray-300 object-cover' />
         </div>
         <div className='overflow-hidden p-2'>
-          <div className='min-h-[2rem] text-xs line-clamp-2'>{product.name}</div>
+          <div className='line-clamp-2 min-h-[2rem] text-xs'>{product.name}</div>
           <div className='mt-3 flex items-center'>
             <div className='max-w-[50%] truncate text-gray-500 line-through'>
               <span className='text-xs'>₫</span>
@@ -41,3 +42,5 @@ export default function Product({ product }: Props) {
     </Link>
   )
 }
+
+export default forwardRef(Product)

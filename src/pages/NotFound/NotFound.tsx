@@ -14,7 +14,7 @@ export default function NotFound() {
           to={URLs.productList}
           className='active:text-orange-500 group relative inline-block text-sm font-medium text-white focus:outline-none focus:ring'
         >
-          <span className='absolute inset-0 translate-x-0.5 translate-y-0.5 bg-orange transition-transform group-hover:translate-y-0 group-hover:translate-x-0' />
+          <span className='absolute inset-0 translate-x-0.5 translate-y-0.5 bg-orange transition-transform group-hover:translate-x-0 group-hover:translate-y-0' />
           <span className='relative block border border-current px-8 py-3'>
             <span>{t('go home')}</span>
           </span>
