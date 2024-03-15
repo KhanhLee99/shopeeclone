@@ -18,8 +18,8 @@ export default function PurchaseSkeleton({
             <path d='M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z' />
           </svg>
           <div className='ml-3'>
-            <div className='mb-2 h-2.5 w-32 rounded-full bg-gray-200 '></div>
-            <div className='h-2 w-48 rounded-full bg-gray-200 '></div>
+            <div className='mb-2 h-2.5 w-32 rounded-full bg-gray-200'></div>
+            <div className='h-2 w-48 rounded-full bg-gray-200'></div>
           </div>
         </div>
         <div className='h-2.5 w-12 rounded-full bg-gray-300'></div>
