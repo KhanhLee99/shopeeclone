@@ -1,5 +1,6 @@
-import { afterAll, afterEach, beforeAll } from 'vitest'
+import { vi, beforeEach, afterAll, afterEach, beforeAll } from 'vitest'
 import { setupServer } from 'msw/node'
+import { setupIntersectionMocking, resetIntersectionMocking } from 'react-intersection-observer/test-utils'
 
 import authRequest from './src/msw/auth.msw'
 import userRequests from './src/msw/user.msw'
@@ -14,4 +15,11 @@ beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
 afterAll(() => server.close())
 
 // Reset handlers after each test `important for test isolation`
-afterEach(() => server.resetHandlers())
+afterEach(() => {
+  resetIntersectionMocking()
+  server.resetHandlers()
+})
+
+beforeEach(() => {
+  setupIntersectionMocking(vi.fn)
+})
