@@ -31,7 +31,7 @@ export default function ProductList() {
   const { t } = useTranslation()
   const queryConfig = useQueryConfig()
 
-  const [watchMode, setWatchMode] = useState<WatchModeType>(WatchMode.scroll)
+  const [watchMode, setWatchMode] = useState<WatchModeType>(WatchMode.pagination)
   const [pageSize, setPageSize] = useState(0)
 
   const productsQuery =

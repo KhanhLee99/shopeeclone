@@ -10,7 +10,7 @@ export default function CartHeader() {
   const { onSubmitSearch, register } = useSearchProducts()
 
   return (
-    <div className='border-b border-b-black/10'>
+    <div className='sticky top-0 z-20 border-b border-b-black/10'>
       <div className='bg-orange text-white'>
         <div className='container'>
           <NavHeader />

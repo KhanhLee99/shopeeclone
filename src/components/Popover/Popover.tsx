@@ -1,4 +1,4 @@
-import { useState, useRef, useId, type ElementType } from 'react'
+import { useState, useRef, useId, type ElementType, CSSProperties } from 'react'
 import {
   useFloating,
   FloatingPortal,
@@ -21,6 +21,8 @@ interface Props {
   children: React.ReactNode
   renderPopover: React.ReactNode
   className?: string
+  classNameMotion?: string
+  styleMotion?: CSSProperties
   as?: ElementType
   initialOpen?: boolean
   placement?: Placement
@@ -29,6 +31,8 @@ interface Props {
 export default function Popover({
   children,
   className,
+  classNameMotion,
+  styleMotion,
   renderPopover,
   as: Element = 'div',
   initialOpen,
@@ -60,9 +64,11 @@ export default function Popover({
           {open && (
             <motion.div
               ref={refs.setFloating}
+              className={classNameMotion}
               style={{
                 transformOrigin: `${data.middlewareData.arrow?.x}px top`,
-                ...floatingStyles
+                ...floatingStyles,
+                ...styleMotion
               }}
               {...getFloatingProps()}
               initial={{ opacity: 0, transform: `scale(0)` }}

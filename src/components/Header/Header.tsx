@@ -41,7 +41,7 @@ export default function Header() {
   }, [isCartShake])
 
   return (
-    <div className='bg-[linear-gradient(-180deg,#f53d2d,#f63)] pb-5 pt-2 text-white'>
+    <div className='sticky top-0 z-20 bg-[linear-gradient(-180deg,#f53d2d,#f63)] pb-5 text-white'>
       <div className='container'>
         <NavHeader />
         <div className='mt-4 grid grid-cols-12 items-end gap-4'>
@@ -76,6 +76,7 @@ export default function Header() {
           </form>
           <div className='col-span-1 justify-self-end' id='cart'>
             <Popover
+              classNameMotion='z-30'
               renderPopover={
                 <div className='relative max-w-[400px] rounded-sm border border-gray-200 bg-white text-sm shadow-md'>
                   {purchasesInCart && purchasesInCart.length > 0 ? (
