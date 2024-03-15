@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { createSearchParams, Link, useNavigate } from 'react-router-dom'
-import { omit } from 'lodash'
+import omit from 'lodash/omit'
 import { useTranslation } from 'react-i18next'
 
 import Button from 'src/components/Button'
@@ -26,7 +26,7 @@ export default function AsideFilter({ queryConfig, categories }: Props) {
     })
   }
   return (
-    <div className='py-4'>
+    <div className='sticky top-[120px] py-4'>
       <Link
         to={{
           pathname: URLs.productList,
