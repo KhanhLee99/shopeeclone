@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import { Outlet } from 'react-router-dom'
 import UserSideNav from 'src/components/UserSideNav'
 
-export default function UserLayout() {
+function UserLayout() {
   return (
     <div className='bg-neutral-100 py-16 text-sm text-gray-600'>
       <div className='container'>
@@ -17,3 +18,5 @@ export default function UserLayout() {
     </div>
   )
 }
+
+export default memo(UserLayout)

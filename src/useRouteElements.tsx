@@ -35,24 +35,26 @@ export default function useRouteElements() {
       element: <RejectedRoute />,
       children: [
         {
-          path: URLs.login,
-          element: (
-            <RegisterLayout>
-              <Suspense>
-                <Login />
-              </Suspense>
-            </RegisterLayout>
-          )
-        },
-        {
-          path: URLs.register,
-          element: (
-            <RegisterLayout>
-              <Suspense>
-                <Register />
-              </Suspense>
-            </RegisterLayout>
-          )
+          path: '',
+          element: <RegisterLayout />,
+          children: [
+            {
+              path: URLs.login,
+              element: (
+                <Suspense>
+                  <Login />
+                </Suspense>
+              )
+            },
+            {
+              path: URLs.register,
+              element: (
+                <Suspense>
+                  <Register />
+                </Suspense>
+              )
+            }
+          ]
         }
       ]
     },
@@ -72,70 +74,72 @@ export default function useRouteElements() {
         },
         {
           path: URLs.user,
-          element: (
-            <MainLayout>
-              <UserLayout />
-            </MainLayout>
-          ),
+          element: <MainLayout />,
           children: [
             {
-              path: URLs.profile,
-              element: (
-                <Suspense>
-                  <Profile />
-                </Suspense>
-              )
-            },
-            {
-              path: URLs.changePassword,
-              element: (
-                <Suspense>
-                  <ChangePassword />
-                </Suspense>
-              )
-            },
-            {
-              path: URLs.historyPurchase,
-              element: (
-                <Suspense>
-                  <HistoryPurchase />
-                </Suspense>
-              )
+              path: '',
+              element: <UserLayout />,
+              children: [
+                {
+                  path: URLs.profile,
+                  element: (
+                    <Suspense>
+                      <Profile />
+                    </Suspense>
+                  )
+                },
+                {
+                  path: URLs.changePassword,
+                  element: (
+                    <Suspense>
+                      <ChangePassword />
+                    </Suspense>
+                  )
+                },
+                {
+                  path: URLs.historyPurchase,
+                  element: (
+                    <Suspense>
+                      <HistoryPurchase />
+                    </Suspense>
+                  )
+                }
+              ]
             }
           ]
         }
       ]
     },
     {
-      path: URLs.productList,
-      index: true,
-      element: (
-        <MainLayout>
-          <Suspense>
-            <ProductList />
-          </Suspense>
-        </MainLayout>
-      )
-    },
-    {
-      path: URLs.productDetail,
-      element: (
-        <MainLayout>
-          <Suspense>
-            <ProductDetail />
-          </Suspense>
-        </MainLayout>
-      )
-    },
-    {
-      path: '*',
-      element: (
-        <MainLayout>
-          <Suspense>
-            <NotFound />
-          </Suspense>
-        </MainLayout>
-      )
+      path: '',
+      element: <MainLayout />,
+      children: [
+        {
+          path: URLs.productList,
+          index: true,
+          element: (
+            <Suspense>
+              <ProductList />
+            </Suspense>
+          )
+        },
+        {
+          path: URLs.productDetail,
+          element: (
+            <Suspense>
+              <ProductDetail />
+            </Suspense>
+          )
+        },
+        {
+          path: '*',
+          element: (
+            <Suspense>
+              <NotFound />
+            </Suspense>
+          )
+        }
+      ]
     }
   ])
 
