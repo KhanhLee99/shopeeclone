@@ -51,6 +51,8 @@ export default function NavHeader() {
   return (
     <div className='flex justify-end'>
       <Popover
+        classNameMotion='z-30'
+        styleMotion={{ top: '33px' }}
         className='flex cursor-pointer items-center py-1 hover:text-white/70'
         renderPopover={
           <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
@@ -100,6 +102,8 @@ export default function NavHeader() {
       </Popover>
       {isAuthenticated && (
         <Popover
+          classNameMotion='z-30'
+          styleMotion={{ top: '33px' }}
           className='ml-6 flex cursor-pointer items-center py-1 hover:text-white/70'
           renderPopover={
             <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
