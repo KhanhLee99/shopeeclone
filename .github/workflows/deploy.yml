@@ -3,25 +3,11 @@ name: Node.js CI
 on:
   push:
     branches: ['main']
-  # pull_request:
-  #   branches: ['main']
+  pull_request:
+    branches: ['main']
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: yarn install
-
   build:
-    needs: setup
     runs-on: ubuntu-latest
 
     strategy:
@@ -34,38 +20,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'yarn'
-      # - run: yarn install
-      # - run: yarn test --test-timeout=100000
+          # cache: 'yarn'
+      - run: yarn install
       - run: yarn run build
+      - run: yarn test --test-timeout=40000
 
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: yarn test --test-timeout=100000
-
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
       - name: Deploy with gh-pages
+        if: github.event.push
         run: |
           git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
           yarn deploy -- -u "github-actions-bot <support+actions@github.com>"
