@@ -25,13 +25,12 @@ import { SuccessResponse } from 'src/types/utils.type'
 import { ProductSkeleton } from 'src/components/Skeleton'
 import { WatchMode, WatchModeType } from 'src/constants/config'
 
-
 export default function ProductList() {
   const { ref, inView } = useInView()
   const { t } = useTranslation()
   const queryConfig = useQueryConfig()
 
-  const [watchMode, setWatchMode] = useState<WatchModeType>(WatchMode.pagination)
+  const [watchMode, setWatchMode] = useState<WatchModeType>(WatchMode.scroll)
   const [pageSize, setPageSize] = useState(0)
 
   const productsQuery =
@@ -57,7 +56,6 @@ export default function ProductList() {
           }
         })
 
-
   const { data: categoriesData } = useQuery({
     queryKey: ['categories'],
     queryFn: () => {
@@ -74,7 +72,7 @@ export default function ProductList() {
 
   useEffect(() => {
     if (watchMode === WatchMode.scroll && inView && (productsQuery as InfiniteQueryObserverBaseResult).hasNextPage) {
-      (productsQuery as InfiniteQueryObserverBaseResult).fetchNextPage()
+      ;(productsQuery as InfiniteQueryObserverBaseResult).fetchNextPage()
     }
   }, [inView, watchMode])
 
