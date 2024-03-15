@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { useNavigate, createSearchParams } from 'react-router-dom'
-import { omit } from 'lodash'
+import omit from 'lodash/omit'
 import { useTranslation } from 'react-i18next'
 
 import { sortBy, order as orderConstant } from 'src/constants/product'

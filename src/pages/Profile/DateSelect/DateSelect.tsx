@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { range } from 'lodash'
+import range from 'lodash/range'
 import { useTranslation } from 'react-i18next'
 
 import { DATE_DEFAULT } from '../Profile'

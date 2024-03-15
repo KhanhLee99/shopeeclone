@@ -1,11 +1,13 @@
 import { defineConfig } from 'vitest/config'
+import { type PluginOption } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   base: '/shopeeclone',
-  plugins: [react()] as any,
+  plugins: [react(), visualizer() as PluginOption] as any,
   test: {
     environment: 'jsdom',
     setupFiles: path.resolve(__dirname, './vitest.setup.js')

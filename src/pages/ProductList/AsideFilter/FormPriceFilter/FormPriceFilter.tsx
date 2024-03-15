@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { omitBy } from 'lodash'
+import omitBy from 'lodash/omitBy'
 import { useTranslation } from 'react-i18next'
 
 import Button from 'src/components/Button'
