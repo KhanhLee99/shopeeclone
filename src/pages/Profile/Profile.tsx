@@ -204,9 +204,9 @@ export default function Profile() {
             <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right' />
             <div className='sm:w-[80%] sm:pl-5'>
               <Button
-                className='flex h-9 items-center rounded-sm bg-orange px-5 text-center text-sm text-white hover:bg-orange/80'
+                className='h-9 rounded-sm px-5'
                 type='submit'
-                isLoading={isLoadingButtonSubmit}
+                loading={isLoadingButtonSubmit}
                 disabled={isDisableButtonSubmit}
               >
                 {t('save')}

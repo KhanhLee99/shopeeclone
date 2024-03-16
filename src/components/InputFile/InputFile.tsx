@@ -1,6 +1,7 @@
 import { Fragment, useRef } from 'react'
 import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
+import Button from '../Button'
 
 const MAX_SIZE_IMAGE_UPLOAD = 1048576 //bytes
 
@@ -32,12 +33,13 @@ export default function InputFile({ onChange }: { onChange?: (file?: File) => vo
         onChange={onChooseImage}
         onClick={(event) => ((event.target as any).value = null)}
       />
-      <button
-        className='flex h-10 items-center justify-end rounded-sm border bg-white px-6 text-sm text-gray-600 shadow-sm'
+      <Button
+        buttonType='secondary'
+        className='h-10 rounded-sm border px-6 text-gray-600 shadow-sm'
         onClick={handleUpload}
       >
         {t('select image')}
-      </button>
+      </Button>
     </Fragment>
   )
 }

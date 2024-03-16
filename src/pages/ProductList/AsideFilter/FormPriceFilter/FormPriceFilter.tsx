@@ -112,7 +112,7 @@ export default function FormPriceFilter({ queryConfig }: { queryConfig: QueryCon
       <div className='mt-1 min-h-[1.25rem] text-center text-sm text-red-600'>
         {errors.price_min?.message ? t(`${NS_RULES}:${errors.price_min.message}`) : ''}
       </div>
-      <Button className='flex w-full items-center justify-center bg-orange p-2 text-sm uppercase text-white hover:bg-orange/80'>
+      <Button className='uppercase' block>
         {t('apply')}
       </Button>
     </form>

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 
-import Shopee from '../Images/Shopee'
+import { Search, Shopee } from '../Icons'
 import Popover from '../Popover'
 import { AppContext } from 'src/contexts/app.context'
 import URLs from 'src/constants/url'
@@ -13,6 +13,7 @@ import noproduct from 'src/assets/no-product.png'
 import { formatCurrency, pathToProductDetail } from 'src/utils/utils'
 import useSearchProducts from 'src/hooks/useSearchProducts'
 import NavHeader from '../NavHeader'
+import Button from '../Button'
 
 const MAX_PURCHASES = 5
 
@@ -56,22 +57,7 @@ export default function Header() {
                 placeholder={t('search placeholder') as string}
                 {...register('search')}
               />
-              <button className='flex-shrink-0 rounded-sm bg-orange px-6 py-2 hover:opacity-90'>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                  strokeWidth={1.5}
-                  stroke='currentColor'
-                  className='h-6 w-6'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    d='M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z'
-                  />
-                </svg>
-              </button>
+              <Button className='flex-shrink-0 rounded-sm px-6 hover:opacity-90' icon={<Search />} />
             </div>
           </form>
           <div className='col-span-1 justify-self-end' id='cart'>

@@ -7,6 +7,7 @@ import { sortBy, order as orderConstant } from 'src/constants/product'
 import URLs from 'src/constants/url'
 import { QueryConfig } from 'src/hooks/useQueryConfig'
 import { ProductListConfig } from 'src/types/product.type'
+import Button from 'src/components/Button'
 
 interface Props {
   queryConfig: QueryConfig
@@ -51,33 +52,27 @@ export default function SortProductList({ queryConfig }: Props) {
       <div className='flex flex-wrap items-center justify-between gap-2'>
         <div className='flex flex-wrap items-center gap-2'>
           <div>{t('sort by')}</div>
-          <button
+          <Button
             onClick={() => handleSort(sortBy.view)}
-            className={classNames('h-8 px-4 text-center text-sm capitalize ', {
-              'bg-orange text-white hover:bg-orange/80': isActiveSortBy(sortBy.view),
-              'bg-white text-black hover:bg-slate-100': !isActiveSortBy(sortBy.view)
-            })}
+            buttonType={isActiveSortBy(sortBy.view) ? 'primary' : 'secondary'}
+            className='h-8 px-4 capitalize'
           >
             {t('popular')}
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => handleSort(sortBy.createdAt)}
-            className={classNames('h-8 px-4 text-center text-sm capitalize ', {
-              'bg-orange text-white hover:bg-orange/80': isActiveSortBy(sortBy.createdAt),
-              'bg-white text-black hover:bg-slate-100': !isActiveSortBy(sortBy.createdAt)
-            })}
+            buttonType={isActiveSortBy(sortBy.createdAt) ? 'primary' : 'secondary'}
+            className='h-8 px-4 capitalize'
           >
             {t('latest')}
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => handleSort(sortBy.sold)}
-            className={classNames('h-8 px-4 text-center text-sm capitalize ', {
-              'bg-orange text-white hover:bg-orange/80': isActiveSortBy(sortBy.sold),
-              'bg-white text-black hover:bg-slate-100': !isActiveSortBy(sortBy.sold)
-            })}
+            buttonType={isActiveSortBy(sortBy.sold) ? 'primary' : 'secondary'}
+            className='h-8 px-4 capitalize'
           >
             {t('top sales')}
-          </button>
+          </Button>
           <select
             className={classNames('h-8  px-4 text-left text-sm capitalize  outline-none ', {
               'bg-orange text-white hover:bg-orange/80': isActiveSortBy(sortBy.price),

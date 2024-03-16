@@ -18,6 +18,8 @@ import { purchasesStatus } from 'src/constants/purchase'
 import { AppContext } from 'src/contexts/app.context'
 import URLs from 'src/constants/url'
 import NotFound from '../NotFound'
+import Button from 'src/components/Button'
+import { CartPlus, GiftFly } from 'src/components/Icons'
 
 export default function ProductDetail() {
   const spanFlyRef = useRef<HTMLSpanElement>(null)
@@ -304,57 +306,21 @@ export default function ProductDetail() {
                 </div>
               </div>
               <div className='relative mt-8 flex items-center'>
-                <button
-                  className='flex h-12 items-center justify-center rounded-sm border border-orange bg-orange/10 px-5 capitalize text-orange shadow-sm hover:bg-orange/5'
+                <Button
+                  buttonType='ghost'
+                  className='h-12 rounded-sm px-5 capitalize shadow-sm'
                   onClick={handleAddToCart}
+                  icon={<CartPlus />}
                 >
-                  <svg
-                    enableBackground='new 0 0 15 15'
-                    viewBox='0 0 15 15'
-                    x={0}
-                    y={0}
-                    className='mr-[10px] h-5 w-5 fill-current stroke-orange text-orange'
-                  >
-                    <g>
-                      <g>
-                        <polyline
-                          fill='none'
-                          points='.5 .5 2.7 .5 5.2 11 12.4 11 14.5 3.5 3.7 3.5'
-                          strokeLinecap='round'
-                          strokeLinejoin='round'
-                          strokeMiterlimit={10}
-                        />
-                        <circle cx={6} cy='13.5' r={1} stroke='none' />
-                        <circle cx='11.5' cy='13.5' r={1} stroke='none' />
-                      </g>
-                      <line fill='none' strokeLinecap='round' strokeMiterlimit={10} x1='7.5' x2='10.5' y1={7} y2={7} />
-                      <line fill='none' strokeLinecap='round' strokeMiterlimit={10} x1={9} x2={9} y1='8.5' y2='5.5' />
-                    </g>
-                  </svg>
                   {t('add to cart')}
-                  <span ref={spanFlyRef} className='flying-item absolute text-orange opacity-0'>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      fill='none'
-                      viewBox='0 0 24 24'
-                      strokeWidth={1.5}
-                      stroke='currentColor'
-                      className='h-6 w-6'
-                    >
-                      <path
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        d='M21 11.25v8.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 1 0 9.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1 1 14.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z'
-                      />
-                    </svg>
-                  </span>
-                </button>
-                <button
-                  className='ml-4 flex h-12 min-w-[5rem] items-center justify-center rounded-sm bg-orange px-5 capitalize text-white shadow-sm outline-none hover:bg-orange/90'
+                  <GiftFly ref={spanFlyRef} />
+                </Button>
+                <Button
+                  className='ml-4 h-12 min-w-[5rem] rounded-sm px-5 capitalize shadow-sm outline-none'
                   onClick={handleBuyNow}
                 >
                   {t('buy now')}
-                </button>
+                </Button>
               </div>
             </div>
           </div>
