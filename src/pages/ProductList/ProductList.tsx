@@ -38,6 +38,7 @@ export default function ProductList() {
       ? useQuery({
           queryKey: ['products', queryConfig],
           queryFn: () => {
+            window.scrollTo(0, 0)
             return productApi.getProducts(queryConfig as ProductListConfig)
           },
           placeholderData: keepPreviousData,
