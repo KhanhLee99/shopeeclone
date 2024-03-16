@@ -331,7 +331,7 @@ export default function Cart() {
               </div>
             </div>
             <Button
-              className='mt-5 flex h-10 w-52 items-center justify-center bg-red-500 text-sm uppercase text-white hover:bg-red-600 sm:ml-4 sm:mt-0'
+              className='mt-5 h-10 w-52 uppercase sm:ml-4 sm:mt-0'
               onClick={handleBuyPurchases}
               disabled={buyProductsMutation.isPending}
             >

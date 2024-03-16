@@ -77,11 +77,9 @@ export default function Login() {
         <div className='grid grid-cols-1 py-12 lg:grid-cols-5 lg:py-32 lg:pr-10'>
           <div className='lg:col-span-2 lg:col-start-4'>
             <form className='rounded bg-white p-10 shadow-sm' onSubmit={onSubmit} noValidate>
-              <div className='text-2xl'>
-                {t('login')}{' '}
-                <span className='text-xs text-gray-400'>
-                  ({t('email')}: vkhang542@gmail.com | {t('password')}: 12345678)
-                </span>
+              <div className='text-2xl'>{t('login')} </div>
+              <div className='text-xs text-gray-400'>
+                ({t('email')}: vkhang542@gmail.com | {t('password')}: 12345678)
               </div>
               <Input
                 className='mt-8'
@@ -102,8 +100,9 @@ export default function Login() {
               <div className='mt-2'>
                 <Button
                   type='submit'
-                  className='flex w-full items-center justify-center bg-red-500 px-2 py-4 text-sm uppercase text-white hover:bg-red-600'
-                  isLoading={loginMutation.isPending}
+                  block
+                  className='px-2 py-4 uppercase'
+                  loading={loginMutation.isPending}
                   disabled={loginMutation.isPending}
                 >
                   {t('login')}

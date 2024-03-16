@@ -1,8 +1,8 @@
 import { Link, useMatch } from 'react-router-dom'
-import URLs from 'src/constants/url'
 import { useTranslation } from 'react-i18next'
 
-import ShopeeLogo from '../Images/ShopeeLogo'
+import URLs from 'src/constants/url'
+import { ShopeeLogo } from '../Icons'
 
 export default function RegisterHeader() {
   const { t } = useTranslation()

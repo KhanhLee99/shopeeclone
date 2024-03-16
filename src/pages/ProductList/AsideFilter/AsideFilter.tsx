@@ -105,7 +105,8 @@ export default function AsideFilter({ queryConfig, categories }: Props) {
       <RatingStars queryConfig={queryConfig} />
       <div className='my-4 h-[1px] bg-gray-300' />
       <Button
-        className='flex w-full items-center justify-center bg-orange p-2 text-sm uppercase text-white hover:bg-orange/80'
+        block
+        className='uppercase'
         onClick={handleRemoveFilter}
       >
         {t('clear all')}

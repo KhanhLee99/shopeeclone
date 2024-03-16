@@ -117,9 +117,9 @@ export default function ChangePassword() {
             <div className='truncate pt-3 capitalize sm:w-[30%] sm:text-right' />
             <div className='sm:w-[70%] sm:pl-5'>
               <Button
-                className='flex h-9 items-center rounded-sm bg-orange px-5 text-center text-sm text-white hover:bg-orange/80'
+                className='h-9 rounded-sm px-5'
                 type='submit'
-                isLoading={updateProfileMutation.isPending}
+                loading={updateProfileMutation.isPending}
                 disabled={updateProfileMutation.isPending}
               >
                 {t('save')}

@@ -1,0 +1,5 @@
+export { default as CartPlus} from './CartPlus'
+export { default as Shopee} from './Shopee'
+export { default as ShopeeLogo} from './ShopeeLogo'
+export { default as GiftFly} from './GiftFly'
+export { default as Search} from './Search'
