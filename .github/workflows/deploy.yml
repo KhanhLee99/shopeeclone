@@ -21,14 +21,16 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           # cache: 'yarn'
-      - run: yarn install
-      - run: yarn run build
-      - run: yarn test --test-timeout=40000
+      - run: echo  The tags are ${{ github.event }}
 
-      - name: Deploy with gh-pages
-        # if: github.event.push
-        run: |
-          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-          yarn deploy -- -u "github-actions-bot <support+actions@github.com>"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     yarn install
+      #     yarn run build
+      #     yarn test --test-timeout=40000
+
+      # - name: Deploy with gh-pages
+      #   # if: github.event.push
+      #   run: |
+      #     git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+      #     yarn deploy -- -u "github-actions-bot <support+actions@github.com>"
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
