@@ -10,7 +10,6 @@ import {
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
-import { useInView } from 'react-intersection-observer'
 
 import productApi from 'src/apis/product.api'
 import AsideFilter from './AsideFilter'
@@ -24,9 +23,10 @@ import empty from 'src/assets/empty.png'
 import { SuccessResponse } from 'src/types/utils.type'
 import { ProductSkeleton } from 'src/components/Skeleton'
 import { WatchMode, WatchModeType } from 'src/constants/config'
+import useElementInView from 'src/hooks/useElementInView'
 
 export default function ProductList() {
-  const { ref, inView } = useInView()
+  const { isVisible, ref } = useElementInView<HTMLAnchorElement>()
   const { t } = useTranslation()
   const queryConfig = useQueryConfig()
 
@@ -63,18 +63,20 @@ export default function ProductList() {
     }
   })
 
+  useEffect(() => {
+    if (watchMode === WatchMode.scroll && isVisible && (productsQuery as InfiniteQueryObserverBaseResult).hasNextPage) {
+      ;(productsQuery as InfiniteQueryObserverBaseResult).fetchNextPage()
+    }
+  }, [isVisible, watchMode])
+
+  console.log('isVisible', isVisible)
+
   const helmet = (
     <Helmet>
       <title>{t('home')} | Shopee Clone</title>
       <meta name='description' content='Trang chủ dự án Shopee Clone' />
     </Helmet>
   )
-
-  useEffect(() => {
-    if (watchMode === WatchMode.scroll && inView && (productsQuery as InfiniteQueryObserverBaseResult).hasNextPage) {
-      ;(productsQuery as InfiniteQueryObserverBaseResult).fetchNextPage()
-    }
-  }, [inView, watchMode])
 
   if (!productsQuery.data) return helmet
 
