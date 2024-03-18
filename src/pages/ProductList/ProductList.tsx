@@ -10,7 +10,7 @@ import {
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
-import { useMediaQuery } from 'react-responsive'
+// import { useMediaQuery } from 'react-responsive'
 
 import productApi from 'src/apis/product.api'
 import AsideFilter from './AsideFilter'
@@ -31,7 +31,8 @@ export default function ProductList() {
   const { isVisible, ref } = useElementInView<HTMLAnchorElement>()
   const { t } = useTranslation()
   const queryConfig = useQueryConfig()
-  const tabletWidth = useMediaQuery({ minWidth: themes.breakpoint.md })
+  // const tabletWidth = useMediaQuery({ minWidth: themes.breakpoint.md })
+  const tabletWidth = false
   const [watchMode, setWatchMode] = useState<WatchModeType>(WatchMode.pagination)
   const [pageSize, setPageSize] = useState(0)
 

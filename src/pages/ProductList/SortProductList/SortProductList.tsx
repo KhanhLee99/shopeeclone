@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import { useNavigate, createSearchParams } from 'react-router-dom'
 import omit from 'lodash/omit'
 import { useTranslation } from 'react-i18next'
-import { useMediaQuery } from 'react-responsive'
+// import { useMediaQuery } from 'react-responsive'
 
 import { sortBy, order as orderConstant } from 'src/constants/product'
 import URLs from 'src/constants/url'
@@ -17,7 +17,8 @@ interface Props {
 
 export default function SortProductList({ queryConfig }: Props) {
   const { t } = useTranslation()
-  const tabletWidth = useMediaQuery({ minWidth: themes.breakpoint.md })
+  // const tabletWidth = useMediaQuery({ minWidth: themes.breakpoint.md })
+  const tabletWidth = false
   const navigate = useNavigate()
   const { sort_by = sortBy.createdAt, order } = queryConfig
   const isActiveSortBy = (sortBy: Exclude<ProductListConfig['sort_by'], undefined>) => {

@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { useMediaQuery } from 'react-responsive'
+// import { useMediaQuery } from 'react-responsive'
 import classNames from 'classnames'
 
 import { Search, Shopee } from '../Icons'
@@ -26,7 +26,8 @@ export default function Header() {
   const navigate = useNavigate()
   const { isAuthenticated, isCartShake } = useContext(AppContext)
   const { onSubmitSearch, register } = useSearchProducts()
-  const tabletWidth = useMediaQuery({ minWidth: themes.breakpoint.md })
+  // const tabletWidth = useMediaQuery({ minWidth: themes.breakpoint.md })
+  const tabletWidth = false
 
   // Khi chúng ta chuyển trang thì Header chỉ bị re-render
   // Chứ không bị unmount - mounting again
