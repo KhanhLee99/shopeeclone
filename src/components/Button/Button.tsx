@@ -42,7 +42,7 @@ export default function Button(props: ButtonProps) {
 
   switch (size) {
     case 'small':
-      newClassName += ' p-1 text-sm'
+      newClassName += ' p-1 text-xs'
       break
     case 'middle':
       newClassName += ' p-2 text-sm'

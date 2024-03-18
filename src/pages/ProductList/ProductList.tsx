@@ -10,6 +10,7 @@ import {
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { Helmet } from 'react-helmet-async'
+import { useMediaQuery } from 'react-responsive'
 
 import productApi from 'src/apis/product.api'
 import AsideFilter from './AsideFilter'
@@ -24,12 +25,13 @@ import { SuccessResponse } from 'src/types/utils.type'
 import { ProductSkeleton } from 'src/components/Skeleton'
 import { WatchMode, WatchModeType } from 'src/constants/config'
 import useElementInView from 'src/hooks/useElementInView'
+import themes from 'src/styles/themes'
 
 export default function ProductList() {
   const { isVisible, ref } = useElementInView<HTMLAnchorElement>()
   const { t } = useTranslation()
   const queryConfig = useQueryConfig()
-
+  const tabletWidth = useMediaQuery({ minWidth: themes.breakpoint.md })
   const [watchMode, setWatchMode] = useState<WatchModeType>(WatchMode.pagination)
   const [pageSize, setPageSize] = useState(0)
 
@@ -96,12 +98,12 @@ export default function ProductList() {
       <div className='container'>
         <div className='grid grid-cols-12 gap-6'>
           {isShowAsideFilter && (
-            <div className='col-span-3'>
+            <div className={classNames({ 'col-span-3': tabletWidth, 'col-span-4': !tabletWidth })}>
               <AsideFilter queryConfig={{ ...queryConfig, page: '1' }} categories={categoriesData?.data.data || []} />
             </div>
           )}
           {products.length > 0 && (
-            <div className='col-span-9'>
+            <div className={classNames({ 'col-span-9': tabletWidth, 'col-span-8': !tabletWidth })}>
               <SortProductList queryConfig={queryConfig} />
               {watchMode === WatchMode.pagination && (
                 <Fragment>

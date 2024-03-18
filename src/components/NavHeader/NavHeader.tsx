@@ -2,6 +2,7 @@ import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import classNames from 'classnames'
 
 import authApi from 'src/apis/auth.api'
 import { purchasesStatus } from 'src/constants/purchase'
@@ -10,7 +11,6 @@ import { AppContext } from 'src/contexts/app.context'
 import Popover from '../Popover'
 import { getAvatarUrl, setLanguageToLS } from 'src/utils/utils'
 import { Langs, locales } from 'src/i18n/i18n'
-import classNames from 'classnames'
 
 const languagues: { key: Langs; lang: string }[] = [
   {

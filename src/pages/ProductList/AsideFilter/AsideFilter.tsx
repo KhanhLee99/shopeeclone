@@ -32,7 +32,7 @@ export default function AsideFilter({ queryConfig, categories }: Props) {
           pathname: URLs.productList,
           search: createSearchParams(omit(queryConfig, ['category'])).toString()
         }}
-        className={classNames('flex items-center font-bold', {
+        className={classNames('flex items-center text-sm font-bold md:text-lg', {
           'text-orange': !category
         })}
       >
@@ -75,7 +75,7 @@ export default function AsideFilter({ queryConfig, categories }: Props) {
           )
         })}
       </ul>
-      <div className='mt-4 flex items-center font-bold uppercase'>
+      <div className='mt-4 flex items-center text-xs font-bold uppercase md:text-sm lg:text-lg'>
         <svg
           enableBackground='new 0 0 15 15'
           viewBox='0 0 15 15'
@@ -104,11 +104,7 @@ export default function AsideFilter({ queryConfig, categories }: Props) {
       <div className='text-sm'>{t('rating')}</div>
       <RatingStars queryConfig={queryConfig} />
       <div className='my-4 h-[1px] bg-gray-300' />
-      <Button
-        block
-        className='uppercase'
-        onClick={handleRemoveFilter}
-      >
+      <Button block className='uppercase' onClick={handleRemoveFilter}>
         {t('clear all')}
       </Button>
     </div>

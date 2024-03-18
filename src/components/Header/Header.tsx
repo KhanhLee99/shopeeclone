@@ -2,6 +2,8 @@ import { useContext, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import { useMediaQuery } from 'react-responsive'
+import classNames from 'classnames'
 
 import { Search, Shopee } from '../Icons'
 import Popover from '../Popover'
@@ -14,6 +16,7 @@ import { formatCurrency, pathToProductDetail } from 'src/utils/utils'
 import useSearchProducts from 'src/hooks/useSearchProducts'
 import NavHeader from '../NavHeader'
 import Button from '../Button'
+import themes from 'src/styles/themes'
 
 const MAX_PURCHASES = 5
 
@@ -23,6 +26,7 @@ export default function Header() {
   const navigate = useNavigate()
   const { isAuthenticated, isCartShake } = useContext(AppContext)
   const { onSubmitSearch, register } = useSearchProducts()
+  const tabletWidth = useMediaQuery({ minWidth: themes.breakpoint.md })
 
   // Khi chúng ta chuyển trang thì Header chỉ bị re-render
   // Chứ không bị unmount - mounting again
@@ -46,10 +50,18 @@ export default function Header() {
       <div className='container'>
         <NavHeader />
         <div className='mt-4 grid grid-cols-12 items-end gap-4'>
-          <Link to={URLs.productList} className='col-span-2'>
-            <Shopee />
-          </Link>
-          <form className='col-span-9' onSubmit={onSubmitSearch}>
+          {tabletWidth && (
+            <Link to={URLs.productList} className='col-span-2'>
+              <Shopee />
+            </Link>
+          )}
+          <form
+            className={classNames({
+              'col-span-11': !tabletWidth,
+              'col-span-9': tabletWidth
+            })}
+            onSubmit={onSubmitSearch}
+          >
             <div className='flex rounded-sm bg-white p-1'>
               <input
                 type='text'
