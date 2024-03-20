@@ -1,7 +1,7 @@
 import React from 'react'
 import { UseFormRegister, RegisterOptions, UseFormSetValue } from 'react-hook-form'
 
-interface InputProps extends React.ComponentPropsWithoutRef<'input'> {
+export interface InputProps extends React.ComponentPropsWithoutRef<'input'> {
   errorMessage?: string
   classNameInput?: string
   classNameError?: string
