@@ -18,7 +18,7 @@ interface Props {
 export default function SortProductList({ queryConfig }: Props) {
   const { t } = useTranslation()
   // const tabletWidth = useMediaQuery({ minWidth: themes.breakpoint.md })
-  const tabletWidth = false
+  const tabletWidth = true
   const navigate = useNavigate()
   const { sort_by = sortBy.createdAt, order } = queryConfig
   const isActiveSortBy = (sortBy: Exclude<ProductListConfig['sort_by'], undefined>) => {

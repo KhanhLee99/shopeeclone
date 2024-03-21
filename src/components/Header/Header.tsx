@@ -27,7 +27,7 @@ export default function Header() {
   const { isAuthenticated, isCartShake } = useContext(AppContext)
   const { onSubmitSearch, register } = useSearchProducts()
   // const tabletWidth = useMediaQuery({ minWidth: themes.breakpoint.md })
-  const tabletWidth = false
+  const tabletWidth = true
 
   // Khi chúng ta chuyển trang thì Header chỉ bị re-render
   // Chứ không bị unmount - mounting again

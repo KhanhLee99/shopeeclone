@@ -32,7 +32,7 @@ export default function ProductList() {
   const { t } = useTranslation()
   const queryConfig = useQueryConfig()
   // const tabletWidth = useMediaQuery({ minWidth: themes.breakpoint.md })
-  const tabletWidth = false
+  const tabletWidth = true
   const [watchMode, setWatchMode] = useState<WatchModeType>(WatchMode.pagination)
   const [pageSize, setPageSize] = useState(0)
 
